@@ -3,7 +3,7 @@ const API_SOURCES = [
     {
         name: 'GNews',
         fetch: async (p, c, l) => {
-            const key = 'YOUR APIKEY'; // <--- PASTE GNEWS.IO KEY HERE
+            const key = '8d2a825a10e2836e5c8a26affa038680'; // <--- PASTE GNEWS.IO KEY HERE
             const res = await fetch(`https://gnews.io/api/v4/top-headlines?category=${c}&lang=${l}&country=in&max=10&page=${p}&apikey=${key}`);
             const data = await res.json();
             if (!res.ok) throw new Error('Limit Reached');
@@ -19,7 +19,7 @@ const API_SOURCES = [
     {
         name: 'NewsData',
         fetch: async (p, c, l) => {
-            const key = 'YOUR APIKEY'; // <--- PASTE NEWSDATA.IO KEY HERE
+            const key = 'pub_9410f56733d649d0bd05e1204efae7ee'; // <--- PASTE NEWSDATA.IO KEY HERE
             const cat = c === 'general' ? 'top' : (c === 'nation' ? 'politics' : (c === 'states' ? 'business,politics' : c));
             const res = await fetch(`https://newsdata.io/api/1/news?apikey=${key}&country=in&language=${l}&category=${cat}`);
             const data = await res.json();
@@ -36,7 +36,7 @@ const API_SOURCES = [
     {
         name: 'CurrentsAPI',
         fetch: async (p, c, l) => {
-            const key = 'YOUR APIKEY'; // <--- PASTE CURRENTAPI.SERVICES KEY HERE
+            const key = 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g'; // <--- PASTE CURRENTAPI.SERVICES KEY HERE
             const res = await fetch(`https://api.currentsapi.services/v1/latest-news?language=${l}&category=${c}&apiKey=${key}`);
             const data = await res.json();
             if (data.status !== "ok") throw new Error('Limit Reached');
