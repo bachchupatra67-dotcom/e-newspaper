@@ -1,11 +1,11 @@
 // Configuration
 const CONFIG = {
     gnews: {
-        key: 'YOUR_GNEWS_API_KEY',
+        key: '8d2a825a10e2836e5c8a26affa038680',
         url: (key) => `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=10&apikey=${key}`
     },
     newsdata: {
-        key: 'YOUR_NEWSDATA_IO_KEY',
+        key: 'pub_9410f56733d649d0bd05e1204efae7ee',
         url: (key) => `https://newsdata.io/api/1/news?apikey=${key}&country=in&language=en`
     }
 };
