@@ -2,7 +2,7 @@ document.getElementById('current-date').innerText = new Date().toLocaleDateStrin
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 });
 
-const API_KEY = 'YOUR_API_KEY_HERE'; // Get this from gnews.io
+const API_KEY = '8d2a825a10e2836e5c8a26affa038680'; // Get this from gnews.io
 const URL = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=10&apikey=${API_KEY}`;
 
 async function fetchNews() {
