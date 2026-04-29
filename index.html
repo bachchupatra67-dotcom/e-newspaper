@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
-        body { font-family: 'Source Serif 4', serif; }
+        body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; }
         .newspaper-title { font-family: 'Playfair Display', serif; }
         
         @keyframes marquee {
@@ -19,16 +19,15 @@
             animation: marquee 25s linear infinite;
         }
         .category-btn.active {
-            text-decoration: underline;
-            text-underline-offset: 8px;
-            color: #b91c1c; /* Red-700 */
+            border-bottom: 2px solid #b91c1c;
+            color: #b91c1c;
         }
     </style>
 </head>
-<body class="bg-[#fcfaf5] text-stone-900">
+<body class="text-stone-900">
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
         <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest whitespace-nowrap">
-            Fetching the latest headlines from across the globe...
+            Loading today's headlines...
         </div>
     </div>
 
@@ -42,19 +41,26 @@
             </div>
         </header>
 
-        <nav class="flex flex-wrap justify-center gap-6 mb-8 py-2 border-b border-stone-300 font-bold uppercase text-sm tracking-widest">
-            <button class="category-btn active hover:text-red-700 transition" data-category="general">General</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="world">International</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="nation">Country</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="sports">Sports</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="technology">Tech</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="business">Business</button>
-            <button class="category-btn hover:text-red-700 transition" data-category="entertainment">Lifestyle</button>
+        <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-8 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest">
+            <button class="category-btn active px-2 pb-1" data-category="general">General</button>
+            <button class="category-btn px-2 pb-1" data-category="world">World</button>
+            <button class="category-btn px-2 pb-1" data-category="nation">Nation</button>
+            <button class="category-btn px-2 pb-1" data-category="sports">Sports</button>
+            <button class="category-btn px-2 pb-1" data-category="technology">Tech</button>
+            <button class="category-btn px-2 pb-1" data-category="business">Business</button>
         </nav>
 
-        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            </div>
+        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10 min-h-[400px]">
+            <div class="col-span-full text-center py-20 text-stone-400 italic text-xl">Initializing Gazette...</div>
+        </div>
 
-        <div class="flex justify-center gap-4 mt-12 mb-20">
-            <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-30" disabled>← Previous</button>
-            <span id="page-num" class="flex items-center font-bold">PAGE 1</span>
+        <div id="pagination-controls" class="flex justify-center items-center gap-6 mt-12 mb-20 border-t border-stone-300 pt-8">
+            <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-20 disabled:cursor-not-allowed">← Previous</button>
+            <span id="page-num" class="font-black text-lg tracking-tighter">PAGE 1</span>
+            <button id="next-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition">Next →</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
