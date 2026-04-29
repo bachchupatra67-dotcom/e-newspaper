@@ -1,37 +1,38 @@
-document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-IN', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Newspaper | India Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
+        body { font-family: 'Source Serif 4', serif; }
+        .newspaper-title { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body class="bg-[#fcfaf5] text-stone-900">
+    <div class="bg-red-700 text-white py-2 overflow-hidden whitespace-nowrap border-b border-black">
+        <div class="inline-block animate-marquee uppercase font-bold text-sm tracking-widest">
+            Breaking: Live Updates from across Bharat • Digital India Initiative expands • Sensex reaches new highs • 
+        </div>
+    </div>
 
-const API_KEY = 'YOUR_API_KEY_HERE'; // Get this from gnews.io
-const URL = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=10&apikey=${API_KEY}`;
+    <div class="max-w-6xl mx-auto px-4 py-6">
+        <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-8">
+            <h1 class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">LATEST NEWSPAPER</h1>
+            <div class="flex justify-between mt-4 font-bold text-xs uppercase border-t border-stone-300 pt-2 italic">
+                <span>New Delhi // Mumbai // Bengaluru</span>
+                <span id="current-date"></span>
+                <span>Edition: Digital India</span>
+            </div>
+        </header>
 
-async function fetchNews() {
-    try {
-        const response = await fetch(URL);
-        const data = await response.json();
-        const articles = data.articles;
-        
-        const grid = document.getElementById('news-grid');
-        grid.innerHTML = ''; // Clear loading state
+        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="col-span-full text-center py-20 text-stone-400 italic">Gathering the latest headlines...</div>
+        </div>
+    </div>
 
-        articles.forEach((article, index) => {
-            const isHero = index === 0;
-            const card = `
-                <div class="${isHero ? 'md:col-span-2 border-b-2 md:border-b-0 md:border-r border-stone-300 pr-0 md:pr-8' : 'border-b border-stone-200 pb-6'}">
-                    <img src="${article.image}" class="w-full h-64 object-cover mb-4 filter grayscale hover:grayscale-0 transition duration-500" alt="News Image">
-                    <h2 class="${isHero ? 'text-4xl' : 'text-xl'} font-bold mb-2 leading-tight">
-                        <a href="${article.url}" target="_blank" class="hover:underline">${article.title}</a>
-                    </h2>
-                    <p class="text-stone-600 mb-4">${article.description}</p>
-                    <div class="text-xs font-bold uppercase text-stone-400">Source: ${article.source.name}</div>
-                </div>
-            `;
-            grid.innerHTML += card;
-        });
-    } catch (error) {
-        console.error("Error fetching news:", error);
-        document.getElementById('news-grid').innerHTML = "<p>Failed to load news. Check your API key.</p>";
-    }
-}
-
-fetchNews();
+    <script src="index.js"></script>
+</body>
+</html>
