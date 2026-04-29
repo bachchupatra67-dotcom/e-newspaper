@@ -1,52 +1,52 @@
 const CONFIG = {
     gnews: {
         key: '8d2a825a10e2836e5c8a26affa038680',
-        getUrl: (page, cat, query) => {
-            let baseUrl = `https://gnews.io/api/v4/top-headlines?lang=en&country=in&max=10&page=${page}&apikey=8d2a825a10e2836e5c8a26affa038680`;
-            if (query) return `https://gnews.io/api/v4/search?q=${query}&lang=en&country=in&max=10&page=${page}&apikey=8d2a825a10e2836e5c8a26affa038680`;
-            return `${baseUrl}&category=${cat}`;
-        }
+        getUrl: (page, cat, lang) => `https://gnews.io/api/v4/top-headlines?category=${cat}&lang=${lang}&country=in&max=10&page=${page}&apikey=8d2a825a10e2836e5c8a26affa038680`
     },
     newsdata: {
         key: 'pub_9410f56733d649d0bd05e1204efae7ee',
-        getUrl: (token, cat, query) => {
-            let url = `https://newsdata.io/api/1/news?apikey=pub_9410f56733d649d0bd05e1204efae7ee&country=in&language=en`;
-            if (query) url += `&q=${query}`;
-            else url += `&category=${cat === 'nation' ? 'top' : cat}`;
+        getUrl: (token, cat, lang) => {
+            let url = `https://newsdata.io/api/1/news?apikey=pub_9410f56733d649d0bd05e1204efae7ee&country=in&language=${lang}&category=${cat === 'nation' ? 'top' : cat}`;
             if (token && token !== 1) url += `&page=${token}`;
             return url;
         }
     }
 };
 
+const UI_TEXT = {
+    en: { title: "THE GAZETTE", edition: "National Edition", nav: ["general", "world", "nation", "sports", "technology"] },
+    hi: { title: "द गज़ेट", edition: "राष्ट्रीय संस्करण", nav: ["general", "world", "nation", "sports", "technology"], labels: { general: "मुख्य समाचार", world: "विश्व", nation: "देश", sports: "खेल", technology: "तकनीक" } },
+    bn: { title: "দ্য গেজেট", edition: "জাতীয় সংস্করণ", nav: ["general", "world", "nation", "sports", "technology"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", sports: "খেলাধুলা", technology: "প্রযুক্তি" } }
+};
+
+let currentLang = 'en';
 let currentPage = 1;
 let currentCategory = 'general';
-let currentQuery = ''; 
 let nextDataToken = null;
 
-async function loadNews(page = 1, category = 'general', query = '') {
+async function loadNews(page = 1, category = 'general', lang = 'en') {
     const grid = document.getElementById('news-grid');
-    grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 animate-pulse italic text-xl">Searching the archives for ${query || category}...</div>`;
+    grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic text-xl">Loading...</div>`;
 
     let success = false;
 
     // 1. GNews
     try {
-        const response = await fetch(CONFIG.gnews.getUrl(page, category, query));
+        const response = await fetch(CONFIG.gnews.getUrl(page, category, lang));
         const data = await response.json();
         if (response.ok && data.articles?.length > 0) {
             renderNews(data.articles);
             success = true;
         }
-    } catch (err) { console.warn("GNews Fail"); }
+    } catch (err) { console.warn("Source 1 offline"); }
 
     // 2. NewsData Fallback
     if (!success) {
         try {
             const token = (page === 1) ? null : nextDataToken;
-            const response = await fetch(CONFIG.newsdata.getUrl(token, category, query));
+            const response = await fetch(CONFIG.newsdata.getUrl(token, category, lang));
             const data = await response.json();
-            if (data.status === "success" && data.results?.length > 0) {
+            if (data.results?.length > 0) {
                 nextDataToken = data.nextPage;
                 renderNews(data.results);
                 success = true;
@@ -54,9 +54,7 @@ async function loadNews(page = 1, category = 'general', query = '') {
         } catch (err) { console.error("All Sources Failed"); }
     }
 
-    if (!success) {
-        grid.innerHTML = `<div class="col-span-full text-center py-20 border-2 border-stone-300 font-bold text-red-800">EDITION DELAYED: Daily Limit Reached.</div>`;
-    }
+    if (!success) grid.innerHTML = `<div class="col-span-full text-center py-20 font-bold text-red-800">API Limit Reached for today.</div>`;
     updatePaginationUI(page);
 }
 
@@ -64,32 +62,45 @@ function renderNews(articles) {
     const grid = document.getElementById('news-grid');
     grid.innerHTML = '';
     
-    // Update Ticker with slower text
+    // Update Ticker
     const ticker = document.getElementById('breaking-ticker');
-    const headlines = articles.map(a => a.title).join(' • ');
-    ticker.innerText = `${headlines} • ${headlines}`;
+    ticker.innerText = articles.map(a => a.title).join(' • ');
 
     articles.forEach((article, index) => {
         const isHero = index === 0;
-        const title = article.title || "Untitled Report";
-        const url = article.url || article.link;
-        const img = article.image || article.image_url || 'https://images.unsplash.com/photo-1504711432869-efd597cdd047?w=800';
-        const source = article.source?.name || article.source_id || 'News Desk';
-
+        const img = article.image || article.image_url || 'https://via.placeholder.com/800x500?text=News';
         grid.innerHTML += `
-            <article class="${isHero ? 'md:col-span-2 border-b-2 md:border-b-0 md:border-r border-stone-300 pr-0 md:pr-4 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} group">
-                <div class="overflow-hidden mb-4 bg-stone-200">
-                    <img src="${img}" class="w-full ${isHero ? 'h-80' : 'h-48'} object-cover transition duration-700 group-hover:scale-105" 
-                         onerror="this.src='https://via.placeholder.com/800x500?text=Gazette+News'">
-                </div>
-                <h2 class="${isHero ? 'text-3xl' : 'text-lg'} font-bold mb-2 leading-tight group-hover:text-red-900 transition-colors">
-                    <a href="${url}" target="_blank">${title}</a>
+            <article class="${isHero ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 pr-4 mb-6 pb-6' : 'border-b border-stone-200 pb-6'}">
+                <img src="${img}" class="w-full ${isHero ? 'h-96' : 'h-48'} object-cover mb-4">
+                <h2 class="${isHero ? 'text-3xl' : 'text-lg'} font-bold mb-2">
+                    <a href="${article.url || article.link}" target="_blank">${article.title}</a>
                 </h2>
-                <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-stone-400 mt-2">
-                    <span>${source}</span>
-                    <span class="text-red-700">Read More →</span>
-                </div>
+                <p class="text-stone-600 line-clamp-3 text-sm">${article.description || ''}</p>
             </article>`;
+    });
+}
+
+function updateUIStrings() {
+    const ui = UI_TEXT[currentLang];
+    document.getElementById('main-title').innerText = ui.title;
+    document.getElementById('edition-label').innerText = ui.edition;
+    document.body.className = `text-stone-900 lang-${currentLang}`;
+
+    // Update Navigation Labels
+    const nav = document.getElementById('nav-bar');
+    nav.innerHTML = ui.nav.map(cat => {
+        const label = ui.labels ? ui.labels[cat] : cat.toUpperCase();
+        return `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" data-category="${cat}">${label}</button>`;
+    }).join('');
+
+    // Re-attach listeners to new nav buttons
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.onclick = (e) => {
+            currentCategory = e.target.dataset.category;
+            currentPage = 1;
+            loadNews(currentPage, currentCategory, currentLang);
+            updateUIStrings();
+        };
     });
 }
 
@@ -98,33 +109,22 @@ function updatePaginationUI(page) {
     document.getElementById('prev-btn').disabled = (page === 1);
 }
 
-// Category Listeners
-document.querySelectorAll('.category-btn').forEach(btn => {
+// Language Switcher Listeners
+document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.onclick = (e) => {
-        document.querySelectorAll('.category-btn, .state-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
-        currentCategory = e.target.dataset.category;
-        currentQuery = ''; 
+        currentLang = e.target.dataset.lang;
         currentPage = 1;
-        loadNews(currentPage, currentCategory, '');
+        updateUIStrings();
+        loadNews(currentPage, currentCategory, currentLang);
     };
 });
 
-// State Listeners (Searches for state name)
-document.querySelectorAll('.state-btn').forEach(btn => {
-    btn.onclick = (e) => {
-        document.querySelectorAll('.category-btn, .state-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        currentQuery = e.target.dataset.state;
-        currentPage = 1;
-        loadNews(currentPage, '', currentQuery);
-    };
-});
+document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); };
+document.getElementById('prev-btn').onclick = () => { if (currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentLang); } };
 
-document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentQuery); };
-document.getElementById('prev-btn').onclick = () => { if (currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentQuery); } };
-
-document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-IN', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-});
-loadNews(currentPage, currentCategory, '');
+// Initialize
+updateUIStrings();
+document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+loadNews(currentPage, currentCategory, currentLang);
