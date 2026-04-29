@@ -1,36 +1,37 @@
-export default function Newspaper() {
-  return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 p-8 font-serif">
-      <header className="border-b-4 border-double border-stone-800 pb-4 mb-8 text-center">
-        <h1 className="text-6xl font-black uppercase tracking-tighter">The Digital Gazette</h1>
-        <div className="flex justify-between mt-4 text-sm font-sans font-bold border-t border-stone-300 pt-2">
-          <span>Vol. I — No. 001</span>
-          <span>{new Date().toLocaleDateString()}</span>
-          <span>Price: Free</span>
-        </div>
-      </header>
+document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-IN', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+});
 
-      <main className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <section className="md:col-span-3 border-r border-stone-300 pr-8">
-          <article>
-            <h2 className="text-4xl font-bold leading-tight mb-4">The Future of AI: A New Era Begins</h2>
-            <p className="text-lg leading-relaxed mb-4">
-              Today marks a turning point in digital journalism...
-            </p>
-            <div className="h-64 bg-stone-200 mb-4 flex items-center justify-center italic text-stone-500">
-              [Primary News Image]
-            </div>
-          </article>
-        </section>
+const API_KEY = 'YOUR_API_KEY_HERE'; // Get this from gnews.io
+const URL = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=10&apikey=${API_KEY}`;
 
-        <aside className="space-y-6">
-          <h3 className="font-sans font-black border-b-2 border-stone-800 uppercase italic">Trending</h3>
-          <div className="text-sm">
-            <h4 className="font-bold underline">Tech: New Updates for Vercel</h4>
-            <p>Deployment speeds reach record highs...</p>
-          </div>
-        </aside>
-      </main>
-    </div>
-  );
+async function fetchNews() {
+    try {
+        const response = await fetch(URL);
+        const data = await response.json();
+        const articles = data.articles;
+        
+        const grid = document.getElementById('news-grid');
+        grid.innerHTML = ''; // Clear loading state
+
+        articles.forEach((article, index) => {
+            const isHero = index === 0;
+            const card = `
+                <div class="${isHero ? 'md:col-span-2 border-b-2 md:border-b-0 md:border-r border-stone-300 pr-0 md:pr-8' : 'border-b border-stone-200 pb-6'}">
+                    <img src="${article.image}" class="w-full h-64 object-cover mb-4 filter grayscale hover:grayscale-0 transition duration-500" alt="News Image">
+                    <h2 class="${isHero ? 'text-4xl' : 'text-xl'} font-bold mb-2 leading-tight">
+                        <a href="${article.url}" target="_blank" class="hover:underline">${article.title}</a>
+                    </h2>
+                    <p class="text-stone-600 mb-4">${article.description}</p>
+                    <div class="text-xs font-bold uppercase text-stone-400">Source: ${article.source.name}</div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        });
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        document.getElementById('news-grid').innerHTML = "<p>Failed to load news. Check your API key.</p>";
+    }
 }
+
+fetchNews();
