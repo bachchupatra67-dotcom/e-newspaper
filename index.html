@@ -10,57 +10,86 @@
         body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; }
         .newspaper-title { font-family: 'Playfair Display', serif; }
         
+        /* SLOWER MARQUEE: Increased from 25s to 60s for readability */
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
         .animate-marquee {
             display: inline-block;
-            animation: marquee 25s linear infinite;
+            animation: marquee 60s linear infinite; 
         }
-        .category-btn.active {
+        .animate-marquee:hover { animation-play-state: paused; } /* Pauses on hover */
+
+        .category-btn.active, .state-btn.active {
             border-bottom: 2px solid #b91c1c;
             color: #b91c1c;
         }
+
+        /* Google Translate Styling */
+        #google_translate_element { margin-bottom: 10px; }
     </style>
 </head>
 <body class="text-stone-900">
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
         <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest whitespace-nowrap">
-            Loading today's headlines...
+            Loading today's headlines... Please wait...
         </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 py-6">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="flex justify-between items-center border-b border-stone-300 pb-2 mb-4">
+            <div id="google_translate_element"></div>
+            <span id="current-date" class="text-xs font-bold italic uppercase"></span>
+        </div>
+
         <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
             <h1 class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">LATEST NEWSPAPER</h1>
-            <div class="flex justify-between mt-4 font-bold text-xs uppercase border-t border-stone-300 pt-2 italic">
-                <span>New Delhi // Mumbai // Bengaluru</span>
-                <span id="current-date"></span>
-                <span>Edition: Digital India</span>
-            </div>
+            <p class="text-sm font-bold tracking-[0.3em] mt-2">BHARAT'S LEADING DIGITAL GAZETTE</p>
         </header>
 
-        <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-8 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest">
-            <button class="category-btn active px-2 pb-1" data-category="general">General</button>
-            <button class="category-btn px-2 pb-1" data-category="world">World</button>
-            <button class="category-btn px-2 pb-1" data-category="nation">Nation</button>
-            <button class="category-btn px-2 pb-1" data-category="sports">Sports</button>
-            <button class="category-btn px-2 pb-1" data-category="technology">Tech</button>
-            <button class="category-btn px-2 pb-1" data-category="business">Business</button>
+        <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest">
+            <button class="category-btn active" data-category="general">General</button>
+            <button class="category-btn" data-category="world">World</button>
+            <button class="category-btn" data-category="sports">Sports</button>
+            <button class="category-btn" data-category="technology">Tech</button>
+            <button class="category-btn" data-category="business">Business</button>
         </nav>
 
-        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10 min-h-[400px]">
-            <div class="col-span-full text-center py-20 text-stone-400 italic text-xl">Initializing Gazette...</div>
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <aside class="lg:col-span-2 border-r border-stone-300 pr-4">
+                <h3 class="font-black text-lg border-b-2 border-stone-800 mb-4 uppercase italic">State News</h3>
+                <div class="flex flex-col gap-2 text-sm font-bold text-stone-600">
+                    <button class="state-btn text-left hover:text-red-700" data-state="Delhi">Delhi</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Maharashtra">Maharashtra</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Karnataka">Karnataka</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Tamil Nadu">Tamil Nadu</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="West Bengal">West Bengal</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Uttar Pradesh">Uttar Pradesh</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Gujarat">Gujarat</button>
+                    <button class="state-btn text-left hover:text-red-700" data-state="Kerala">Kerala</button>
+                </div>
+            </aside>
 
-        <div id="pagination-controls" class="flex justify-center items-center gap-6 mt-12 mb-20 border-t border-stone-300 pt-8">
-            <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-20 disabled:cursor-not-allowed">← Previous</button>
-            <span id="page-num" class="font-black text-lg tracking-tighter">PAGE 1</span>
-            <button id="next-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition">Next →</button>
+            <main class="lg:col-span-10">
+                <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </div>
+
+                <div id="pagination-controls" class="flex justify-center items-center gap-6 mt-12 mb-20 border-t border-stone-300 pt-8">
+                    <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-20">← Prev</button>
+                    <span id="page-num" class="font-black text-lg">PAGE 1</span>
+                    <button id="next-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition">Next →</button>
+                </div>
+            </main>
         </div>
     </div>
 
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="index.js"></script>
 </body>
 </html>
