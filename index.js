@@ -18,6 +18,7 @@ let currentPage = 1;
 let currentCategory = 'general';
 let nextDataToken = null;
 
+// Replace your existing loadNews function with this "Super-Safe" version
 async function loadNews(page = 1, category = 'general') {
     const grid = document.getElementById('news-grid');
     grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 animate-pulse italic text-xl">Updating ${category.toUpperCase()} section...</div>`;
@@ -26,35 +27,43 @@ async function loadNews(page = 1, category = 'general') {
 
     // 1. Try GNews
     try {
-        console.log(`Fetching GNews: Page ${page}, Cat ${category}`);
-        const response = await fetch(CONFIG.gnews.getUrl(page, category));
+        // We add a cache-buster (?t=) to ensure we aren't seeing an old error
+        const url = CONFIG.gnews.getUrl(page, category) + `&t=${new Date().getTime()}`;
+        const response = await fetch(url);
         const data = await response.json();
         
         if (response.ok && data.articles && data.articles.length > 0) {
             renderNews(data.articles);
             success = true;
-        } else {
-            console.warn("GNews quota likely reached or no results.");
         }
     } catch (err) {
-        console.error("GNews Error:", err);
+        console.warn("GNews blocked or limited.");
     }
 
     // 2. Try NewsData Fallback
     if (!success) {
         try {
-            console.log("Attempting NewsData fallback...");
             const token = (page === 1) ? null : nextDataToken;
             const response = await fetch(CONFIG.newsdata.getUrl(token, category));
             const data = await response.json();
 
-            if (data.status === "success" && data.results && data.results.length > 0) {
+            // NewsData sometimes returns 0 results for specific categories in India
+            // If that happens, we try to fetch 'top' news instead of the specific category
+            if (data.results && data.results.length > 0) {
                 nextDataToken = data.nextPage;
                 renderNews(data.results);
                 success = true;
+            } else if (page === 1) {
+                // Last ditch effort: Fetch general news if the specific category is empty
+                const retryResponse = await fetch(`https://newsdata.io/api/1/news?apikey=${CONFIG.newsdata.key}&country=in&language=en`);
+                const retryData = await retryResponse.json();
+                if(retryData.results) {
+                    renderNews(retryData.results);
+                    success = true;
+                }
             }
         } catch (err) {
-            console.error("NewsData Error:", err);
+            console.error("Critical: All news sources exhausted.");
         }
     }
 
@@ -62,7 +71,8 @@ async function loadNews(page = 1, category = 'general') {
         grid.innerHTML = `
             <div class="col-span-full text-center py-20 border-2 border-dashed border-stone-300">
                 <h3 class="text-2xl font-bold text-red-800">EDITION DELAYED</h3>
-                <p class="text-stone-500 mt-2">We are having trouble reaching the news servers. Please refresh or try another category.</p>
+                <p class="text-stone-500 mt-2">The news servers are currently unresponsive (Daily Limit Reached).</p>
+                <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-stone-800 text-white font-bold">RETRY CONNECTION</button>
             </div>`;
     }
     
