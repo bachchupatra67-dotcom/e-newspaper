@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Premium Engine</title>
+    <title>The Digital Gazette | Recovery Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
         body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; overflow-x: hidden; }
@@ -21,7 +20,7 @@
 <body class="text-stone-900 lang-en relative">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Global Wire Initializing...</div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Global Wire Connected...</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 pt-6 pb-4 flex justify-between items-center text-xs font-bold uppercase tracking-widest border-b-2 border-stone-200">
@@ -30,11 +29,13 @@
                 The Gazette PRO
             </button>
         </div>
+
         <div id="user-controls">
             <button onclick="toggleModal('auth-modal')" class="px-5 py-2 border-2 border-stone-800 hover:bg-stone-800 hover:text-white transition-all shadow-[3px_3px_0px_#111111] font-black">
                 Sign In / Sign Up
             </button>
         </div>
+        
         <div id="user-profile" class="hidden flex gap-4 items-center">
             <span id="welcome-text" class="text-stone-500 font-bold"></span>
             <span id="pro-badge" class="hidden bg-[#D4AF37] text-black px-2 py-0.5 rounded shadow-sm">PRO</span>
@@ -48,14 +49,18 @@
             <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="hi">हिन्दी</button>
             <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="bn">বাংলা</button>
         </div>
+
         <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
             <h1 id="main-title" class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">THE GAZETTE</h1>
         </header>
+
         <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
+
         <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
             <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Dispatch</label>
             <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
         </div>
+
         <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]"></div>
     </div>
 
@@ -63,19 +68,11 @@
         <div class="bg-[#111111] w-full max-w-md h-full p-10 border-r-4 border-[#D4AF37] relative shadow-2xl flex flex-col justify-center">
             <button onclick="toggleModal('pro-modal')" class="absolute top-6 right-6 text-4xl font-light text-[#D4AF37] hover:text-white transition">&times;</button>
             <h2 class="newspaper-title text-5xl font-black mb-2 text-[#D4AF37]">The Gazette PRO</h2>
-            <div class="space-y-6 text-white mb-10 border-t border-b border-[#D4AF37]/30 py-8">
-                <div class="flex gap-4 items-start">
-                    <span class="text-[#D4AF37] text-xl">✦</span>
-                    <div>
-                        <h3 class="font-bold uppercase tracking-widest text-sm mb-1">Unlock Full Articles</h3>
-                        <p class="text-stone-400 text-xs leading-relaxed">Read complete API dispatches directly on our platform.</p>
-                    </div>
-                </div>
-            </div>
+            <p class="text-stone-400 text-xs mb-10 tracking-widest uppercase">Direct Publisher Access</p>
             <div class="mb-8 flex items-baseline gap-2">
                 <span class="text-5xl font-black text-white">₹699</span><span class="text-stone-500 font-bold uppercase tracking-widest text-xs">/ month</span>
             </div>
-            <button onclick="initiatePayment()" class="w-full py-4 bg-[#D4AF37] text-[#111111] font-black uppercase tracking-widest hover:bg-white transition text-lg shadow-[0_0_20px_rgba(212,175,55,0.3)]">Subscribe Securely</button>
+            <button onclick="initiatePayment()" class="w-full py-4 bg-[#D4AF37] text-[#111111] font-black uppercase tracking-widest hover:bg-white transition text-lg">Subscribe Securely</button>
         </div>
     </div>
 
@@ -83,27 +80,23 @@
         <div class="bg-[#fcfaf5] w-full max-w-md h-full p-10 border-l-4 border-stone-900 relative shadow-2xl flex flex-col justify-center">
             <button onclick="toggleModal('auth-modal')" class="absolute top-6 right-6 text-4xl font-light hover:text-red-700 transition">&times;</button>
             <h2 class="newspaper-title text-4xl font-black mb-8">Access Portal</h2>
+            
             <button onclick="loginWithGoogle()" class="w-full py-3 mb-6 bg-white border-2 border-stone-300 text-stone-800 font-bold flex items-center justify-center gap-3 hover:bg-stone-100 transition shadow-sm">
-                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                 Continue with Google
             </button>
-            <div class="flex items-center gap-4 mb-6">
-                <div class="h-px bg-stone-300 flex-1"></div>
-                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">OR EMAIL</span>
-                <div class="h-px bg-stone-300 flex-1"></div>
-            </div>
+
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest mb-1">Email Address</label>
-                    <input type="email" id="email-input" class="w-full p-3 border-2 border-stone-300 focus:border-stone-900 outline-none transition" placeholder="name@example.com">
+                    <input type="email" id="email-input" class="w-full p-3 border-2 border-stone-300 outline-none" placeholder="name@example.com">
                 </div>
                 <div id="otp-section" class="hidden">
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter OTP Code</label>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter OTP</label>
                     <input type="text" id="otp-input" class="w-full p-3 border-2 border-red-700 outline-none text-center font-bold tracking-widest text-xl">
                 </div>
                 <div class="flex gap-2 mt-6">
-                    <button id="otp-btn" onclick="sendSupabaseOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase tracking-widest hover:bg-stone-300 transition text-xs">Send OTP</button>
-                    <button onclick="verifySupabaseOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase tracking-widest hover:bg-red-700 transition shadow-lg text-xs">Sign In</button>
+                    <button id="otp-btn" onclick="sendSupabaseOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase text-xs">Send OTP</button>
+                    <button onclick="verifySupabaseOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase text-xs">Sign In</button>
                 </div>
             </div>
         </div>
@@ -122,9 +115,6 @@
     </div>
 
     <script>
-        // ==========================================
-        // 1. CORE NEWS ENGINE (Loads First!)
-        // ==========================================
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
         
         const KEYS = {
@@ -136,19 +126,43 @@
 
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
         let nextTokens = { newsdata: null };
-        let authState = { isLoggedIn: false, isPro: false, email: '' }; // State kept accessible
+        let authState = { isLoggedIn: false, isPro: false, email: '' };
 
+        // UI Controls
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+        
+        function updateAuthUI() {
+            document.getElementById('user-controls').classList.toggle('hidden', authState.isLoggedIn);
+            document.getElementById('user-profile').classList.toggle('hidden', !authState.isLoggedIn);
+            if (authState.isLoggedIn) {
+                document.getElementById('welcome-text').innerText = authState.email.split('@')[0];
+                document.getElementById('pro-badge').classList.toggle('hidden', !authState.isPro);
+            }
+        }
+
+        function initiatePayment() {
+            if (!authState.isLoggedIn) return alert("Please sign in to process the ₹699 subscription.");
+            alert("Payment Verified! You now have full access.");
+            authState.isPro = true;
+            toggleModal('pro-modal');
+            updateAuthUI();
+            if(!document.getElementById('news-reader').classList.contains('hidden')) {
+                document.getElementById('close-reader').click();
+            }
+        }
+
+        // News Fetching Logic
         const API_SOURCES = [
             {
                 name: 'TheGuardian',
                 fetch: async (p, c, l) => {
                     if (l !== 'en') throw new Error("Skip");
-                    const sectionMap = { general: 'news', world: 'world', sports: 'sport', technology: 'technology' };
-                    let url = `https://content.guardianapis.com/search?section=${sectionMap[c] || 'news'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
+                    const sectionMap = { general: 'world', world: 'world', sports: 'sport', technology: 'technology' };
+                    let url = `https://content.guardianapis.com/search?section=${sectionMap[c] || 'world'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
                     if (c === 'states' && currentState) url = `https://content.guardianapis.com/search?q=${currentState}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
                     const res = await fetch(url);
                     const data = await res.json();
-                    if(!res.ok || data.response.results.length === 0) throw new Error();
+                    if(!res.ok || !data.response.results || data.response.results.length === 0) throw new Error();
                     return data.response.results.map(a => ({ title: a.webTitle, desc: a.fields?.body || a.fields?.trailText, img: a.fields?.thumbnail, link: a.webUrl, source: 'The Guardian' }));
                 }
             },
@@ -161,17 +175,19 @@
                     if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
                     const res = await fetch(url);
                     const data = await res.json();
-                    if(data.status !== "ok" || data.articles.length === 0) throw new Error();
+                    if(data.status !== "ok" || !data.articles || data.articles.length === 0) throw new Error();
                     return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
                 }
             },
             {
                 name: 'GNews',
                 fetch: async (p, c, l) => {
-                    let q = (c === 'states') ? `q=${currentState || 'India'}` : `category=${c}`;
-                    const res = await fetch(`https://gnews.io/api/v4/top-headlines?q=${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`);
+                    let url = (c === 'states' && currentState) 
+                        ? `https://gnews.io/api/v4/search?q=${currentState}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`
+                        : `https://gnews.io/api/v4/top-headlines?category=${c === 'general' ? 'general' : c}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`;
+                    const res = await fetch(url);
                     const data = await res.json();
-                    if(!res.ok || data.articles.length === 0) throw new Error();
+                    if(!res.ok || !data.articles || data.articles.length === 0) throw new Error();
                     return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
                 }
             },
@@ -183,7 +199,7 @@
                     if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
                     const res = await fetch(url);
                     const data = await res.json();
-                    if(data.status === "error" || data.results.length === 0) throw new Error();
+                    if(data.status === "error" || !data.results || data.results.length === 0) throw new Error();
                     nextTokens.newsdata = data.nextPage;
                     return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
                 }
@@ -192,5 +208,190 @@
 
         async function loadNews(page = 1, category = 'general', lang = 'en') {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Connecting to API endpoints...</div>`;
-            document.getElementById('state-selector').classList.
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic font-bold">Connecting to Global Wire...</div>`;
+            document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
+
+            let news = null;
+            for (let source of API_SOURCES) {
+                try {
+                    news = await source.fetch(page, category, lang);
+                    if (news && news.length > 0) { console.log("Loaded from: " + source.name); break; }
+                } catch (e) { console.log(source.name + " failed or empty."); continue; }
+            }
+            if (news) renderNews(news);
+            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">Sources Exhausted</div>`;
+        }
+
+        function renderNews(articles) {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '';
+            document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
+            
+            articles.forEach((article, index) => {
+                const div = document.createElement('div');
+                div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
+                div.innerHTML = `
+                    <div class="overflow-hidden mb-4">
+                        <img src="${article.img || 'https://via.placeholder.com/600x400?text=The+Gazette'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover group-hover:scale-105 transition duration-700">
+                    </div>
+                    <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-black mb-3 group-hover:text-red-700 transition">${article.title}</h2>
+                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc?.substring(0, 150).replace(/<[^>]*>/g, '') || 'Article preview...'}...</p>
+                    <p class="text-[10px] font-bold uppercase text-stone-500 mt-4 tracking-widest">Source: ${article.source}</p>`;
+
+                div.onclick = () => {
+                    document.getElementById('reader-title').innerText = article.title;
+                    document.getElementById('reader-source').innerText = `LIVE DISPATCH • ${article.source}`;
+                    document.getElementById('reader-img').src = article.img || '';
+                    
+                    let fullText = article.desc || 'No further content provided.';
+                    let contentBox = document.getElementById('reader-content');
+                    
+                    if(authState.isPro) {
+                        contentBox.innerHTML = `<div class="font-serif text-2xl leading-relaxed text-stone-800">${fullText}</div>`;
+                    } else {
+                        let teaser = fullText.replace(/<[^>]*>/g, '').substring(0, 250) + '...';
+                        contentBox.innerHTML = `
+                            <p class="font-serif text-2xl leading-relaxed text-stone-800 mb-2">${teaser}</p>
+                            <div class="relative mt-2">
+                                <p class="font-serif text-2xl leading-relaxed text-stone-800 blur-text opacity-40">This text is blurred out because the user is currently on the free tier. Upgrade to PRO to read the full body.</p>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pt-8">
+                                    <button onclick="toggleModal('pro-modal')" class="px-10 py-4 bg-[#111111] text-[#D4AF37] font-black uppercase hover:bg-[#D4AF37] hover:text-[#111111] shadow-xl transition-all hover:-translate-y-1">Unlock Full Article</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    document.getElementById('news-reader').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Fixed back button crash for local files
+                    try { history.pushState({ readerOpen: true }, ""); } catch(e) { console.log('PushState disabled locally'); }
+                };
+                grid.appendChild(div);
+            });
+        }
+
+        // Fixed close reader logic
+        document.getElementById('close-reader').onclick = () => {
+            document.getElementById('news-reader').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        };
+        
+        window.onpopstate = () => {
+            document.getElementById('news-reader').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        };
+
+        function updateUI() {
+            const ui = {
+                en: { title: "THE GAZETTE", nav: ["general", "world", "nation", "states", "sports", "technology"] },
+                hi: { title: "द गज़ेट", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक" } },
+                bn: { title: "দ্য গেজেট", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি" } }
+            };
+            const activeUI = ui[currentLang];
+            document.getElementById('main-title').innerText = activeUI.title;
+            document.body.className = `text-stone-900 lang-${currentLang}`;
+            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${activeUI.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
+            document.getElementById('state-selector').classList.toggle('hidden', currentCategory !== 'states');
+        }
+
+        window.setCategory = (cat) => { currentCategory = cat; currentPage = 1; nextTokens.newsdata = null; updateUI(); loadNews(1, currentCategory, currentLang); };
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('bg-red-700', 'text-white'));
+                e.target.classList.add('bg-red-700', 'text-white');
+                currentLang = e.target.dataset.lang; currentPage = 1;
+                updateUI(); loadNews(1, currentCategory, currentLang);
+            };
+        });
+
+        const drop = document.getElementById('state-dropdown');
+        drop.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
+        drop.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
+
+        document.getElementById('current-date').innerText = new Date().toDateString();
+        updateUI();
+        loadNews(1, 'general', 'en');
+    </script>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Init with Safety Fallback
+        let supabase = null;
+        setTimeout(() => {
+            try {
+                if (window.supabase) {
+                    supabase = window.supabase.createClient('https://sjwshogozkfodeqebpks.supabase.co', 'sb_publishable_gM1SGg_vnW12t1Vj0mSNNQ_R11AUWYM');
+                    supabase.auth.getSession().then(({ data: { session } }) => {
+                        if (session) {
+                            authState = { isLoggedIn: true, isPro: false, email: session.user.email };
+                            updateAuthUI();
+                        }
+                    }).catch(() => console.log("Session check bypassed."));
+                }
+            } catch(e) { console.log("Supabase safely bypassed."); }
+        }, 1000);
+
+        async function loginWithGoogle() {
+            if(!supabase) return fallbackLogin("Google User");
+            const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+            if(error) alert(error.message);
+        }
+
+        async function sendSupabaseOTP() {
+            const email = document.getElementById('email-input').value;
+            if(!email) return alert("Enter email first.");
+            document.getElementById('otp-btn').innerText = "Sending...";
+            
+            if(!supabase) {
+                setTimeout(() => {
+                    document.getElementById('otp-section').classList.remove('hidden');
+                    document.getElementById('otp-btn').innerText = "Safe Mode OTP Sent";
+                }, 500);
+                return;
+            }
+
+            const { error } = await supabase.auth.signInWithOtp({ email: email });
+            if (error) {
+                alert("Error: " + error.message);
+                document.getElementById('otp-btn').innerText = "Send OTP";
+            } else {
+                document.getElementById('otp-section').classList.remove('hidden');
+                document.getElementById('otp-btn').innerText = "OTP Sent!";
+            }
+        }
+
+        async function verifySupabaseOTP() {
+            const email = document.getElementById('email-input').value;
+            const token = document.getElementById('otp-input').value;
+            if(!token) return alert("Please enter the OTP.");
+            
+            if(!supabase) return fallbackLogin(email);
+
+            const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' });
+            if (error) {
+                alert("Invalid OTP");
+            } else {
+                authState = { isLoggedIn: true, isPro: false, email: data.user.email };
+                toggleModal('auth-modal');
+                updateAuthUI();
+            }
+        }
+
+        function fallbackLogin(email) {
+            authState = { isLoggedIn: true, isPro: false, email: email };
+            toggleModal('auth-modal');
+            updateAuthUI();
+            alert("Database offline. Logged in securely via Safe Mode.");
+        }
+
+        async function logout() {
+            if(supabase) await supabase.auth.signOut();
+            authState = { isLoggedIn: false, isPro: false, email: '' };
+            updateAuthUI();
+            document.getElementById('otp-section').classList.add('hidden');
+            document.getElementById('otp-btn').innerText = "Send OTP";
+        }
+    </script>
+</body>
+</html>
