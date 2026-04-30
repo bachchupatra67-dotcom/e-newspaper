@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Master Pro</title>
+    <title>The Digital Gazette | Priority Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
@@ -19,7 +19,7 @@
 <body class="text-stone-900 lang-en">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Refreshing global news wire...</div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Priority NewsAPI Feed Initialising...</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 py-4">
@@ -40,7 +40,7 @@
         <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
 
         <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
-            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Select Regional Reporting</label>
+            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Dispatch</label>
             <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
         </div>
 
@@ -68,16 +68,29 @@
     <script>
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
         const KEYS = {
+            newsapi: '88bc6bb21b064798b76b042d38c70dd2',
             gnews: '8d2a825a10e2836e5c8a26affa038680',
             newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee',
-            currents: 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g',
-            newsapi: '88bc6bb21b064798b76b042d38c70dd2'
+            currents: 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g'
         };
 
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
         let nextTokens = { newsdata: null };
 
         const API_SOURCES = [
+            {
+                name: 'NewsAPI', // NOW PRIMARY
+                fetch: async (p, c, l) => {
+                    if (l !== 'en') throw new Error(); 
+                    const catMap = { general: 'general', nation: 'politics', world: 'business', sports: 'sports', technology: 'technology' };
+                    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${catMap[c] || 'general'}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    const res = await fetch(url, { cache: "no-store" });
+                    const data = await res.json();
+                    if(data.status !== "ok") throw new Error();
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
+                }
+            },
             {
                 name: 'GNews',
                 fetch: async (p, c, l) => {
@@ -90,33 +103,20 @@
             {
                 name: 'NewsData',
                 fetch: async (p, c, l) => {
-                    // NewsData uses 'latest' endpoint for real-time updates as per your screen
                     let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=${l}&image=1&removeduplicate=1`;
-                    if (c === 'states' && currentState) url += `&q=${currentState}`;
-                    else url += `&category=${c === 'general' ? 'top' : c}`;
+                    if (c === 'states' && currentState) url += `&q=${currentState}`; else url += `&category=${c === 'general' ? 'top' : c}`;
                     if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
-                    
                     const res = await fetch(url, { cache: "no-store" });
                     const data = await res.json();
                     nextTokens.newsdata = data.nextPage;
                     return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
-                }
-            },
-            {
-                name: 'CurrentsAPI',
-                fetch: async (p, c, l) => {
-                    let url = `https://api.currentsapi.services/v1/latest-news?language=${l}&apiKey=${KEYS.currents}`;
-                    if (c === 'states') url += `&keywords=${currentState || 'India'}`;
-                    const res = await fetch(url, { cache: "no-store" });
-                    const data = await res.json();
-                    return data.news.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.author }));
                 }
             }
         ];
 
         async function loadNews(page = 1, category = 'general', lang = 'en') {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Reading the latest wire...</div>`;
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Syncing NewsAPI Priority Feed...</div>`;
             
             let news = null;
             for (let source of API_SOURCES) {
@@ -124,37 +124,32 @@
                     const results = await source.fetch(page, category, lang);
                     if (results && results.length > 0) {
                         news = results;
+                        console.log("Success with: " + source.name);
                         break;
                     }
                 } catch (e) { continue; }
             }
 
-            if (news) {
-                renderNews(news);
-            } else {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold">Limit reached or no regional data available for this selection.</div>`;
-            }
+            if (news) renderNews(news);
+            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">All Channels Offline</div>`;
         }
 
         function renderNews(articles) {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '';
             document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
-
             articles.forEach((article, index) => {
                 const div = document.createElement('div');
                 div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                div.innerHTML = `
-                    <img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4">
+                div.innerHTML = `<img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4">
                     <h2 class="${index === 0 ? 'text-3xl' : 'text-xl'} font-bold mb-2 group-hover:text-red-800 transition">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'Tap for full coverage.'}</p>
-                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>
-                `;
+                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'Full coverage inside.'}</p>
+                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>`;
                 div.onclick = () => {
                     document.getElementById('reader-title').innerText = article.title;
                     document.getElementById('reader-source').innerText = article.source;
                     document.getElementById('reader-img').src = article.img || '';
-                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p>`;
+                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Content loading...'}</p>`;
                     document.getElementById('news-reader').classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
                     history.pushState({ readerOpen: true }, ""); 
@@ -163,7 +158,6 @@
             });
         }
 
-        // Logic to ensure UI updates on back button
         window.onpopstate = () => {
             document.getElementById('news-reader').classList.add('hidden');
             document.body.style.overflow = 'auto';
@@ -177,47 +171,30 @@
                 hi: { title: "द गज़ेट", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक" } },
                 bn: { title: "দ্য গেজেট", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি" } }
             };
-
             const activeUI = ui[currentLang];
             document.getElementById('main-title').innerText = activeUI.title;
             document.body.className = `text-stone-900 lang-${currentLang}`;
-            
-            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `
-                <button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">
-                    ${activeUI.labels?.[cat] || cat.toUpperCase()}
-                </button>
-            `).join('');
-
+            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${activeUI.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
             document.getElementById('state-selector').classList.toggle('hidden', currentCategory !== 'states');
         }
 
         window.setCategory = (cat) => {
-            currentCategory = cat;
-            currentPage = 1;
-            nextTokens.newsdata = null;
-            updateUI();
-            loadNews(1, currentCategory, currentLang);
+            currentCategory = cat; currentPage = 1; nextTokens.newsdata = null;
+            updateUI(); loadNews(1, currentCategory, currentLang);
         };
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.onclick = (e) => {
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('bg-red-700', 'text-white'));
                 e.target.classList.add('bg-red-700', 'text-white');
-                currentLang = e.target.dataset.lang;
-                currentPage = 1;
-                updateUI();
-                loadNews(1, currentCategory, currentLang);
+                currentLang = e.target.dataset.lang; currentPage = 1;
+                updateUI(); loadNews(1, currentCategory, currentLang);
             };
         });
 
-        // Initialize state dropdown
         const drop = document.getElementById('state-dropdown');
         drop.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
-        drop.onchange = (e) => {
-            currentState = e.target.value;
-            currentPage = 1;
-            loadNews(1, 'states', currentLang);
-        };
+        drop.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
 
         document.getElementById('current-date').innerText = new Date().toDateString();
         document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0); };
