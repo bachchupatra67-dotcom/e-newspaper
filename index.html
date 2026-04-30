@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Recovery Edition</title>
+    <title>The Digital Gazette | Premium Sandbox</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
         body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; overflow-x: hidden; }
@@ -115,6 +116,9 @@
     </div>
 
     <script>
+        // ==========================================
+        // CONFIG & GLOBAL VARIABLES
+        // ==========================================
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
         
         const KEYS = {
@@ -127,8 +131,34 @@
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
         let nextTokens = { newsdata: null };
         let authState = { isLoggedIn: false, isPro: false, email: '' };
+        let supabase = null;
+        let isLocalFile = window.location.protocol === 'file:';
 
-        // UI Controls
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Supabase (Skip if Local File to prevent crashes)
+            if (!isLocalFile && window.supabase) {
+                try {
+                    supabase = window.supabase.createClient('https://sjwshogozkfodeqebpks.supabase.co', 'sb_publishable_gM1SGg_vnW12t1Vj0mSNNQ_R11AUWYM');
+                    supabase.auth.getSession().then(({ data: { session } }) => {
+                        if (session) {
+                            authState = { isLoggedIn: true, isPro: false, email: session.user.email };
+                            updateAuthUI();
+                        }
+                    }).catch(err => console.warn("Session check skipped"));
+                } catch(e) { console.warn("Supabase init failed."); }
+            }
+
+            // Guaranteed Initial Load for News
+            updateUI();
+            loadNews(1, 'general', 'en');
+        });
+
+        // ==========================================
+        // UI & AUTH CONTROLS
+        // ==========================================
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
         
         function updateAuthUI() {
@@ -140,9 +170,73 @@
             }
         }
 
+        async function loginWithGoogle() {
+            if (isLocalFile || !supabase) return simulateLogin("Google User");
+            const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+            if(error) alert(error.message);
+        }
+
+        async function sendSupabaseOTP() {
+            const email = document.getElementById('email-input').value;
+            if(!email) return alert("Enter email first.");
+            document.getElementById('otp-btn').innerText = "Sending...";
+            
+            if (isLocalFile || !supabase) {
+                setTimeout(() => {
+                    document.getElementById('otp-section').classList.remove('hidden');
+                    document.getElementById('otp-btn').innerText = "Demo OTP Sent";
+                    document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
+                }, 500);
+                return;
+            }
+
+            const { error } = await supabase.auth.signInWithOtp({ email: email });
+            if (error) {
+                alert("Error: " + error.message);
+                document.getElementById('otp-btn').innerText = "Send OTP";
+            } else {
+                document.getElementById('otp-section').classList.remove('hidden');
+                document.getElementById('otp-btn').innerText = "OTP Sent!";
+                document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        async function verifySupabaseOTP() {
+            const email = document.getElementById('email-input').value;
+            const token = document.getElementById('otp-input').value;
+            
+            if (isLocalFile || !supabase) return simulateLogin(email || "Test User");
+            if(!token) return alert("Please enter the OTP.");
+
+            const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' });
+            if (error) {
+                alert("Invalid OTP");
+            } else {
+                authState = { isLoggedIn: true, isPro: false, email: data.user.email };
+                toggleModal('auth-modal');
+                updateAuthUI();
+            }
+        }
+
+        function simulateLogin(email) {
+            authState = { isLoggedIn: true, isPro: false, email: email };
+            toggleModal('auth-modal');
+            updateAuthUI();
+            alert("Local Mode: Demo login successful.");
+        }
+
+        async function logout() {
+            if (supabase && !isLocalFile) await supabase.auth.signOut();
+            authState = { isLoggedIn: false, isPro: false, email: '' };
+            updateAuthUI();
+            document.getElementById('otp-section').classList.add('hidden');
+            document.getElementById('otp-btn').innerText = "Send OTP";
+            document.getElementById('otp-btn').classList.remove('opacity-50', 'pointer-events-none');
+        }
+
         function initiatePayment() {
             if (!authState.isLoggedIn) return alert("Please sign in to process the ₹699 subscription.");
-            alert("Payment Verified! You now have full access.");
+            alert("Payment Verified! You now have full PRO access.");
             authState.isPro = true;
             toggleModal('pro-modal');
             updateAuthUI();
@@ -151,7 +245,9 @@
             }
         }
 
-        // News Fetching Logic
+        // ==========================================
+        // NEWS ENGINE
+        // ==========================================
         const API_SOURCES = [
             {
                 name: 'TheGuardian',
@@ -208,15 +304,15 @@
 
         async function loadNews(page = 1, category = 'general', lang = 'en') {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic font-bold">Connecting to Global Wire...</div>`;
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic font-bold">Fetching latest dispatches...</div>`;
             document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
 
             let news = null;
             for (let source of API_SOURCES) {
                 try {
                     news = await source.fetch(page, category, lang);
-                    if (news && news.length > 0) { console.log("Loaded from: " + source.name); break; }
-                } catch (e) { console.log(source.name + " failed or empty."); continue; }
+                    if (news && news.length > 0) break;
+                } catch (e) { continue; }
             }
             if (news) renderNews(news);
             else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">Sources Exhausted</div>`;
@@ -262,21 +358,12 @@
                     }
                     document.getElementById('news-reader').classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
-                    
-                    // Fixed back button crash for local files
-                    try { history.pushState({ readerOpen: true }, ""); } catch(e) { console.log('PushState disabled locally'); }
                 };
                 grid.appendChild(div);
             });
         }
 
-        // Fixed close reader logic
         document.getElementById('close-reader').onclick = () => {
-            document.getElementById('news-reader').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        };
-        
-        window.onpopstate = () => {
             document.getElementById('news-reader').classList.add('hidden');
             document.body.style.overflow = 'auto';
         };
@@ -310,88 +397,6 @@
         drop.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
 
         document.getElementById('current-date').innerText = new Date().toDateString();
-        updateUI();
-        loadNews(1, 'general', 'en');
-    </script>
-
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script>
-        // Supabase Init with Safety Fallback
-        let supabase = null;
-        setTimeout(() => {
-            try {
-                if (window.supabase) {
-                    supabase = window.supabase.createClient('https://sjwshogozkfodeqebpks.supabase.co', 'sb_publishable_gM1SGg_vnW12t1Vj0mSNNQ_R11AUWYM');
-                    supabase.auth.getSession().then(({ data: { session } }) => {
-                        if (session) {
-                            authState = { isLoggedIn: true, isPro: false, email: session.user.email };
-                            updateAuthUI();
-                        }
-                    }).catch(() => console.log("Session check bypassed."));
-                }
-            } catch(e) { console.log("Supabase safely bypassed."); }
-        }, 1000);
-
-        async function loginWithGoogle() {
-            if(!supabase) return fallbackLogin("Google User");
-            const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-            if(error) alert(error.message);
-        }
-
-        async function sendSupabaseOTP() {
-            const email = document.getElementById('email-input').value;
-            if(!email) return alert("Enter email first.");
-            document.getElementById('otp-btn').innerText = "Sending...";
-            
-            if(!supabase) {
-                setTimeout(() => {
-                    document.getElementById('otp-section').classList.remove('hidden');
-                    document.getElementById('otp-btn').innerText = "Safe Mode OTP Sent";
-                }, 500);
-                return;
-            }
-
-            const { error } = await supabase.auth.signInWithOtp({ email: email });
-            if (error) {
-                alert("Error: " + error.message);
-                document.getElementById('otp-btn').innerText = "Send OTP";
-            } else {
-                document.getElementById('otp-section').classList.remove('hidden');
-                document.getElementById('otp-btn').innerText = "OTP Sent!";
-            }
-        }
-
-        async function verifySupabaseOTP() {
-            const email = document.getElementById('email-input').value;
-            const token = document.getElementById('otp-input').value;
-            if(!token) return alert("Please enter the OTP.");
-            
-            if(!supabase) return fallbackLogin(email);
-
-            const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' });
-            if (error) {
-                alert("Invalid OTP");
-            } else {
-                authState = { isLoggedIn: true, isPro: false, email: data.user.email };
-                toggleModal('auth-modal');
-                updateAuthUI();
-            }
-        }
-
-        function fallbackLogin(email) {
-            authState = { isLoggedIn: true, isPro: false, email: email };
-            toggleModal('auth-modal');
-            updateAuthUI();
-            alert("Database offline. Logged in securely via Safe Mode.");
-        }
-
-        async function logout() {
-            if(supabase) await supabase.auth.signOut();
-            authState = { isLoggedIn: false, isPro: false, email: '' };
-            updateAuthUI();
-            document.getElementById('otp-section').classList.add('hidden');
-            document.getElementById('otp-btn').innerText = "Send OTP";
-        }
     </script>
 </body>
 </html>
