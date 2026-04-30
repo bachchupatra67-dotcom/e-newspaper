@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Premium Reader Edition</title>
+    <title>The Digital Gazette | Premium Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
@@ -21,7 +21,7 @@
 <body class="text-stone-900 lang-en relative">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Global Wire Connected...</div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Global Wire Initializing...</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 pt-6 pb-4 flex justify-between items-center text-xs font-bold uppercase tracking-widest border-b-2 border-stone-200">
@@ -48,18 +48,14 @@
             <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="hi">हिन्दी</button>
             <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="bn">বাংলা</button>
         </div>
-
         <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
             <h1 id="main-title" class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">THE GAZETTE</h1>
         </header>
-
         <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
-
         <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
             <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Dispatch</label>
             <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
         </div>
-
         <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]"></div>
     </div>
 
@@ -67,7 +63,6 @@
         <div class="bg-[#111111] w-full max-w-md h-full p-10 border-r-4 border-[#D4AF37] relative shadow-2xl flex flex-col justify-center">
             <button onclick="toggleModal('pro-modal')" class="absolute top-6 right-6 text-4xl font-light text-[#D4AF37] hover:text-white transition">&times;</button>
             <h2 class="newspaper-title text-5xl font-black mb-2 text-[#D4AF37]">The Gazette PRO</h2>
-            <p class="text-stone-400 text-xs mb-10 tracking-widest uppercase">Direct Publisher Access</p>
             <div class="space-y-6 text-white mb-10 border-t border-b border-[#D4AF37]/30 py-8">
                 <div class="flex gap-4 items-start">
                     <span class="text-[#D4AF37] text-xl">✦</span>
@@ -89,4 +84,113 @@
             <button onclick="toggleModal('auth-modal')" class="absolute top-6 right-6 text-4xl font-light hover:text-red-700 transition">&times;</button>
             <h2 class="newspaper-title text-4xl font-black mb-8">Access Portal</h2>
             <button onclick="loginWithGoogle()" class="w-full py-3 mb-6 bg-white border-2 border-stone-300 text-stone-800 font-bold flex items-center justify-center gap-3 hover:bg-stone-100 transition shadow-sm">
-                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21
+                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Continue with Google
+            </button>
+            <div class="flex items-center gap-4 mb-6">
+                <div class="h-px bg-stone-300 flex-1"></div>
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">OR EMAIL</span>
+                <div class="h-px bg-stone-300 flex-1"></div>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1">Email Address</label>
+                    <input type="email" id="email-input" class="w-full p-3 border-2 border-stone-300 focus:border-stone-900 outline-none transition" placeholder="name@example.com">
+                </div>
+                <div id="otp-section" class="hidden">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter OTP Code</label>
+                    <input type="text" id="otp-input" class="w-full p-3 border-2 border-red-700 outline-none text-center font-bold tracking-widest text-xl">
+                </div>
+                <div class="flex gap-2 mt-6">
+                    <button id="otp-btn" onclick="sendSupabaseOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase tracking-widest hover:bg-stone-300 transition text-xs">Send OTP</button>
+                    <button onclick="verifySupabaseOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase tracking-widest hover:bg-red-700 transition shadow-lg text-xs">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="news-reader" class="fixed inset-0 bg-black/95 z-40 hidden flex justify-center items-center p-0 md:p-4">
+        <div class="bg-[#fcfaf5] w-full max-w-4xl h-full md:h-[95vh] overflow-y-auto relative shadow-2xl">
+            <button id="close-reader" class="fixed top-4 right-6 text-5xl font-light hover:text-red-700 z-[60] transition">&times;</button>
+            <div class="p-6 md:p-16">
+                <p id="reader-source" class="text-xs font-bold text-red-700 uppercase tracking-widest mb-4"></p>
+                <h2 id="reader-title" class="newspaper-title text-4xl md:text-6xl font-black leading-tight mb-8"></h2>
+                <img id="reader-img" src="" class="w-full h-auto max-h-96 object-cover mb-10 shadow-lg">
+                <div id="reader-content" class="text-xl md:text-2xl leading-relaxed text-stone-800 space-y-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. CORE NEWS ENGINE (Loads First!)
+        // ==========================================
+        const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+        
+        const KEYS = {
+            guardian: '99faa72a-bd14-4fea-8d09-5200ff1e3c53',
+            newsapi: '88bc6bb21b064798b76b042d38c70dd2',
+            gnews: '8d2a825a10e2836e5c8a26affa038680',
+            newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee'
+        };
+
+        let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
+        let nextTokens = { newsdata: null };
+        let authState = { isLoggedIn: false, isPro: false, email: '' }; // State kept accessible
+
+        const API_SOURCES = [
+            {
+                name: 'TheGuardian',
+                fetch: async (p, c, l) => {
+                    if (l !== 'en') throw new Error("Skip");
+                    const sectionMap = { general: 'news', world: 'world', sports: 'sport', technology: 'technology' };
+                    let url = `https://content.guardianapis.com/search?section=${sectionMap[c] || 'news'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
+                    if (c === 'states' && currentState) url = `https://content.guardianapis.com/search?q=${currentState}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if(!res.ok || data.response.results.length === 0) throw new Error();
+                    return data.response.results.map(a => ({ title: a.webTitle, desc: a.fields?.body || a.fields?.trailText, img: a.fields?.thumbnail, link: a.webUrl, source: 'The Guardian' }));
+                }
+            },
+            {
+                name: 'NewsAPI',
+                fetch: async (p, c, l) => {
+                    if (l !== 'en') throw new Error();
+                    const catMap = { general: 'general', nation: 'politics', world: 'business', sports: 'sports', technology: 'technology' };
+                    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${catMap[c] || 'general'}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if(data.status !== "ok" || data.articles.length === 0) throw new Error();
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
+                }
+            },
+            {
+                name: 'GNews',
+                fetch: async (p, c, l) => {
+                    let q = (c === 'states') ? `q=${currentState || 'India'}` : `category=${c}`;
+                    const res = await fetch(`https://gnews.io/api/v4/top-headlines?q=${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`);
+                    const data = await res.json();
+                    if(!res.ok || data.articles.length === 0) throw new Error();
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
+                }
+            },
+            {
+                name: 'NewsData',
+                fetch: async (p, c, l) => {
+                    let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=${l}&image=1&removeduplicate=1`;
+                    if (c === 'states' && currentState) url += `&q=${currentState}`; else url += `&category=${c === 'general' ? 'top' : c}`;
+                    if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if(data.status === "error" || data.results.length === 0) throw new Error();
+                    nextTokens.newsdata = data.nextPage;
+                    return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
+                }
+            }
+        ];
+
+        async function loadNews(page = 1, category = 'general', lang = 'en') {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Connecting to API endpoints...</div>`;
+            document.getElementById('state-selector').classList.
