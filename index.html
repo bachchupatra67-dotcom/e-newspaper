@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Master Pro Edition</title>
+    <title>The Digital Gazette | Premium Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
@@ -14,13 +14,26 @@
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .animate-marquee { display: inline-block; animation: marquee 60s linear infinite; white-space: nowrap; }
         .category-btn.active { border-bottom: 3px solid #b91c1c; color: #b91c1c; }
-        #reader-content p { margin-bottom: 1.5rem; }
+        .premium-btn { border-bottom: 3px solid #D4AF37 !important; color: #D4AF37 !important; }
+        .lock-icon::after { content: " 🔒"; font-size: 0.8em; }
     </style>
 </head>
-<body class="text-stone-900 lang-en">
+<body class="text-stone-900 lang-en relative">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Initialising Guardian & NewsAPI Waterfall...</div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Guardian Priority Mode Active...</div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-2 flex justify-end gap-4 text-xs font-bold uppercase tracking-widest">
+        <div id="user-controls" class="flex gap-4 items-center">
+            <button onclick="toggleModal('login-modal')" class="hover:text-red-700 transition">Sign In</button>
+            <button onclick="toggleModal('pro-modal')" class="bg-[#111111] text-[#D4AF37] px-4 py-1 border border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#111111] transition shadow-md">Get Pro Pack</button>
+        </div>
+        <div id="user-profile" class="hidden flex gap-4 items-center">
+            <span id="welcome-text" class="text-stone-500">Welcome, User</span>
+            <span id="pro-badge" class="hidden bg-[#D4AF37] text-black px-2 py-0.5 rounded-sm">PRO</span>
+            <button onclick="logout()" class="hover:text-red-700 underline">Logout</button>
+        </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 py-4">
@@ -41,7 +54,7 @@
         <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
 
         <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
-            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Reporting</label>
+            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Dispatch</label>
             <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
         </div>
 
@@ -54,7 +67,46 @@
         </div>
     </div>
 
-    <div id="news-reader" class="fixed inset-0 bg-black/95 z-50 hidden flex justify-center items-center p-0 md:p-4">
+    <div id="login-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-[#fcfaf5] w-full max-w-md p-8 border-4 border-stone-900 relative">
+            <button onclick="toggleModal('login-modal')" class="absolute top-2 right-4 text-3xl font-light hover:text-red-700">&times;</button>
+            <h2 class="newspaper-title text-4xl font-black mb-6 text-center">Sign In</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1">Email</label>
+                    <input type="email" id="email-input" class="w-full p-2 border-2 border-stone-300 focus:border-stone-900 outline-none" placeholder="reader@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1">Password</label>
+                    <input type="password" id="pass-input" class="w-full p-2 border-2 border-stone-300 focus:border-stone-900 outline-none" placeholder="••••••••">
+                </div>
+                <button onclick="simulateLogin()" class="w-full py-3 bg-red-700 text-white font-bold uppercase tracking-widest hover:bg-red-800 transition mt-4">Access Account</button>
+                <p class="text-center text-xs mt-4 text-stone-500">Demo Mode: Type anything to login</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="pro-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-[#111111] w-full max-w-lg p-10 border-2 border-[#D4AF37] relative text-center">
+            <button onclick="toggleModal('pro-modal')" class="absolute top-2 right-4 text-3xl font-light text-[#D4AF37] hover:text-white">&times;</button>
+            <h2 class="newspaper-title text-5xl font-black mb-2 text-[#D4AF37]">The Gazette PRO</h2>
+            <p class="text-stone-400 text-sm mb-8 tracking-widest uppercase">Elite Global Intelligence</p>
+            
+            <div class="text-left space-y-4 text-white mb-8 border-t border-b border-[#D4AF37]/30 py-6">
+                <p class="flex items-center gap-3"><span>✔️</span> Unlimited API Article Views</p>
+                <p class="flex items-center gap-3"><span>✔️</span> Unlock <strong>Technology & World</strong> Sectors</p>
+                <p class="flex items-center gap-3"><span>✔️</span> Ad-Free Distractionless Reader</p>
+            </div>
+            
+            <div class="mb-8">
+                <span class="text-4xl font-black text-white">₹299</span><span class="text-stone-500">/month</span>
+            </div>
+            
+            <button onclick="upgradeToPro()" class="w-full py-4 bg-[#D4AF37] text-[#111111] font-black uppercase tracking-widest hover:bg-white transition text-lg shadow-[0_0_15px_rgba(212,175,55,0.4)]">Subscribe Now</button>
+        </div>
+    </div>
+
+    <div id="news-reader" class="fixed inset-0 bg-black/95 z-40 hidden flex justify-center items-center p-0 md:p-4">
         <div class="bg-[#fcfaf5] w-full max-w-4xl h-full md:h-[95vh] overflow-y-auto relative shadow-2xl">
             <button id="close-reader" class="fixed top-4 right-6 text-5xl font-light hover:text-red-700 z-[60]">&times;</button>
             <div class="p-6 md:p-16">
@@ -68,13 +120,67 @@
 
     <script>
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-
+        
         const KEYS = {
-            guardian: '99faa72a-bd14-4fea-8d09-5200ff1e3c53', // <--- PASTE YOUR KEY HERE
+            guardian: '99faa72a-bd14-4fea-8d09-5200ff1e3c53',
             newsapi: '88bc6bb21b064798b76b042d38c70dd2',
             gnews: '8d2a825a10e2836e5c8a26affa038680',
             newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee'
         };
+
+        // --- NEW AUTHENTICATION LOGIC ---
+        let authState = { isLoggedIn: false, isPro: false, email: '' };
+        const PREMIUM_CATEGORIES = ['world', 'technology']; // These require PRO
+
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('hidden');
+        }
+
+        function simulateLogin() {
+            const email = document.getElementById('email-input').value || 'reader@gazette.com';
+            authState = { isLoggedIn: true, isPro: false, email: email };
+            toggleModal('login-modal');
+            updateAuthUI();
+        }
+
+        function upgradeToPro() {
+            if (!authState.isLoggedIn) {
+                toggleModal('pro-modal');
+                toggleModal('login-modal');
+                alert("Please Sign In first to upgrade to PRO.");
+                return;
+            }
+            authState.isPro = true;
+            toggleModal('pro-modal');
+            updateAuthUI();
+            
+            // Reload category if they were blocked
+            if (PREMIUM_CATEGORIES.includes(currentCategory)) {
+                loadNews(currentPage, currentCategory, currentLang);
+            } else {
+                updateUI();
+            }
+            alert("Payment Successful! Welcome to The Gazette PRO.");
+        }
+
+        function logout() {
+            authState = { isLoggedIn: false, isPro: false, email: '' };
+            if (PREMIUM_CATEGORIES.includes(currentCategory)) setCategory('general');
+            updateAuthUI();
+        }
+
+        function updateAuthUI() {
+            document.getElementById('user-controls').classList.toggle('hidden', authState.isLoggedIn);
+            document.getElementById('user-profile').classList.toggle('hidden', !authState.isLoggedIn);
+            
+            if (authState.isLoggedIn) {
+                document.getElementById('welcome-text').innerText = authState.email.split('@')[0];
+                document.getElementById('pro-badge').classList.toggle('hidden', !authState.isPro);
+            }
+            updateUI(); // Refresh nav bar to show locks
+        }
+        // --------------------------------
 
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
         let nextTokens = { newsdata: null };
@@ -83,18 +189,14 @@
             {
                 name: 'TheGuardian',
                 fetch: async (p, c, l) => {
-                    // Guardian works best for English World/Global news
-                    if (l !== 'en' || c === 'states') throw new Error();
+                    if (l !== 'en') throw new Error("Language skip");
                     const sectionMap = { general: 'news', world: 'world', sports: 'sport', technology: 'technology' };
-                    const res = await fetch(`https://content.guardianapis.com/search?section=${sectionMap[c] || 'news'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`);
+                    let url = `https://content.guardianapis.com/search?section=${sectionMap[c] || 'news'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
+                    if (c === 'states' && currentState) url = `https://content.guardianapis.com/search?q=${currentState}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
+                    const res = await fetch(url);
                     const data = await res.json();
-                    return data.response.results.map(a => ({ 
-                        title: a.webTitle, 
-                        desc: a.fields?.body || a.fields?.trailText, 
-                        img: a.fields?.thumbnail, 
-                        link: a.webUrl, 
-                        source: 'The Guardian' 
-                    }));
+                    if(!res.ok || !data.response.results || data.response.results.length === 0) throw new Error();
+                    return data.response.results.map(a => ({ title: a.webTitle, desc: a.fields?.body || a.fields?.trailText, img: a.fields?.thumbnail, link: a.webUrl, source: 'The Guardian' }));
                 }
             },
             {
@@ -106,6 +208,7 @@
                     if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
                     const res = await fetch(url);
                     const data = await res.json();
+                    if(data.status !== "ok" || data.articles.length === 0) throw new Error();
                     return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
                 }
             },
@@ -115,6 +218,7 @@
                     let q = (c === 'states') ? `q=${currentState || 'India'}` : `category=${c}`;
                     const res = await fetch(`https://gnews.io/api/v4/top-headlines?${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`);
                     const data = await res.json();
+                    if(!res.ok || data.articles.length === 0) throw new Error();
                     return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
                 }
             },
@@ -126,6 +230,7 @@
                     if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
                     const res = await fetch(url);
                     const data = await res.json();
+                    if(data.status === "error" || data.results.length === 0) throw new Error();
                     nextTokens.newsdata = data.nextPage;
                     return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
                 }
@@ -134,7 +239,21 @@
 
         async function loadNews(page = 1, category = 'general', lang = 'en') {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Accessing API Waterfall...</div>`;
+            
+            // --- PRO WALL CHECK ---
+            if (PREMIUM_CATEGORIES.includes(category) && !authState.isPro) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20 bg-[#111111] text-[#D4AF37] border border-[#D4AF37] shadow-xl mt-8">
+                        <h2 class="newspaper-title text-4xl mb-4">Premium Content Locked</h2>
+                        <p class="text-stone-400 mb-8 max-w-md mx-auto">This category contains exclusive global intelligence. Subscribe to The Gazette PRO to access.</p>
+                        <button onclick="toggleModal('pro-modal')" class="px-8 py-3 bg-[#D4AF37] text-black font-black uppercase tracking-widest hover:bg-white transition">Unlock Now</button>
+                    </div>`;
+                document.getElementById('state-selector').classList.add('hidden');
+                return;
+            }
+            // ---------------------
+
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Attempting Guardian Priority Sync...</div>`;
             document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
 
             let news = null;
@@ -145,62 +264,44 @@
                 } catch (e) { continue; }
             }
             if (news) renderNews(news);
-            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">All Channels Offline</div>`;
+            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">All Global Sources Exhausted</div>`;
         }
 
         function renderNews(articles) {
-    const grid = document.getElementById('news-grid');
-    grid.innerHTML = '';
-    
-    // Update the breaking news ticker
-    document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
-    
-    articles.forEach((article, index) => {
-        const div = document.createElement('div');
-        div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-        
-        // The Grid Cards
-        div.innerHTML = `
-            <div class="overflow-hidden mb-4">
-                <img src="${article.img || 'https://via.placeholder.com/600x400?text=The+Gazette'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover group-hover:scale-105 transition duration-700 ease-in-out">
-            </div>
-            <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-black mb-3 leading-tight group-hover:text-[#b91c1c] transition duration-300">${article.title}</h2>
-            <p class="text-stone-600 line-clamp-3 text-sm leading-relaxed">${article.desc?.substring(0, 200).replace(/<[^>]*>/g, '') || 'Initial reports are loading. Tap to access the full dispatch.'}...</p>
-            <div class="flex items-center justify-between mt-4">
-                <p class="text-[10px] font-bold uppercase text-stone-500 tracking-widest">Source: ${article.source}</p>
-                <span class="text-[10px] font-black uppercase text-[#D4AF37] tracking-widest bg-stone-900 px-2 py-1">Read Brief</span>
-            </div>
-        `;
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '';
+            document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
+            articles.forEach((article, index) => {
+                const div = document.createElement('div');
+                div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
+                div.innerHTML = `
+                    <div class="overflow-hidden mb-4">
+                        <img src="${article.img || 'https://via.placeholder.com/600x400?text=The+Gazette'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover group-hover:scale-105 transition duration-700 ease-in-out">
+                    </div>
+                    <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-black mb-3 leading-tight group-hover:text-[#b91c1c] transition duration-300">${article.title}</h2>
+                    <p class="text-stone-600 line-clamp-3 text-sm leading-relaxed">${article.desc?.substring(0, 200).replace(/<[^>]*>/g, '') || 'Initial reports are loading. Tap to access the full dispatch.'}...</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <p class="text-[10px] font-bold uppercase text-stone-500 tracking-widest">Source: ${article.source}</p>
+                        <span class="text-[10px] font-black uppercase text-[#D4AF37] tracking-widest bg-stone-900 px-2 py-1">Read Brief</span>
+                    </div>`;
 
-        // The Premium Reader Overlay
-        div.onclick = () => {
-            document.getElementById('reader-title').innerText = article.title;
-            document.getElementById('reader-source').innerText = `LIVE DISPATCH • ${article.source}`;
-            document.getElementById('reader-img').src = article.img || 'https://via.placeholder.com/600x400?text=The+Gazette';
-            
-            // The Summary & The Gold Button
-            document.getElementById('reader-content').innerHTML = `
-                <p class="mb-8 font-serif text-2xl leading-relaxed text-stone-800">${article.desc || 'Complete details are currently being updated.'}</p>
-                
-                <div class="mt-12 text-center border-t border-stone-300 pt-10 pb-6">
-                    <p class="text-xs font-bold uppercase text-stone-500 tracking-widest mb-6">Continue reading the full report securely on the publisher's platform</p>
-                    
-                    <a href="${article.link}" target="_blank" rel="noopener noreferrer" 
-                       class="inline-block px-10 py-4 bg-[#111111] text-[#D4AF37] border-2 border-[#D4AF37] font-black tracking-widest uppercase hover:bg-[#D4AF37] hover:text-[#111111] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-                        Access Full Dispatch
-                    </a>
-                </div>
-            `;
-            
-            document.getElementById('news-reader').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            history.pushState({ readerOpen: true }, ""); 
-        };
-        
-        grid.appendChild(div);
-    });
-}
-
+                div.onclick = () => {
+                    document.getElementById('reader-title').innerText = article.title;
+                    document.getElementById('reader-source').innerText = `LIVE DISPATCH • ${article.source}`;
+                    document.getElementById('reader-img').src = article.img || 'https://via.placeholder.com/600x400?text=The+Gazette';
+                    document.getElementById('reader-content').innerHTML = `
+                        <p class="mb-8 font-serif text-2xl leading-relaxed text-stone-800">${article.desc || 'Complete details are currently being updated.'}</p>
+                        <div class="mt-12 text-center border-t border-stone-300 pt-10 pb-6">
+                            <p class="text-xs font-bold uppercase text-stone-500 tracking-widest mb-6">Continue reading the full report securely on the publisher's platform</p>
+                            <a href="${article.link}" target="_blank" rel="noopener noreferrer" class="inline-block px-10 py-4 bg-[#111111] text-[#D4AF37] border-2 border-[#D4AF37] font-black tracking-widest uppercase hover:bg-[#D4AF37] hover:text-[#111111] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">Access Full Dispatch</a>
+                        </div>`;
+                    document.getElementById('news-reader').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    history.pushState({ readerOpen: true }, ""); 
+                };
+                grid.appendChild(div);
+            });
+        }
 
         window.onpopstate = () => {
             document.getElementById('news-reader').classList.add('hidden');
@@ -218,7 +319,20 @@
             const activeUI = ui[currentLang];
             document.getElementById('main-title').innerText = activeUI.title;
             document.body.className = `text-stone-900 lang-${currentLang}`;
-            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${activeUI.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
+            
+            // Render Nav with Locks for free users
+            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => {
+                const isPremium = PREMIUM_CATEGORIES.includes(cat);
+                const isLocked = isPremium && !authState.isPro;
+                const label = activeUI.labels?.[cat] || cat.toUpperCase();
+                
+                let btnClass = `category-btn ${cat === currentCategory ? (authState.isPro && isPremium ? 'premium-btn' : 'active') : ''}`;
+                if (isLocked) btnClass += ' lock-icon opacity-70';
+                if (isPremium && authState.isPro) btnClass += ' text-[#D4AF37]'; // Make text gold if pro unlocked
+
+                return `<button class="${btnClass}" onclick="setCategory('${cat}')">${label}</button>`;
+            }).join('');
+            
             document.getElementById('state-selector').classList.toggle('hidden', currentCategory !== 'states');
         }
 
@@ -244,7 +358,7 @@
         document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0); };
         document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0); } };
 
-        updateUI();
+        updateAuthUI();
         loadNews(1, 'general', 'en');
     </script>
 </body>
