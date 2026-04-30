@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Master Edition</title>
+    <title>The Digital Gazette | Pro Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
-        
-        body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; transition: background 0.3s; }
+        body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; }
         body.lang-bn { font-family: 'Hind Siliguri', sans-serif; }
         body.lang-hi { font-family: 'Noto Sans Devanagari', sans-serif; }
-        
         .newspaper-title { font-family: 'Playfair Display', serif; }
-        
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .animate-marquee { display: inline-block; animation: marquee 60s linear infinite; white-space: nowrap; }
-        
-        .category-btn.active { border-bottom: 2px solid #b91c1c; color: #b91c1c; }
+        .category-btn.active { border-bottom: 3px solid #b91c1c; color: #b91c1c; }
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
 <body class="text-stone-900 lang-en">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">
-            Fetching latest regional and national reporting...
-        </div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Initialising global news wire...</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 py-4">
@@ -84,7 +78,8 @@
         const KEYS = {
             gnews: '8d2a825a10e2836e5c8a26affa038680',
             newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee',
-            currents: 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g'
+            currents: 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g',
+            newsapi: '88bc6bb21b064798b76b042d38c70dd2'
         };
 
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
@@ -102,19 +97,31 @@
                 }
             },
             {
-                name: 'NewsData_Latest', // Integrated your screenshot/requested filters here
+                name: 'NewsData_Latest',
                 fetch: async (p, c, l) => {
                     let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=en,hi,bn&image=1&video=1&removeduplicate=1`;
                     const catMap = { general: 'top', nation: 'politics', world: 'world', education: 'education', sports: 'sports', technology: 'technology' };
                     url += `&category=${catMap[c] || 'top'}`;
                     if (c === 'states' && currentState) url += `&q=${currentState}`;
                     if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
-                    
                     const res = await fetch(url);
                     const data = await res.json();
                     if(data.status === "error") throw new Error();
                     nextTokens.newsdata = data.nextPage;
                     return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
+                }
+            },
+            {
+                name: 'NewsAPI',
+                fetch: async (p, c, l) => {
+                    if (l !== 'en') throw new Error("NewsAPI restricted to English");
+                    const catMap = { general: 'general', nation: 'politics', world: 'business', education: 'science', sports: 'sports', technology: 'technology' };
+                    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${catMap[c] || 'general'}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if(data.status !== "ok") throw new Error();
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
                 }
             },
             {
@@ -140,32 +147,29 @@
                 try {
                     news = await source.fetch(page, category, lang);
                     if (news && news.length > 0) break;
-                } catch (e) { console.warn(`${source.name} exhausted.`); continue; }
+                } catch (e) { continue; }
             }
 
             if (news) renderNews(news);
-            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase tracking-widest border-2 border-dashed border-red-200">API Waterfall Exhausted for Today</div>`;
+            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase tracking-widest border-2 border-dashed border-red-200">Waterfall Exhausted</div>`;
         }
 
         function renderNews(articles) {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '';
             document.getElementById('breaking-ticker').innerText = articles.map(a => a.title).join(' • ');
-
             articles.forEach((article, index) => {
                 const div = document.createElement('div');
                 div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                div.innerHTML = `
-                    <img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4 group-hover:sepia transition duration-700">
+                div.innerHTML = `<img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4 group-hover:sepia transition duration-700">
                     <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-bold mb-2 group-hover:text-red-800">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'No preview available. Tap to read more.'}</p>
-                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>
-                `;
+                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'Tap to view full coverage...'}</p>
+                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>`;
                 div.onclick = () => {
                     document.getElementById('reader-title').innerText = article.title;
                     document.getElementById('reader-source').innerText = article.source;
                     document.getElementById('reader-img').src = article.img || '';
-                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p><p>This report is accessed via ${article.source} for The Gazette.</p>`;
+                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p><p>Viewed in distraction-free mode via The Gazette.</p>`;
                     document.getElementById('news-reader').classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
                     history.pushState({ readerOpen: true }, ""); 
@@ -186,11 +190,9 @@
             document.getElementById('main-title').innerText = ui.title;
             document.getElementById('edition-label').innerText = ui.edition;
             document.getElementById('nav-bar').innerHTML = ui.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="changeCategory('${cat}')">${ui.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
-            
             const dropdown = document.getElementById('state-dropdown');
             dropdown.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
             dropdown.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
-            
             document.getElementById('current-date').innerText = new Date().toDateString();
         }
 
@@ -206,6 +208,7 @@
                 e.target.classList.add('bg-red-700', 'text-white');
                 currentLang = e.target.dataset.lang;
                 document.body.className = `text-stone-900 lang-${currentLang}`;
+                // FIXED: Now correctly reloads current category and state in the new language
                 loadNews(1, currentCategory, currentLang);
                 init();
             };
