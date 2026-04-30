@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Pro Edition</title>
+    <title>The Digital Gazette | Master Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
@@ -14,13 +14,12 @@
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .animate-marquee { display: inline-block; animation: marquee 60s linear infinite; white-space: nowrap; }
         .category-btn.active { border-bottom: 3px solid #b91c1c; color: #b91c1c; }
-        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
 <body class="text-stone-900 lang-en">
 
     <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Initialising global news wire...</div>
+        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Refreshing global news wire...</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 py-4">
@@ -68,13 +67,6 @@
 
     <script>
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-        
-        const UI_TEXT = {
-            en: { title: "THE GAZETTE", edition: "National Edition", nav: ["general", "world", "nation", "states", "sports", "technology", "education"] },
-            hi: { title: "द गज़ेट", edition: "राष्ट्रीय संस्करण", nav: ["general", "world", "nation", "states", "sports", "technology", "education"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक", education: "शिक्षा" } },
-            bn: { title: "দ্য গেজেট", edition: "জাতীয় সংস্করণ", nav: ["general", "world", "nation", "states", "sports", "technology", "education"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি", education: "শিক্ষা" } }
-        };
-
         const KEYS = {
             gnews: '8d2a825a10e2836e5c8a26affa038680',
             newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee',
@@ -90,38 +82,24 @@
                 name: 'GNews',
                 fetch: async (p, c, l) => {
                     let q = (c === 'states') ? `q=${currentState || 'India'}` : `category=${c}`;
-                    const res = await fetch(`https://gnews.io/api/v4/top-headlines?${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`);
+                    const res = await fetch(`https://gnews.io/api/v4/top-headlines?${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`, { cache: "no-store" });
                     const data = await res.json();
-                    if(!res.ok) throw new Error();
                     return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
                 }
             },
             {
-                name: 'NewsData_Latest',
+                name: 'NewsData',
                 fetch: async (p, c, l) => {
-                    let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=en,hi,bn&image=1&video=1&removeduplicate=1`;
-                    const catMap = { general: 'top', nation: 'politics', world: 'world', education: 'education', sports: 'sports', technology: 'technology' };
-                    url += `&category=${catMap[c] || 'top'}`;
+                    // NewsData uses 'latest' endpoint for real-time updates as per your screen
+                    let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=${l}&image=1&removeduplicate=1`;
                     if (c === 'states' && currentState) url += `&q=${currentState}`;
+                    else url += `&category=${c === 'general' ? 'top' : c}`;
                     if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
-                    const res = await fetch(url);
+                    
+                    const res = await fetch(url, { cache: "no-store" });
                     const data = await res.json();
-                    if(data.status === "error") throw new Error();
                     nextTokens.newsdata = data.nextPage;
                     return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
-                }
-            },
-            {
-                name: 'NewsAPI',
-                fetch: async (p, c, l) => {
-                    if (l !== 'en') throw new Error("NewsAPI restricted to English");
-                    const catMap = { general: 'general', nation: 'politics', world: 'business', education: 'science', sports: 'sports', technology: 'technology' };
-                    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${catMap[c] || 'general'}&page=${p}&apiKey=${KEYS.newsapi}`;
-                    if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(data.status !== "ok") throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
                 }
             },
             {
@@ -129,9 +107,8 @@
                 fetch: async (p, c, l) => {
                     let url = `https://api.currentsapi.services/v1/latest-news?language=${l}&apiKey=${KEYS.currents}`;
                     if (c === 'states') url += `&keywords=${currentState || 'India'}`;
-                    const res = await fetch(url);
+                    const res = await fetch(url, { cache: "no-store" });
                     const data = await res.json();
-                    if(data.status !== "ok") throw new Error();
                     return data.news.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.author }));
                 }
             }
@@ -139,37 +116,45 @@
 
         async function loadNews(page = 1, category = 'general', lang = 'en') {
             const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic text-xl">Rotating API Sources...</div>`;
-            document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
-
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic">Reading the latest wire...</div>`;
+            
             let news = null;
             for (let source of API_SOURCES) {
                 try {
-                    news = await source.fetch(page, category, lang);
-                    if (news && news.length > 0) break;
+                    const results = await source.fetch(page, category, lang);
+                    if (results && results.length > 0) {
+                        news = results;
+                        break;
+                    }
                 } catch (e) { continue; }
             }
 
-            if (news) renderNews(news);
-            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase tracking-widest border-2 border-dashed border-red-200">Waterfall Exhausted</div>`;
+            if (news) {
+                renderNews(news);
+            } else {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold">Limit reached or no regional data available for this selection.</div>`;
+            }
         }
 
         function renderNews(articles) {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '';
-            document.getElementById('breaking-ticker').innerText = articles.map(a => a.title).join(' • ');
+            document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
+
             articles.forEach((article, index) => {
                 const div = document.createElement('div');
                 div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                div.innerHTML = `<img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4 group-hover:sepia transition duration-700">
-                    <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-bold mb-2 group-hover:text-red-800">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'Tap to view full coverage...'}</p>
-                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>`;
+                div.innerHTML = `
+                    <img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4">
+                    <h2 class="${index === 0 ? 'text-3xl' : 'text-xl'} font-bold mb-2 group-hover:text-red-800 transition">${article.title}</h2>
+                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'Tap for full coverage.'}</p>
+                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>
+                `;
                 div.onclick = () => {
                     document.getElementById('reader-title').innerText = article.title;
                     document.getElementById('reader-source').innerText = article.source;
                     document.getElementById('reader-img').src = article.img || '';
-                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p><p>Viewed in distraction-free mode via The Gazette.</p>`;
+                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p>`;
                     document.getElementById('news-reader').classList.remove('hidden');
                     document.body.style.overflow = 'hidden';
                     history.pushState({ readerOpen: true }, ""); 
@@ -178,6 +163,7 @@
             });
         }
 
+        // Logic to ensure UI updates on back button
         window.onpopstate = () => {
             document.getElementById('news-reader').classList.add('hidden');
             document.body.style.overflow = 'auto';
@@ -185,21 +171,32 @@
 
         document.getElementById('close-reader').onclick = () => history.back();
 
-        function init() {
-            const ui = UI_TEXT[currentLang];
-            document.getElementById('main-title').innerText = ui.title;
-            document.getElementById('edition-label').innerText = ui.edition;
-            document.getElementById('nav-bar').innerHTML = ui.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="changeCategory('${cat}')">${ui.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
-            const dropdown = document.getElementById('state-dropdown');
-            dropdown.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
-            dropdown.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
-            document.getElementById('current-date').innerText = new Date().toDateString();
+        function updateUI() {
+            const ui = {
+                en: { title: "THE GAZETTE", nav: ["general", "world", "nation", "states", "sports", "technology"] },
+                hi: { title: "द गज़ेट", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक" } },
+                bn: { title: "দ্য গেজেট", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি" } }
+            };
+
+            const activeUI = ui[currentLang];
+            document.getElementById('main-title').innerText = activeUI.title;
+            document.body.className = `text-stone-900 lang-${currentLang}`;
+            
+            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `
+                <button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">
+                    ${activeUI.labels?.[cat] || cat.toUpperCase()}
+                </button>
+            `).join('');
+
+            document.getElementById('state-selector').classList.toggle('hidden', currentCategory !== 'states');
         }
 
-        window.changeCategory = (cat) => {
-            currentCategory = cat; currentPage = 1; nextTokens.newsdata = null;
-            loadNews(1, cat, currentLang);
-            init();
+        window.setCategory = (cat) => {
+            currentCategory = cat;
+            currentPage = 1;
+            nextTokens.newsdata = null;
+            updateUI();
+            loadNews(1, currentCategory, currentLang);
         };
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -207,17 +204,26 @@
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('bg-red-700', 'text-white'));
                 e.target.classList.add('bg-red-700', 'text-white');
                 currentLang = e.target.dataset.lang;
-                document.body.className = `text-stone-900 lang-${currentLang}`;
-                // FIXED: Now correctly reloads current category and state in the new language
+                currentPage = 1;
+                updateUI();
                 loadNews(1, currentCategory, currentLang);
-                init();
             };
         });
 
-        document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0);};
-        document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0);}};
+        // Initialize state dropdown
+        const drop = document.getElementById('state-dropdown');
+        drop.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
+        drop.onchange = (e) => {
+            currentState = e.target.value;
+            currentPage = 1;
+            loadNews(1, 'states', currentLang);
+        };
 
-        init();
+        document.getElementById('current-date').innerText = new Date().toDateString();
+        document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0); };
+        document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0); } };
+
+        updateUI();
         loadNews(1, 'general', 'en');
     </script>
 </body>
