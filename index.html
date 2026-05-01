@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Premium Sandbox</title>
+    <title>The Digital Gazette | Clean Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
         body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; overflow-x: hidden; }
@@ -36,7 +35,7 @@
                 Sign In / Sign Up
             </button>
         </div>
-
+        
         <div id="user-profile" class="hidden flex gap-4 items-center">
             <span id="welcome-text" class="text-stone-500 font-bold"></span>
             <span id="pro-badge" class="hidden bg-[#D4AF37] text-black px-2 py-0.5 rounded shadow-sm">PRO</span>
@@ -53,7 +52,6 @@
 
         <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
             <h1 id="main-title" class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">THE GAZETTE</h1>
-            <p id="current-date" class="text-xs font-bold text-stone-600 tracking-widest mt-2 uppercase"></p>
         </header>
 
         <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
@@ -82,10 +80,16 @@
         <div class="bg-[#fcfaf5] w-full max-w-md h-full p-10 border-l-4 border-stone-900 relative shadow-2xl flex flex-col justify-center">
             <button onclick="toggleModal('auth-modal')" class="absolute top-6 right-6 text-4xl font-light hover:text-red-700 transition">&times;</button>
             <h2 class="newspaper-title text-4xl font-black mb-8">Access Portal</h2>
-
-            <button onclick="loginWithGoogle()" class="w-full py-3 mb-6 bg-white border-2 border-stone-300 text-stone-800 font-bold flex items-center justify-center gap-3 hover:bg-stone-100 transition shadow-sm">
-                Continue with Google
+            
+            <button onclick="simulateLogin('Google User')" class="w-full py-3 mb-6 bg-white border-2 border-stone-300 text-stone-800 font-bold flex items-center justify-center gap-3 hover:bg-stone-100 transition shadow-sm">
+                Continue with Google (Demo)
             </button>
+
+            <div class="flex items-center gap-4 mb-6">
+                <div class="h-px bg-stone-300 flex-1"></div>
+                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">OR EMAIL</span>
+                <div class="h-px bg-stone-300 flex-1"></div>
+            </div>
 
             <div class="space-y-4">
                 <div>
@@ -93,12 +97,12 @@
                     <input type="email" id="email-input" class="w-full p-3 border-2 border-stone-300 outline-none" placeholder="name@example.com">
                 </div>
                 <div id="otp-section" class="hidden">
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter OTP</label>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter ANY OTP</label>
                     <input type="text" id="otp-input" class="w-full p-3 border-2 border-red-700 outline-none text-center font-bold tracking-widest text-xl">
                 </div>
                 <div class="flex gap-2 mt-6">
-                    <button id="otp-btn" onclick="sendSupabaseOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase text-xs">Send OTP</button>
-                    <button onclick="verifySupabaseOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase text-xs">Sign In</button>
+                    <button id="otp-btn" onclick="sendDemoOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase text-xs">Send Demo OTP</button>
+                    <button onclick="verifyDemoOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase text-xs">Sign In</button>
                 </div>
             </div>
         </div>
@@ -118,10 +122,10 @@
 
     <script>
         // ==========================================
-        // CONFIG & GLOBAL VARIABLES
+        // 1. GLOBALS & KEYS
         // ==========================================
         const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-
+        
         const KEYS = {
             guardian: '99faa72a-bd14-4fea-8d09-5200ff1e3c53',
             newsapi: '88bc6bb21b064798b76b042d38c70dd2',
@@ -129,39 +133,17 @@
             newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee'
         };
 
-        const CORS_PROXY = "https://api.allorigins.win/get?url=";
         let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
         let nextTokens = { newsdata: null };
+        
+        // PURE SIMULATION STATE (No Database)
         let authState = { isLoggedIn: false, isPro: false, email: '' };
-        let supabase = null;
-        let isLocalFile = window.location.protocol === 'file:';
 
         // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!isLocalFile && window.supabase) {
-                try {
-                    supabase = window.supabase.createClient('https://sjwshogozkfodeqebpks.supabase.co', 'sb_publishable_gM1SGg_vnW12t1Vj0mSNNQ_R11AUWYM');
-                    supabase.auth.getSession().then(({ data: { session } }) => {
-                        if (session) {
-                            authState = { isLoggedIn: true, isPro: false, email: session.user.email };
-                            updateAuthUI();
-                        }
-                    }).catch(err => console.warn("Session check skipped"));
-                } catch(e) { console.warn("Supabase init failed."); }
-            }
-
-            document.getElementById('current-date').innerText = new Date().toDateString();
-            updateUI();
-            loadNews(1, 'general', 'en');
-        });
-
-        // ==========================================
-        // UI & AUTH CONTROLS
+        // 2. SIMULATED AUTHENTICATION FUNCTIONS
         // ==========================================
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
-
+        
         function updateAuthUI() {
             document.getElementById('user-controls').classList.toggle('hidden', authState.isLoggedIn);
             document.getElementById('user-profile').classList.toggle('hidden', !authState.isLoggedIn);
@@ -171,67 +153,34 @@
             }
         }
 
-        async function loginWithGoogle() {
-            if (isLocalFile || !supabase) return simulateLogin("Google User");
-            const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-            if(error) alert(error.message);
-        }
-
-        async function sendSupabaseOTP() {
-            const email = document.getElementById('email-input').value;
-            if(!email) return alert("Enter email first.");
-            document.getElementById('otp-btn').innerText = "Sending...";
-
-            if (isLocalFile || !supabase) {
-                setTimeout(() => {
-                    document.getElementById('otp-section').classList.remove('hidden');
-                    document.getElementById('otp-btn').innerText = "Demo OTP Sent";
-                    document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
-                }, 500);
-                return;
-            }
-
-            const { error } = await supabase.auth.signInWithOtp({ email: email });
-            if (error) {
-                alert("Error: " + error.message);
-                document.getElementById('otp-btn').innerText = "Send OTP";
-            } else {
-                document.getElementById('otp-section').classList.remove('hidden');
-                document.getElementById('otp-btn').innerText = "OTP Sent!";
-                document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
-            }
-        }
-
-        async function verifySupabaseOTP() {
-            const email = document.getElementById('email-input').value;
-            const token = document.getElementById('otp-input').value;
-
-            if (isLocalFile || !supabase) return simulateLogin(email || "Test User");
-            if(!token) return alert("Please enter the OTP.");
-
-            const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' });
-            if (error) {
-                alert("Invalid OTP");
-            } else {
-                authState = { isLoggedIn: true, isPro: false, email: data.user.email };
-                toggleModal('auth-modal');
-                updateAuthUI();
-            }
-        }
-
         function simulateLogin(email) {
             authState = { isLoggedIn: true, isPro: false, email: email };
             toggleModal('auth-modal');
             updateAuthUI();
-            alert("Local Mode: Demo login successful.");
         }
 
-        async function logout() {
-            if (supabase && !isLocalFile) await supabase.auth.signOut();
+        function sendDemoOTP() {
+            const email = document.getElementById('email-input').value;
+            if(!email) return alert("Enter email first.");
+            document.getElementById('otp-btn').innerText = "Sending...";
+            
+            setTimeout(() => {
+                document.getElementById('otp-section').classList.remove('hidden');
+                document.getElementById('otp-btn').innerText = "Demo OTP Sent";
+                document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
+            }, 500);
+        }
+
+        function verifyDemoOTP() {
+            const email = document.getElementById('email-input').value || "TestUser@gazette.com";
+            simulateLogin(email);
+        }
+
+        function logout() {
             authState = { isLoggedIn: false, isPro: false, email: '' };
             updateAuthUI();
             document.getElementById('otp-section').classList.add('hidden');
-            document.getElementById('otp-btn').innerText = "Send OTP";
+            document.getElementById('otp-btn').innerText = "Send Demo OTP";
             document.getElementById('otp-btn').classList.remove('opacity-50', 'pointer-events-none');
         }
 
@@ -247,34 +196,7 @@
         }
 
         // ==========================================
-        // TEXT SCRAPING & EXTRACTION LOGIC
-        // ==========================================
-        async function fetchFullTextContent(url) {
-            try {
-                const res = await fetch(CORS_PROXY + encodeURIComponent(url));
-                const data = await res.json();
-                if (!data.contents) return null;
-
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data.contents, 'text/html');
-                const paragraphs = doc.querySelectorAll('p');
-                let fullText = "";
-
-                paragraphs.forEach(p => {
-                    const text = p.innerText.trim();
-                    if (text.length > 35 && !text.includes("JavaScript") && !text.includes("cookies")) {
-                        fullText += text + "\n\n";
-                    }
-                });
-                return fullText.trim() || null;
-            } catch (error) {
-                console.warn("Failed to scrape using CORS proxy.", error);
-                return null;
-            }
-        }
-
-        // ==========================================
-        // NEWS ENGINE
+        // 3. NEWS ENGINE
         // ==========================================
         const API_SOURCES = [
             {
@@ -300,7 +222,7 @@
                     const res = await fetch(url);
                     const data = await res.json();
                     if(data.status !== "ok" || !data.articles || data.articles.length === 0) throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description || a.content, img: a.urlToImage, link: a.url, source: a.source.name }));
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
                 }
             },
             {
@@ -312,7 +234,7 @@
                     const res = await fetch(url);
                     const data = await res.json();
                     if(!res.ok || !data.articles || data.articles.length === 0) throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description || a.content, img: a.image, link: a.url, source: a.source.name }));
+                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
                 }
             },
             {
@@ -342,68 +264,66 @@
                     if (news && news.length > 0) break;
                 } catch (e) { continue; }
             }
-            if (news) renderNews(news);
-            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">Sources Exhausted</div>`;
+            
+            if (news) {
+                renderNews(news);
+            } else {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">Sources Exhausted. API Limit Reached or Offline.</div>`;
+            }
         }
 
         function renderNews(articles) {
             const grid = document.getElementById('news-grid');
             grid.innerHTML = '';
             document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
-
+            
             articles.forEach((article, index) => {
                 const div = document.createElement('div');
                 div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                
-                // Truncate descriptions clean of HTML for standard preview cards
-                let cleanDesc = article.desc ? article.desc.replace(/<[^>]*>/g, '') : "No preview available.";
-                
                 div.innerHTML = `
                     <div class="overflow-hidden mb-4">
                         <img src="${article.img || 'https://via.placeholder.com/600x400?text=The+Gazette'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover group-hover:scale-105 transition duration-700">
                     </div>
                     <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-black mb-3 group-hover:text-red-700 transition">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${cleanDesc.substring(0, 150)}...</p>
+                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc?.substring(0, 150).replace(/<[^>]*>/g, '') || 'Article preview...'}...</p>
                     <p class="text-[10px] font-bold uppercase text-stone-500 mt-4 tracking-widest">Source: ${article.source}</p>`;
 
-                div.onclick = async () => {
+                div.onclick = () => {
                     document.getElementById('reader-title').innerText = article.title;
                     document.getElementById('reader-source').innerText = `LIVE DISPATCH • ${article.source}`;
                     document.getElementById('reader-img').src = article.img || '';
-
+                    
+                    let fullText = article.desc || 'No further content provided.';
                     let contentBox = document.getElementById('reader-content');
-                    contentBox.innerHTML = `<p class="italic text-stone-400 py-10 text-center animate-pulse">Retrieved article full text loading...</p>`;
-                    document.getElementById('news-reader').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-
-                    // Fetch complete scraped article body
-                    let fullText = await fetchFullTextContent(article.link);
-                    if(!fullText) fullText = article.desc || "The original server returned no content to read.";
-
-                    // Format content output cleanly
-                    let processedText = fullText.replace(/<[^>]*>/g, '').trim();
-
-                    if (authState.isPro) {
-                        contentBox.innerHTML = `<div class="font-serif text-xl md:text-2xl leading-relaxed text-stone-800">${processedText}</div>`;
+                    
+                    if(authState.isPro) {
+                        contentBox.innerHTML = `<div class="font-serif text-2xl leading-relaxed text-stone-800">${fullText}</div>`;
                     } else {
-                        // Free Tier Teaser Extraction (approx 250 characters max)
-                        let teaser = processedText.substring(0, 250) + '...';
+                        let teaser = fullText.replace(/<[^>]*>/g, '').substring(0, 250) + '...';
                         contentBox.innerHTML = `
-                            <p class="font-serif text-xl md:text-2xl leading-relaxed text-stone-800 mb-2">${teaser}</p>
+                            <p class="font-serif text-2xl leading-relaxed text-stone-800 mb-2">${teaser}</p>
                             <div class="relative mt-2">
-                                <p class="font-serif text-xl md:text-2xl leading-relaxed text-stone-800 blur-text opacity-40">This text is blurred out because the user is currently on the free tier. Upgrade to PRO to read the full body text without restriction or constraints.</p>
+                                <p class="font-serif text-2xl leading-relaxed text-stone-800 blur-text opacity-40">This text is blurred out because the user is currently on the free tier. Upgrade to PRO to read the full body.</p>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pt-8">
                                     <button onclick="toggleModal('pro-modal')" class="px-10 py-4 bg-[#111111] text-[#D4AF37] font-black uppercase hover:bg-[#D4AF37] hover:text-[#111111] shadow-xl transition-all hover:-translate-y-1">Unlock Full Article</button>
                                 </div>
                             </div>
                         `;
                     }
+                    document.getElementById('news-reader').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                    try { history.pushState({ readerOpen: true }, ""); } catch(e) {}
                 };
                 grid.appendChild(div);
             });
         }
 
         document.getElementById('close-reader').onclick = () => {
+            document.getElementById('news-reader').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        };
+        
+        window.onpopstate = () => {
             document.getElementById('news-reader').classList.add('hidden');
             document.body.style.overflow = 'auto';
         };
@@ -435,6 +355,14 @@
         const drop = document.getElementById('state-dropdown');
         drop.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
         drop.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
+
+        // ==========================================
+        // 4. STARTUP FUNCTION
+        // ==========================================
+        document.getElementById('current-date').innerText = new Date().toDateString();
+        updateUI();
+        loadNews(1, 'general', 'en');
+
     </script>
 </body>
 </html>
