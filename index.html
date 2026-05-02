@@ -1,368 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Clean Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
-        body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; overflow-x: hidden; }
-        body.lang-bn { font-family: 'Hind Siliguri', sans-serif; }
-        body.lang-hi { font-family: 'Noto Sans Devanagari', sans-serif; }
-        .newspaper-title { font-family: 'Playfair Display', serif; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; animation: marquee 60s linear infinite; white-space: nowrap; }
-        .category-btn.active { border-bottom: 3px solid #b91c1c; color: #b91c1c; }
-        .blur-text { filter: blur(5px); user-select: none; pointer-events: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudiesSupport</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6fb;
+    }
+
+    header {
+      background: #1e2a38;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    /* ABOUT */
+    .about-card h2 {
+      margin-top: 15px;
+    }
+
+    .about-card ul {
+      padding-left: 18px;
+    }
+
+    /* AD BANNER */
+    .ad-banner {
+      display: flex;
+      align-items: center;
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 15px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .ad-banner img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .ad-content {
+      margin-left: 15px;
+    }
+
+    .ad-content h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
 </head>
-<body class="text-stone-900 lang-en relative">
 
-    <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">Global Wire Connected...</div>
+<body>
+
+<header>
+  StudiesSupport
+</header>
+
+<section>
+
+  <!-- 🔥 AD BANNER -->
+  <div class="ad-banner">
+    <img id="adImage" src="https://via.placeholder.com/80">
+    <div class="ad-content">
+      <h3 id="adTitle">Loading product...</h3>
     </div>
+  </div>
 
-    <div class="max-w-7xl mx-auto px-4 pt-6 pb-4 flex justify-between items-center text-xs font-bold uppercase tracking-widest border-b-2 border-stone-200">
-        <div>
-            <button onclick="toggleModal('pro-modal')" class="bg-[#D4AF37] text-[#111111] px-5 py-2 border-2 border-[#111111] hover:bg-[#111111] hover:text-[#D4AF37] transition-all shadow-[3px_3px_0px_#111111] font-black">
-                The Gazette PRO
-            </button>
-        </div>
+  <!-- 📘 ABOUT SECTION -->
+  <h1>About StudiesSupport</h1>
 
-        <div id="user-controls">
-            <button onclick="toggleModal('auth-modal')" class="px-5 py-2 border-2 border-stone-800 hover:bg-stone-800 hover:text-white transition-all shadow-[3px_3px_0px_#111111] font-black">
-                Sign In / Sign Up
-            </button>
-        </div>
-        
-        <div id="user-profile" class="hidden flex gap-4 items-center">
-            <span id="welcome-text" class="text-stone-500 font-bold"></span>
-            <span id="pro-badge" class="hidden bg-[#D4AF37] text-black px-2 py-0.5 rounded shadow-sm">PRO</span>
-            <button onclick="logout()" class="hover:text-red-700 underline text-stone-500">Logout</button>
-        </div>
-    </div>
+  <div class="card about-card">
+    <p><b>StudiesSupport</b> is a free educational platform built exclusively for <b>ICSE and ISC students</b>. We believe every student deserves access to clear, well-organized study materials without distractions.</p>
 
-    <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="flex justify-center gap-2 mb-6 border-b border-stone-300 pb-4">
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold bg-red-700 text-white" data-lang="en">ENGLISH</button>
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="hi">हिन्दी</button>
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="bn">বাংলা</button>
-        </div>
+    <h2>Our Mission</h2>
+    <p>To make board exam preparation <b>simple, effective, and stress-free</b>. We provide easy English notes, exam-oriented questions, and revision content.</p>
 
-        <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
-            <h1 id="main-title" class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">THE GAZETTE</h1>
-        </header>
+    <h2>What We Offer</h2>
+    <ul>
+      <li>Chapter-wise notes</li>
+      <li>Short & long answers</li>
+      <li>Important board questions</li>
+      <li>Quick revision PDFs</li>
+      <li>Exam strategies</li>
+    </ul>
 
-        <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
+    <h2>Our Promise</h2>
+    <p>No clutter. No distractions. Just what you need to score high. <b>100% free.</b></p>
+  </div>
 
-        <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
-            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Regional Dispatch</label>
-            <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
-        </div>
+</section>
 
-        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]"></div>
-    </div>
+<footer>
+  © 2026 StudiesSupport
+</footer>
 
-    <div id="pro-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex justify-start">
-        <div class="bg-[#111111] w-full max-w-md h-full p-10 border-r-4 border-[#D4AF37] relative shadow-2xl flex flex-col justify-center">
-            <button onclick="toggleModal('pro-modal')" class="absolute top-6 right-6 text-4xl font-light text-[#D4AF37] hover:text-white transition">&times;</button>
-            <h2 class="newspaper-title text-5xl font-black mb-2 text-[#D4AF37]">The Gazette PRO</h2>
-            <p class="text-stone-400 text-xs mb-10 tracking-widest uppercase">Direct Publisher Access</p>
-            <div class="mb-8 flex items-baseline gap-2">
-                <span class="text-5xl font-black text-white">₹699</span><span class="text-stone-500 font-bold uppercase tracking-widest text-xs">/ month</span>
-            </div>
-            <button onclick="initiatePayment()" class="w-full py-4 bg-[#D4AF37] text-[#111111] font-black uppercase tracking-widest hover:bg-white transition text-lg">Subscribe Securely</button>
-        </div>
-    </div>
+<!-- ⚙️ LOAD AD FROM JSON -->
+<script>
+fetch('ads.json')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("adTitle").innerText = data.name;
+    document.getElementById("adImage").src = data.image;
+  })
+  .catch(() => {
+    document.getElementById("adTitle").innerText = "Free Study Material Available";
+  });
+</script>
 
-    <div id="auth-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex justify-end">
-        <div class="bg-[#fcfaf5] w-full max-w-md h-full p-10 border-l-4 border-stone-900 relative shadow-2xl flex flex-col justify-center">
-            <button onclick="toggleModal('auth-modal')" class="absolute top-6 right-6 text-4xl font-light hover:text-red-700 transition">&times;</button>
-            <h2 class="newspaper-title text-4xl font-black mb-8">Access Portal</h2>
-            
-            <button onclick="simulateLogin('Google User')" class="w-full py-3 mb-6 bg-white border-2 border-stone-300 text-stone-800 font-bold flex items-center justify-center gap-3 hover:bg-stone-100 transition shadow-sm">
-                Continue with Google (Demo)
-            </button>
-
-            <div class="flex items-center gap-4 mb-6">
-                <div class="h-px bg-stone-300 flex-1"></div>
-                <span class="text-xs font-bold uppercase tracking-widest text-stone-400">OR EMAIL</span>
-                <div class="h-px bg-stone-300 flex-1"></div>
-            </div>
-
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-1">Email Address</label>
-                    <input type="email" id="email-input" class="w-full p-3 border-2 border-stone-300 outline-none" placeholder="name@example.com">
-                </div>
-                <div id="otp-section" class="hidden">
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-1 text-red-700">Enter ANY OTP</label>
-                    <input type="text" id="otp-input" class="w-full p-3 border-2 border-red-700 outline-none text-center font-bold tracking-widest text-xl">
-                </div>
-                <div class="flex gap-2 mt-6">
-                    <button id="otp-btn" onclick="sendDemoOTP()" class="flex-1 py-3 bg-stone-200 text-stone-800 font-bold uppercase text-xs">Send Demo OTP</button>
-                    <button onclick="verifyDemoOTP()" class="flex-1 py-3 bg-[#111111] text-white font-bold uppercase text-xs">Sign In</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="news-reader" class="fixed inset-0 bg-black/95 z-40 hidden flex justify-center items-center p-0 md:p-4">
-        <div class="bg-[#fcfaf5] w-full max-w-4xl h-full md:h-[95vh] overflow-y-auto relative shadow-2xl">
-            <button id="close-reader" class="fixed top-4 right-6 text-5xl font-light hover:text-red-700 z-[60] transition">&times;</button>
-            <div class="p-6 md:p-16">
-                <p id="reader-source" class="text-xs font-bold text-red-700 uppercase tracking-widest mb-4"></p>
-                <h2 id="reader-title" class="newspaper-title text-4xl md:text-6xl font-black leading-tight mb-8"></h2>
-                <img id="reader-img" src="" class="w-full h-auto max-h-96 object-cover mb-10 shadow-lg">
-                <div id="reader-content" class="text-xl md:text-2xl leading-relaxed text-stone-800 space-y-6"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ==========================================
-        // 1. GLOBALS & KEYS
-        // ==========================================
-        const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-        
-        const KEYS = {
-            guardian: '99faa72a-bd14-4fea-8d09-5200ff1e3c53',
-            newsapi: '88bc6bb21b064798b76b042d38c70dd2',
-            gnews: '8d2a825a10e2836e5c8a26affa038680',
-            newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee'
-        };
-
-        let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
-        let nextTokens = { newsdata: null };
-        
-        // PURE SIMULATION STATE (No Database)
-        let authState = { isLoggedIn: false, isPro: false, email: '' };
-
-        // ==========================================
-        // 2. SIMULATED AUTHENTICATION FUNCTIONS
-        // ==========================================
-        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
-        
-        function updateAuthUI() {
-            document.getElementById('user-controls').classList.toggle('hidden', authState.isLoggedIn);
-            document.getElementById('user-profile').classList.toggle('hidden', !authState.isLoggedIn);
-            if (authState.isLoggedIn) {
-                document.getElementById('welcome-text').innerText = authState.email.split('@')[0];
-                document.getElementById('pro-badge').classList.toggle('hidden', !authState.isPro);
-            }
-        }
-
-        function simulateLogin(email) {
-            authState = { isLoggedIn: true, isPro: false, email: email };
-            toggleModal('auth-modal');
-            updateAuthUI();
-        }
-
-        function sendDemoOTP() {
-            const email = document.getElementById('email-input').value;
-            if(!email) return alert("Enter email first.");
-            document.getElementById('otp-btn').innerText = "Sending...";
-            
-            setTimeout(() => {
-                document.getElementById('otp-section').classList.remove('hidden');
-                document.getElementById('otp-btn').innerText = "Demo OTP Sent";
-                document.getElementById('otp-btn').classList.add('opacity-50', 'pointer-events-none');
-            }, 500);
-        }
-
-        function verifyDemoOTP() {
-            const email = document.getElementById('email-input').value || "TestUser@gazette.com";
-            simulateLogin(email);
-        }
-
-        function logout() {
-            authState = { isLoggedIn: false, isPro: false, email: '' };
-            updateAuthUI();
-            document.getElementById('otp-section').classList.add('hidden');
-            document.getElementById('otp-btn').innerText = "Send Demo OTP";
-            document.getElementById('otp-btn').classList.remove('opacity-50', 'pointer-events-none');
-        }
-
-        function initiatePayment() {
-            if (!authState.isLoggedIn) return alert("Please sign in to process the ₹699 subscription.");
-            alert("Payment Verified! You now have full PRO access.");
-            authState.isPro = true;
-            toggleModal('pro-modal');
-            updateAuthUI();
-            if(!document.getElementById('news-reader').classList.contains('hidden')) {
-                document.getElementById('close-reader').click();
-            }
-        }
-
-        // ==========================================
-        // 3. NEWS ENGINE
-        // ==========================================
-        const API_SOURCES = [
-            {
-                name: 'TheGuardian',
-                fetch: async (p, c, l) => {
-                    if (l !== 'en') throw new Error("Skip");
-                    const sectionMap = { general: 'world', world: 'world', sports: 'sport', technology: 'technology' };
-                    let url = `https://content.guardianapis.com/search?section=${sectionMap[c] || 'world'}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
-                    if (c === 'states' && currentState) url = `https://content.guardianapis.com/search?q=${currentState}&page=${p}&show-fields=body,thumbnail,trailText&api-key=${KEYS.guardian}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(!res.ok || !data.response.results || data.response.results.length === 0) throw new Error();
-                    return data.response.results.map(a => ({ title: a.webTitle, desc: a.fields?.body || a.fields?.trailText, img: a.fields?.thumbnail, link: a.webUrl, source: 'The Guardian' }));
-                }
-            },
-            {
-                name: 'NewsAPI',
-                fetch: async (p, c, l) => {
-                    if (l !== 'en') throw new Error();
-                    const catMap = { general: 'general', nation: 'politics', world: 'business', sports: 'sports', technology: 'technology' };
-                    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${catMap[c] || 'general'}&page=${p}&apiKey=${KEYS.newsapi}`;
-                    if (c === 'states' && currentState) url = `https://newsapi.org/v2/everything?q=${currentState}&page=${p}&apiKey=${KEYS.newsapi}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(data.status !== "ok" || !data.articles || data.articles.length === 0) throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.urlToImage, link: a.url, source: a.source.name }));
-                }
-            },
-            {
-                name: 'GNews',
-                fetch: async (p, c, l) => {
-                    let url = (c === 'states' && currentState) 
-                        ? `https://gnews.io/api/v4/search?q=${currentState}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`
-                        : `https://gnews.io/api/v4/top-headlines?category=${c === 'general' ? 'general' : c}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(!res.ok || !data.articles || data.articles.length === 0) throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
-                }
-            },
-            {
-                name: 'NewsData',
-                fetch: async (p, c, l) => {
-                    let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=${l}&image=1&removeduplicate=1`;
-                    if (c === 'states' && currentState) url += `&q=${currentState}`; else url += `&category=${c === 'general' ? 'top' : c}`;
-                    if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(data.status === "error" || !data.results || data.results.length === 0) throw new Error();
-                    nextTokens.newsdata = data.nextPage;
-                    return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
-                }
-            }
-        ];
-
-        async function loadNews(page = 1, category = 'general', lang = 'en') {
-            const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic font-bold">Fetching latest dispatches...</div>`;
-            document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
-
-            let news = null;
-            for (let source of API_SOURCES) {
-                try {
-                    news = await source.fetch(page, category, lang);
-                    if (news && news.length > 0) break;
-                } catch (e) { continue; }
-            }
-            
-            if (news) {
-                renderNews(news);
-            } else {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase">Sources Exhausted. API Limit Reached or Offline.</div>`;
-            }
-        }
-
-        function renderNews(articles) {
-            const grid = document.getElementById('news-grid');
-            grid.innerHTML = '';
-            document.getElementById('breaking-ticker').innerText = articles.slice(0, 10).map(a => a.title).join(' • ');
-            
-            articles.forEach((article, index) => {
-                const div = document.createElement('div');
-                div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                div.innerHTML = `
-                    <div class="overflow-hidden mb-4">
-                        <img src="${article.img || 'https://via.placeholder.com/600x400?text=The+Gazette'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover group-hover:scale-105 transition duration-700">
-                    </div>
-                    <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-black mb-3 group-hover:text-red-700 transition">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc?.substring(0, 150).replace(/<[^>]*>/g, '') || 'Article preview...'}...</p>
-                    <p class="text-[10px] font-bold uppercase text-stone-500 mt-4 tracking-widest">Source: ${article.source}</p>`;
-
-                div.onclick = () => {
-                    document.getElementById('reader-title').innerText = article.title;
-                    document.getElementById('reader-source').innerText = `LIVE DISPATCH • ${article.source}`;
-                    document.getElementById('reader-img').src = article.img || '';
-                    
-                    let fullText = article.desc || 'No further content provided.';
-                    let contentBox = document.getElementById('reader-content');
-                    
-                    if(authState.isPro) {
-                        contentBox.innerHTML = `<div class="font-serif text-2xl leading-relaxed text-stone-800">${fullText}</div>`;
-                    } else {
-                        let teaser = fullText.replace(/<[^>]*>/g, '').substring(0, 250) + '...';
-                        contentBox.innerHTML = `
-                            <p class="font-serif text-2xl leading-relaxed text-stone-800 mb-2">${teaser}</p>
-                            <div class="relative mt-2">
-                                <p class="font-serif text-2xl leading-relaxed text-stone-800 blur-text opacity-40">This text is blurred out because the user is currently on the free tier. Upgrade to PRO to read the full body.</p>
-                                <div class="absolute inset-0 flex flex-col items-center justify-center pt-8">
-                                    <button onclick="toggleModal('pro-modal')" class="px-10 py-4 bg-[#111111] text-[#D4AF37] font-black uppercase hover:bg-[#D4AF37] hover:text-[#111111] shadow-xl transition-all hover:-translate-y-1">Unlock Full Article</button>
-                                </div>
-                            </div>
-                        `;
-                    }
-                    document.getElementById('news-reader').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                    try { history.pushState({ readerOpen: true }, ""); } catch(e) {}
-                };
-                grid.appendChild(div);
-            });
-        }
-
-        document.getElementById('close-reader').onclick = () => {
-            document.getElementById('news-reader').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        };
-        
-        window.onpopstate = () => {
-            document.getElementById('news-reader').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        };
-
-        function updateUI() {
-            const ui = {
-                en: { title: "THE GAZETTE", nav: ["general", "world", "nation", "states", "sports", "technology"] },
-                hi: { title: "द गज़ेट", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक" } },
-                bn: { title: "দ্য গেজেট", nav: ["general", "world", "nation", "states", "sports", "technology"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি" } }
-            };
-            const activeUI = ui[currentLang];
-            document.getElementById('main-title').innerText = activeUI.title;
-            document.body.className = `text-stone-900 lang-${currentLang}`;
-            document.getElementById('nav-bar').innerHTML = activeUI.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${activeUI.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
-            document.getElementById('state-selector').classList.toggle('hidden', currentCategory !== 'states');
-        }
-
-        window.setCategory = (cat) => { currentCategory = cat; currentPage = 1; nextTokens.newsdata = null; updateUI(); loadNews(1, currentCategory, currentLang); };
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.onclick = (e) => {
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('bg-red-700', 'text-white'));
-                e.target.classList.add('bg-red-700', 'text-white');
-                currentLang = e.target.dataset.lang; currentPage = 1;
-                updateUI(); loadNews(1, currentCategory, currentLang);
-            };
-        });
-
-        const drop = document.getElementById('state-dropdown');
-        drop.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
-        drop.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
-
-        // ==========================================
-        // 4. STARTUP FUNCTION
-        // ==========================================
-        document.getElementById('current-date').innerText = new Date().toDateString();
-        updateUI();
-        loadNews(1, 'general', 'en');
-
-    </script>
 </body>
 </html>
