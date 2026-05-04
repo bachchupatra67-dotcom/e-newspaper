@@ -3,255 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Gazette</title>
+    <title>The Gazette - Professional E-Newspaper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Frank+Ruhl+Libre:wght@300;400;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --paper-bg: #f9f7f1; /* Off-white newsprint color */
-            --ink-black: #111111;
-            --ink-gray: #444444;
-            --divider: #cccccc;
+            --bg-color: #fcfcfc; /* Crisp paper white */
+            --ink-main: #121212;
+            --ink-light: #555555;
+            --border-color: #e2e2e2;
+            --border-heavy: #121212;
+            --accent-red: #aa0000;
         }
 
         body {
-            font-family: 'Lora', serif;
-            background-color: var(--paper-bg);
-            color: var(--ink-black);
+            font-family: 'Frank Ruhl Libre', serif;
+            background-color: var(--bg-color);
+            color: var(--ink-main);
             margin: 0;
+            padding: 0;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        .hidden { display: none !important; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 0 20px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-bottom: 50px;
+        /* --- TOP UTILITY BAR --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--ink-light);
         }
 
-        /* --- MASTHEAD --- */
+        .top-bar-links span {
+            margin-left: 15px;
+            cursor: pointer;
+            color: var(--ink-main);
+        }
+
+        .top-bar-links span.subscribe {
+            color: var(--bg-color);
+            background-color: var(--accent-red);
+            padding: 4px 10px;
+            border-radius: 3px;
+        }
+
+        /* --- HEADER & MASTHEAD --- */
         header {
             text-align: center;
-            padding: 30px 0 10px 0;
-            margin-bottom: 5px;
+            padding: 30px 0 20px 0;
         }
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 900;
             margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            color: var(--ink-black);
+            letter-spacing: -1px;
+            line-height: 1;
         }
 
-        .sub-masthead {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid var(--ink-black);
-            border-bottom: 2px solid var(--ink-black);
-            padding: 10px 0;
-            font-family: sans-serif;
+        header p.tagline {
+            font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px 0 0 0;
+            color: var(--ink-light);
+        }
+
+        /* --- MAIN NAVIGATION --- */
+        nav.main-menu {
+            border-top: 1px solid var(--border-heavy);
+            border-bottom: 3px double var(--border-heavy);
+            padding: 12px 0;
+            margin-bottom: 10px;
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            z-index: 100;
+        }
+
+        nav.main-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        nav.main-menu li {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        nav.main-menu li:hover, nav.main-menu li.active {
+            color: var(--accent-red);
+        }
+
+        /* --- ADVANCED FILTERS --- */
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 30px;
         }
 
-        /* --- CONTROLS --- */
-        .controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        select, button {
-            padding: 5px 10px;
-            border: 1px solid var(--ink-black);
-            background: transparent;
-            font-family: sans-serif;
+        .filter-bar select, .filter-bar button {
+            font-family: 'Inter', sans-serif;
             font-size: 0.8rem;
-            text-transform: uppercase;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
             cursor: pointer;
+            outline: none;
         }
 
-        button {
-            background-color: var(--ink-black);
-            color: var(--paper-bg);
+        .filter-bar button {
+            background: var(--ink-main);
+            color: white;
             font-weight: bold;
-            transition: background 0.2s;
+            border-color: var(--ink-main);
         }
 
-        button:hover {
-            background-color: var(--ink-gray);
-        }
+        .filter-bar button:hover { background: var(--accent-red); border-color: var(--accent-red); }
 
-        .hidden { display: none !important; }
-
-        /* --- NEWSPAPER GRID --- */
-        .news-container {
+        /* --- LAYOUT GRID --- */
+        .content-area {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+
+        @media (min-width: 1024px) {
+            .content-area {
+                grid-template-columns: 3fr 1fr; /* Main news vs Sidebar */
+            }
+        }
+
+        /* --- NEWS GRID (Main Column) --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
             align-items: start;
         }
 
-        /* --- ARTICLE CARDS --- */
         .news-card {
-            border-bottom: 1px solid var(--divider);
-            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            transition: opacity 0.2s;
         }
 
-        .news-card:hover {
-            opacity: 0.7;
-        }
+        .news-card:hover h3 { color: var(--accent-red); }
 
-        /* Make the first article larger and span multiple columns */
-        .news-card.featured {
+        /* Hero Article Treatment */
+        .news-card.hero {
             grid-column: 1 / -1;
-            border-bottom: 3px double var(--ink-black);
-            margin-bottom: 10px;
+            border-bottom: 2px solid var(--border-heavy);
+            margin-bottom: 15px;
+            padding-bottom: 25px;
             text-align: center;
         }
 
-        .news-card.featured h3 {
-            font-size: 3rem;
+        .news-card.hero h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
             margin: 15px 0;
         }
 
-        @media (min-width: 768px) {
-            .news-card.featured {
-                grid-column: span 2;
-                text-align: left;
-            }
-        }
-
         .source-tag {
-            font-family: sans-serif;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
             font-size: 0.75rem;
-            color: #d32f2f; /* Classic dark red newspaper accent */
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-red);
             margin-bottom: 8px;
-            letter-spacing: 1px;
+            display: block;
         }
 
         .news-card h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            line-height: 1.2;
+            font-size: 1.5rem;
+            line-height: 1.25;
             margin: 0 0 10px 0;
-            color: var(--ink-black);
+            color: var(--ink-main);
+            transition: color 0.2s;
         }
 
-        .read-more {
-            font-family: sans-serif;
-            font-size: 0.8rem;
-            font-style: italic;
-            color: var(--ink-gray);
-            margin-top: auto;
+        .read-action {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--ink-light);
+            text-transform: uppercase;
         }
 
-        /* --- MODAL FOR READING --- */
+        /* --- SIDEBAR --- */
+        .sidebar {
+            border-left: 1px solid var(--border-color);
+            padding-left: 30px;
+        }
+
+        .sidebar h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--ink-main);
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        .sidebar-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .sidebar-item:hover h4 { color: var(--accent-red); }
+        
+        .sidebar-item h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin: 0 0 5px 0;
+            line-height: 1.3;
+        }
+
+        /* --- MODAL --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(255,255,255,0.95);
             display: flex; justify-content: center; align-items: flex-start;
             z-index: 1000;
-            padding-top: 5vh;
+            padding-top: 4vh;
+            overflow-y: auto;
         }
 
         .modal-content {
-            background: var(--paper-bg); 
-            padding: 40px 60px; 
-            max-width: 800px; 
-            width: 90%; 
-            max-height: 85vh; 
-            overflow-y: auto;
+            background: var(--bg-color); 
+            padding: 60px; 
+            max-width: 700px; 
+            width: 100%;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
         }
 
         .modal-content h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            line-height: 1.2;
-            border-bottom: 1px solid var(--ink-black);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
         }
 
         .modal-content p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.8;
             margin-bottom: 20px;
+            color: #222;
+        }
+
+        #modalBody > p:first-of-type::first-letter {
+            float: left;
+            font-size: 5rem;
+            line-height: 0.7;
+            padding-right: 10px;
+            padding-top: 8px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
         }
 
         .close-btn {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 2rem; cursor: pointer; color: var(--ink-black);
+            position: absolute; top: 20px; right: 30px;
+            font-size: 2.5rem; cursor: pointer; color: var(--ink-light);
             background: none; border: none; padding: 0;
-            line-height: 1;
+            transition: color 0.2s;
         }
+        .close-btn:hover { color: var(--accent-red); }
 
-        /* Drop cap for modal articles */
-        #modalBody > p:first-of-type::first-letter {
-            float: left;
-            font-size: 4rem;
-            line-height: 0.8;
-            padding-right: 8px;
-            padding-top: 5px;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
+        .loader {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 50px;
+            color: var(--ink-light);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>The Gazette</h1>
-    </header>
-
-    <div class="sub-masthead">
-        <div id="todaysDate">Date goes here</div>
-        
-        <div class="controls">
-            <select id="languageFilter">
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="es">Spanish</option>
-                <option value="fr">French</option>
-            </select>
-
-            <select id="locationFilter">
-                <option value="world">World</option>
-                <option value="country">Country (India)</option>
-                <option value="states">States</option>
-                <option value="district">District (Howrah)</option>
-            </select>
-
-            <select id="stateSelect" class="hidden">
-                <option value="">-- State --</option>
-                <option value="west-bengal">West Bengal</option>
-                <option value="maharashtra">Maharashtra</option>
-                <option value="karnataka">Karnataka</option>
-                <option value="delhi">Delhi</option>
-            </select>
-
-            <button onclick="fetchNews()">Update</button>
-        </div>
+<div class="top-bar">
+    <div id="todaysDate">Date goes here</div>
+    <div class="top-bar-links">
+        <span>Log In</span>
+        <span class="subscribe">Subscribe</span>
     </div>
-
-    <div class="news-container" id="newsContainer">
-        </div>
 </div>
+
+<header class="container">
+    <h1>The Gazette</h1>
+    <p class="tagline">Truth and Clarity in a Complex World</p>
+</header>
+
+<nav class="main-menu">
+    <ul id="navMenu">
+        <li class="active" onclick="setNavCategory('global', this)">Top News</li>
+        <li onclick="setNavCategory('world', this)">World</li>
+        <li onclick="setNavCategory('politics', this)">Politics</li>
+        <li onclick="setNavCategory('business', this)">Business</li>
+        <li onclick="setNavCategory('technology', this)">Technology</li>
+        <li onclick="setNavCategory('science', this)">Science</li>
+        <li onclick="setNavCategory('health', this)">Health</li>
+        <li onclick="setNavCategory('sports', this)">Sports</li>
+        <li onclick="setNavCategory('entertainment', this)">Arts & Culture</li>
+    </ul>
+</nav>
+
+<div class="filter-bar container">
+    <select id="languageFilter">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+    </select>
+
+    <select id="locationFilter">
+        <option value="world">Search by Location</option>
+        <option value="country">Country (India)</option>
+        <option value="states">States</option>
+        <option value="district">District (Howrah)</option>
+    </select>
+
+    <select id="stateSelect" class="hidden">
+        <option value="">-- Select State --</option>
+        <option value="west-bengal">West Bengal</option>
+        <option value="maharashtra">Maharashtra</option>
+        <option value="karnataka">Karnataka</option>
+        <option value="delhi">Delhi</option>
+        <option value="tamil-nadu">Tamil Nadu</option>
+    </select>
+
+    <button onclick="applyFilters()">Apply Filters</button>
+</div>
+
+<main class="container content-area">
+    <div class="news-grid" id="mainNewsContainer">
+        </div>
+
+    <aside class="sidebar">
+        <h2>Latest Dispatches</h2>
+        <div id="sidebarNewsContainer">
+            </div>
+    </aside>
+</main>
 
 <div id="articleModal" class="modal-overlay hidden">
     <div class="modal-content">
@@ -262,10 +393,10 @@
 </div>
 
 <script>
-    // Set today's date in the masthead
-    const dateElement = document.getElementById('todaysDate');
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateElement.innerText = new Date().toLocaleDateString('en-US', options);
+    // --- INITIALIZATION ---
+    document.getElementById('todaysDate').innerText = new Date().toLocaleDateString('en-US', { 
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+    });
 
     // --- API KEYS ---
     const GUARDIAN_KEY = '99faa72a-bd14-4fea-8d09-5200ff1e3c53';
@@ -274,12 +405,17 @@
     const NEWSDATA_KEY = 'pub_9410f56733d649d0bd05e1204efae7ee';
     const CURRENTS_KEY = 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g';
 
+    // State Variables
+    let currentQuery = 'global';
+    
+    // UI Elements
+    const mainContainer = document.getElementById('mainNewsContainer');
+    const sidebarContainer = document.getElementById('sidebarNewsContainer');
     const locationFilter = document.getElementById('locationFilter');
     const stateSelect = document.getElementById('stateSelect');
-    const newsContainer = document.getElementById('newsContainer');
-    const articleModal = document.getElementById('articleModal');
-    
-    // Toggle State Dropdown Visibility
+    const langFilter = document.getElementById('languageFilter');
+
+    // Toggle states dropdown
     locationFilter.addEventListener('change', (e) => {
         if (e.target.value === 'states') {
             stateSelect.classList.remove('hidden');
@@ -289,25 +425,52 @@
         }
     });
 
-    // --- MAIN FETCH ORCHESTRATOR ---
-    async function fetchNews() {
-        newsContainer.innerHTML = '<p style="font-style: italic; grid-column: 1/-1; text-align: center;">Gathering the latest reports via telegraph...</p>';
-        const lang = document.getElementById('languageFilter').value;
+    // --- NAVIGATION LOGIC ---
+    function setNavCategory(category, element) {
+        // Update active class
+        document.querySelectorAll('#navMenu li').forEach(li => li.classList.remove('active'));
+        element.classList.add('active');
+        
+        // Reset location filters when using main nav to avoid confusion
+        locationFilter.value = 'world';
+        stateSelect.classList.add('hidden');
+        stateSelect.value = '';
+
+        currentQuery = category;
+        executeSearch();
+    }
+
+    function applyFilters() {
         const scope = locationFilter.value;
         const state = stateSelect.value;
         
-        let query = scope;
+        let query = 'news';
         if (scope === 'world') query = 'global';
         if (scope === 'country') query = 'India';
         if (scope === 'states' && state) query = state.replace('-', ' ');
         if (scope === 'district') query = 'Howrah';
 
+        // Remove active state from nav menu since we are using custom filter
+        document.querySelectorAll('#navMenu li').forEach(li => li.classList.remove('active'));
+
+        currentQuery = query;
+        executeSearch();
+    }
+
+    // --- FETCH ORCHESTRATOR ---
+    async function executeSearch() {
+        mainContainer.innerHTML = '<div class="loader">Consulting the wire services... Please wait.</div>';
+        sidebarContainer.innerHTML = '';
+        
+        const lang = langFilter.value;
+
+        // Fetching concurrently from ALL sources
         const results = await Promise.allSettled([
-            fetchGuardian(query),
-            fetchNewsAPI(query, lang),
-            fetchGNews(query, lang),
-            fetchNewsData(query, lang),
-            fetchCurrents(query, lang)
+            fetchGuardian(currentQuery),
+            fetchNewsAPI(currentQuery, lang),
+            fetchGNews(currentQuery, lang),
+            fetchNewsData(currentQuery, lang),
+            fetchCurrents(currentQuery, lang)
         ]);
 
         const allArticles = results
@@ -319,35 +482,27 @@
     }
 
     // --- INDIVIDUAL API FETCHERS ---
-
     async function fetchGuardian(query) {
         const url = `https://content.guardianapis.com/search?q=${query}&show-fields=body&api-key=${GUARDIAN_KEY}`;
         try {
             const res = await fetch(url);
             const data = await res.json();
             if (!data.response || !data.response.results) return [];
-            return data.response.results.map(article => ({
-                title: article.webTitle,
-                source: 'The Guardian',
-                url: article.webUrl,
-                fullText: article.fields?.body || 'Full text not available.',
-                isGuardian: true
+            return data.response.results.map(a => ({
+                title: a.webTitle, source: 'The Guardian', url: a.webUrl,
+                fullText: a.fields?.body || 'Content unavailable.', isGuardian: true
             }));
         } catch (e) { return []; }
     }
 
     async function fetchNewsAPI(query, lang) {
-        const url = `https://newsapi.org/v2/everything?q=${query}&language=${lang}&apiKey=${NEWSAPI_KEY}`;
+        const url = `https://newsapi.org/v2/everything?q=${query}&language=${lang}&sortBy=publishedAt&apiKey=${NEWSAPI_KEY}`;
         try {
             const res = await fetch(url);
             const data = await res.json();
             if (!data.articles) return [];
-            return data.articles.map(article => ({
-                title: article.title,
-                source: article.source?.name || 'NewsAPI',
-                url: article.url,
-                fullText: null, 
-                isGuardian: false
+            return data.articles.map(a => ({
+                title: a.title, source: a.source?.name || 'NewsAPI', url: a.url, fullText: null, isGuardian: false
             }));
         } catch (e) { return []; }
     }
@@ -358,12 +513,8 @@
             const res = await fetch(url);
             const data = await res.json();
             if (!data.articles) return [];
-            return data.articles.map(article => ({
-                title: article.title,
-                source: article.source?.name || 'GNews',
-                url: article.url,
-                fullText: null,
-                isGuardian: false
+            return data.articles.map(a => ({
+                title: a.title, source: a.source?.name || 'GNews', url: a.url, fullText: null, isGuardian: false
             }));
         } catch (e) { return []; }
     }
@@ -374,12 +525,8 @@
             const res = await fetch(url);
             const data = await res.json();
             if (!data.results) return [];
-            return data.results.map(article => ({
-                title: article.title,
-                source: article.source_id || 'NewsData.io',
-                url: article.link,
-                fullText: null,
-                isGuardian: false
+            return data.results.map(a => ({
+                title: a.title, source: a.source_id || 'NewsData', url: a.link, fullText: null, isGuardian: false
             }));
         } catch (e) { return []; }
     }
@@ -390,55 +537,71 @@
             const res = await fetch(url);
             const data = await res.json();
             if (!data.news) return [];
-            return data.news.map(article => ({
-                title: article.title,
-                source: article.author || 'Currents API',
-                url: article.url,
-                fullText: null,
-                isGuardian: false
+            return data.news.map(a => ({
+                title: a.title, source: a.author || 'Currents API', url: a.url, fullText: null, isGuardian: false
             }));
         } catch (e) { return []; }
     }
 
     // --- RENDER LOGIC ---
     function renderNews(articles) {
-        newsContainer.innerHTML = '';
+        mainContainer.innerHTML = '';
+        sidebarContainer.innerHTML = '';
         
-        const uniqueArticles = Array.from(new Map(articles.filter(a => a && a.title).map(a => [a.title, a])).values());
+        // Remove duplicates & empties
+        const uniqueArticles = Array.from(new Map(articles.filter(a => a && a.title && !a.title.includes('[Removed]')).map(a => [a.title, a])).values());
 
         if (uniqueArticles.length === 0) {
-            newsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No dispatches found for this criteria.</p>';
+            mainContainer.innerHTML = '<div class="loader">No stories found for this section. Please try another.</div>';
             return;
         }
 
         uniqueArticles.sort(() => Math.random() - 0.5);
 
-        uniqueArticles.forEach((article, index) => {
+        // Split articles: First 7 to Main Grid, Next 5 to Sidebar
+        const mainArticles = uniqueArticles.slice(0, 7);
+        const sidebarArticles = uniqueArticles.slice(7, 13);
+
+        // Render Main Grid
+        mainArticles.forEach((article, index) => {
             const card = document.createElement('div');
-            // Give the first article a featured treatment
-            card.className = index === 0 ? 'news-card featured' : 'news-card';
+            card.className = index === 0 ? 'news-card hero' : 'news-card';
             
             card.innerHTML = `
-                <div class="source-tag">${article.source}</div>
+                <span class="source-tag">${article.source}</span>
                 <h3>${article.title}</h3>
-                <span class="read-more">
-                    ${article.isGuardian ? 'Turn to page ↗' : 'Read original dispatch ↗'}
+                <span class="read-action">
+                    ${article.isGuardian ? 'Read Article in Full →' : 'External Link ↗'}
                 </span>
             `;
 
-            card.addEventListener('click', () => {
-                if (article.isGuardian) {
-                    openModal(article.title, article.fullText);
-                } else {
-                    window.open(article.url, '_blank');
-                }
-            });
+            card.addEventListener('click', () => handleArticleClick(article));
+            mainContainer.appendChild(card);
+        });
 
-            newsContainer.appendChild(card);
+        // Render Sidebar
+        sidebarArticles.forEach(article => {
+            const sideItem = document.createElement('div');
+            sideItem.className = 'sidebar-item';
+            sideItem.innerHTML = `
+                <span class="source-tag">${article.source}</span>
+                <h4>${article.title}</h4>
+            `;
+            sideItem.addEventListener('click', () => handleArticleClick(article));
+            sidebarContainer.appendChild(sideItem);
         });
     }
 
+    function handleArticleClick(article) {
+        if (article.isGuardian) {
+            openModal(article.title, article.fullText);
+        } else {
+            window.open(article.url, '_blank');
+        }
+    }
+
     // --- MODAL LOGIC ---
+    const articleModal = document.getElementById('articleModal');
     function openModal(title, htmlBody) {
         document.getElementById('modalTitle').innerText = title;
         document.getElementById('modalBody').innerHTML = htmlBody;
@@ -452,8 +615,8 @@
         document.body.style.overflow = 'auto';
     }
 
-    // Load default news on initial load
-    window.onload = fetchNews;
+    // Init
+    window.onload = executeSearch;
 </script>
 
 </body>
