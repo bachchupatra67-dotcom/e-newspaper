@@ -4,134 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Gazette</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #2c3e50;
-            --background: #f4f7f6;
-            --card-bg: #ffffff;
-            --text: #333333;
+            --paper-bg: #f9f7f1; /* Off-white newsprint color */
+            --ink-black: #111111;
+            --ink-gray: #444444;
+            --divider: #cccccc;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background);
-            color: var(--text);
+            font-family: 'Lora', serif;
+            background-color: var(--paper-bg);
+            color: var(--ink-black);
             margin: 0;
-            padding: 0;
+            padding: 0 20px;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        /* --- MASTHEAD --- */
         header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1.5rem;
             text-align: center;
-            font-family: 'Georgia', serif;
+            padding: 30px 0 10px 0;
+            margin-bottom: 5px;
         }
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 2px;}
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: var(--ink-black);
+        }
+
+        .sub-masthead {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid var(--ink-black);
+            border-bottom: 2px solid var(--ink-black);
+            padding: 10px 0;
+            font-family: sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* --- CONTROLS --- */
         .controls {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--card-bg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
         }
+
         select, button {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        button {
-            background-color: var(--primary);
-            color: white;
+            padding: 5px 10px;
+            border: 1px solid var(--ink-black);
+            background: transparent;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
             cursor: pointer;
-            border: none;
         }
-        button:hover { background-color: #1a252f; }
+
+        button {
+            background-color: var(--ink-black);
+            color: var(--paper-bg);
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--ink-gray);
+        }
+
         .hidden { display: none !important; }
+
+        /* --- NEWSPAPER GRID --- */
         .news-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: auto;
+            gap: 30px;
+            align-items: start;
         }
+
+        /* --- ARTICLE CARDS --- */
         .news-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
+            border-bottom: 1px solid var(--divider);
+            padding-bottom: 20px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            transition: opacity 0.2s;
         }
-        .news-card:hover { transform: translateY(-5px); }
-        .news-card h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; }
-        .source-tag {
-            align-self: flex-start;
-            background: #e0e0e0;
-            padding: 3px 8px;
-            font-size: 0.8rem;
-            border-radius: 12px;
+
+        .news-card:hover {
+            opacity: 0.7;
+        }
+
+        /* Make the first article larger and span multiple columns */
+        .news-card.featured {
+            grid-column: 1 / -1;
+            border-bottom: 3px double var(--ink-black);
             margin-bottom: 10px;
-            font-weight: bold;
+            text-align: center;
         }
-        /* Modal for Guardian Full Articles */
+
+        .news-card.featured h3 {
+            font-size: 3rem;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 768px) {
+            .news-card.featured {
+                grid-column: span 2;
+                text-align: left;
+            }
+        }
+
+        .source-tag {
+            font-family: sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: #d32f2f; /* Classic dark red newspaper accent */
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .news-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            line-height: 1.2;
+            margin: 0 0 10px 0;
+            color: var(--ink-black);
+        }
+
+        .read-more {
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            font-style: italic;
+            color: var(--ink-gray);
+            margin-top: auto;
+        }
+
+        /* --- MODAL FOR READING --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.85);
+            display: flex; justify-content: center; align-items: flex-start;
             z-index: 1000;
+            padding-top: 5vh;
         }
+
         .modal-content {
-            background: white; padding: 30px; border-radius: 8px;
-            max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto;
+            background: var(--paper-bg); 
+            padding: 40px 60px; 
+            max-width: 800px; 
+            width: 90%; 
+            max-height: 85vh; 
+            overflow-y: auto;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+
+        .modal-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            border-bottom: 1px solid var(--ink-black);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
         .close-btn {
             position: absolute; top: 15px; right: 20px;
-            font-size: 1.5rem; cursor: pointer; color: #666;
-            background: none; border: none;
+            font-size: 2rem; cursor: pointer; color: var(--ink-black);
+            background: none; border: none; padding: 0;
+            line-height: 1;
+        }
+
+        /* Drop cap for modal articles */
+        #modalBody > p:first-of-type::first-letter {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-right: 8px;
+            padding-top: 5px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>The Gazette</h1>
-</header>
+<div class="container">
+    <header>
+        <h1>The Gazette</h1>
+    </header>
 
-<div class="controls">
-    <select id="languageFilter">
-        <option value="en">English</option>
-        <option value="hi">Hindi</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-    </select>
+    <div class="sub-masthead">
+        <div id="todaysDate">Date goes here</div>
+        
+        <div class="controls">
+            <select id="languageFilter">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
 
-    <select id="locationFilter">
-        <option value="world">World</option>
-        <option value="country">Country (India)</option>
-        <option value="states">States</option>
-        <option value="district">District (Howrah)</option>
-    </select>
+            <select id="locationFilter">
+                <option value="world">World</option>
+                <option value="country">Country (India)</option>
+                <option value="states">States</option>
+                <option value="district">District (Howrah)</option>
+            </select>
 
-    <select id="stateSelect" class="hidden">
-        <option value="">-- Select State --</option>
-        <option value="west-bengal">West Bengal</option>
-        <option value="maharashtra">Maharashtra</option>
-        <option value="karnataka">Karnataka</option>
-        <option value="delhi">Delhi</option>
-    </select>
+            <select id="stateSelect" class="hidden">
+                <option value="">-- State --</option>
+                <option value="west-bengal">West Bengal</option>
+                <option value="maharashtra">Maharashtra</option>
+                <option value="karnataka">Karnataka</option>
+                <option value="delhi">Delhi</option>
+            </select>
 
-    <button onclick="fetchNews()">Get News</button>
-</div>
-
-<div class="news-container" id="newsContainer">
+            <button onclick="fetchNews()">Update</button>
+        </div>
     </div>
+
+    <div class="news-container" id="newsContainer">
+        </div>
+</div>
 
 <div id="articleModal" class="modal-overlay hidden">
     <div class="modal-content">
@@ -142,6 +262,11 @@
 </div>
 
 <script>
+    // Set today's date in the masthead
+    const dateElement = document.getElementById('todaysDate');
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateElement.innerText = new Date().toLocaleDateString('en-US', options);
+
     // --- API KEYS ---
     const GUARDIAN_KEY = '99faa72a-bd14-4fea-8d09-5200ff1e3c53';
     const NEWSAPI_KEY = '88bc6bb21b064798b76b042d38c70dd2';
@@ -166,7 +291,7 @@
 
     // --- MAIN FETCH ORCHESTRATOR ---
     async function fetchNews() {
-        newsContainer.innerHTML = '<p>Loading news from multiple sources...</p>';
+        newsContainer.innerHTML = '<p style="font-style: italic; grid-column: 1/-1; text-align: center;">Gathering the latest reports via telegraph...</p>';
         const lang = document.getElementById('languageFilter').value;
         const scope = locationFilter.value;
         const state = stateSelect.value;
@@ -177,8 +302,6 @@
         if (scope === 'states' && state) query = state.replace('-', ' ');
         if (scope === 'district') query = 'Howrah';
 
-        // Fetching concurrently from ALL sources
-        // Promise.allSettled ensures that if one API fails/blocks, the others still render.
         const results = await Promise.allSettled([
             fetchGuardian(query),
             fetchNewsAPI(query, lang),
@@ -187,7 +310,6 @@
             fetchCurrents(query, lang)
         ]);
 
-        // Combine all successful fetch results into one flat array
         const allArticles = results
             .filter(result => result.status === 'fulfilled')
             .map(result => result.value)
@@ -211,7 +333,7 @@
                 fullText: article.fields?.body || 'Full text not available.',
                 isGuardian: true
             }));
-        } catch (e) { console.error("Guardian API Error:", e); return []; }
+        } catch (e) { return []; }
     }
 
     async function fetchNewsAPI(query, lang) {
@@ -227,7 +349,7 @@
                 fullText: null, 
                 isGuardian: false
             }));
-        } catch (e) { console.error("NewsAPI Error:", e); return []; }
+        } catch (e) { return []; }
     }
 
     async function fetchGNews(query, lang) {
@@ -243,7 +365,7 @@
                 fullText: null,
                 isGuardian: false
             }));
-        } catch (e) { console.error("GNews Error:", e); return []; }
+        } catch (e) { return []; }
     }
 
     async function fetchNewsData(query, lang) {
@@ -259,7 +381,7 @@
                 fullText: null,
                 isGuardian: false
             }));
-        } catch (e) { console.error("NewsData Error:", e); return []; }
+        } catch (e) { return []; }
     }
 
     async function fetchCurrents(query, lang) {
@@ -275,36 +397,33 @@
                 fullText: null,
                 isGuardian: false
             }));
-        } catch (e) { console.error("Currents API Error:", e); return []; }
+        } catch (e) { return []; }
     }
 
     // --- RENDER LOGIC ---
     function renderNews(articles) {
         newsContainer.innerHTML = '';
         
-        // Filter out any undefined/null articles and duplicates by title
         const uniqueArticles = Array.from(new Map(articles.filter(a => a && a.title).map(a => [a.title, a])).values());
 
         if (uniqueArticles.length === 0) {
-            newsContainer.innerHTML = '<p>No news found for this criteria from any source.</p>';
+            newsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No dispatches found for this criteria.</p>';
             return;
         }
 
-        // Shuffle articles to mix up the sources
         uniqueArticles.sort(() => Math.random() - 0.5);
 
-        uniqueArticles.forEach(article => {
+        uniqueArticles.forEach((article, index) => {
             const card = document.createElement('div');
-            card.className = 'news-card';
+            // Give the first article a featured treatment
+            card.className = index === 0 ? 'news-card featured' : 'news-card';
             
             card.innerHTML = `
-                <div>
-                    <span class="source-tag">${article.source}</span>
-                    <h3>${article.title}</h3>
-                </div>
-                <p style="font-size: 0.9rem; color: #666; margin-bottom: 0;">
-                    ${article.isGuardian ? 'Read full article here' : 'Read on original site ↗'}
-                </p>
+                <div class="source-tag">${article.source}</div>
+                <h3>${article.title}</h3>
+                <span class="read-more">
+                    ${article.isGuardian ? 'Turn to page ↗' : 'Read original dispatch ↗'}
+                </span>
             `;
 
             card.addEventListener('click', () => {
