@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Gazette | Truth and Clarity</title>
+    <title>The Gazette | Bengal's Own News</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -22,21 +22,21 @@
         }
 
         [data-theme="dark"] {
-            --bg: #111827;
-            --surface: #1f2937;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --border: #374151;
-            --primary: #ffffff;
+            --bg: #111827; --surface: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --primary: #ffffff;
         }
 
+        /* 15. SIMPLE MODE */
+        body.simple-mode {
+            font-size: 120%;
+            --radius: 4px;
+        }
+        body.simple-mode .news-grid { grid-template-columns: 1fr !important; }
+        body.simple-mode .card { border: 2px solid var(--primary); }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Inter', 'Tiro Bangla', sans-serif; /* Fallback to Bengali font */
+            background-color: var(--bg); color: var(--text-main);
+            margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s;
             padding-bottom: 70px;
         }
 
@@ -46,26 +46,22 @@
         
         .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 
-        .ticker-wrap { background: var(--accent); color: white; padding: 8px 0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; overflow: hidden; display: flex; align-items: center; }
-        .ticker-label { padding: 0 16px; background: var(--accent); z-index: 2; font-weight: bold; }
-        .ticker-track { white-space: nowrap; animation: ticker 25s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* 7. DAILY UTILITY BAR (Mockup) */
+        .utility-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 6px 0; font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; font-weight: 600; }
+        .utility-items { display: flex; gap: 16px; }
+        .utility-items span { display: flex; align-items: center; gap: 4px; }
 
         header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
         .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
         
-        .nav-actions { display: flex; gap: 12px; align-items: center; }
-        .nav-actions button, .nav-actions input, .nav-actions select { 
-            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); 
-            background: var(--surface); color: var(--text-main); font-family: 'Inter', sans-serif; 
-        }
-        .nav-actions button:hover, .nav-actions select:hover { background: var(--border); }
-        .subscribe-btn { background: var(--accent) !important; color: white !important; border: none !important; font-weight: 600; }
-
-        .category-nav { display: flex; gap: 24px; overflow-x: auto; padding: 12px 0; border-top: 1px solid var(--border); scrollbar-width: none; }
-        .category-nav li { font-weight: 500; font-size: 0.9rem; cursor: pointer; color: var(--text-muted); white-space: nowrap; }
-        .category-nav li:hover, .category-nav li.active { color: var(--accent); font-weight: 700; }
+        .nav-actions { display: flex; gap: 8px; align-items: center; }
+        .nav-actions button, .nav-actions select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-weight: 600; }
+        
+        /* 17. REGIONAL CATEGORIES */
+        .category-nav { display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; border-top: 1px solid var(--border); scrollbar-width: none; }
+        .category-nav li { font-weight: 600; font-size: 0.9rem; cursor: pointer; color: var(--text-muted); white-space: nowrap; text-transform: uppercase; }
+        .category-nav li:hover, .category-nav li.active { color: var(--accent); }
 
         .main-layout { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 32px 0; }
         @media (min-width: 1024px) { .main-layout { grid-template-columns: 3fr 1fr; } }
@@ -73,65 +69,47 @@
         .news-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
         @media (min-width: 768px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+        .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s; }
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
         .card-img { width: 100%; height: 200px; object-fit: cover; background: var(--border); }
         .card-content { padding: 16px; display: flex; flex-direction: column; height: calc(100% - 200px); }
         
-        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--accent); }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
         .card-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin: 0 0 8px 0; line-height: 1.3; }
         .card-summary { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-footer { margin-top: auto; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); }
         
-        .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
-        .save-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 4px; color: var(--text-muted); }
-        .save-btn.saved { color: var(--accent); }
-
         .card.hero { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; }
-        @media (min-width: 768px) { 
-            .card.hero { grid-template-columns: 1.5fr 1fr; }
-            .card.hero .card-img { height: 100%; min-height: 350px; }
-            .card.hero .card-title { font-size: 2rem; }
-        }
+        @media (min-width: 768px) { .card.hero { grid-template-columns: 1.5fr 1fr; } .card.hero .card-img { height: 100%; min-height: 300px; } }
 
         .sidebar-section { background: var(--surface); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); margin-bottom: 24px; }
         .sidebar-section h3 { font-family: 'Playfair Display', serif; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 16px; }
-        .trending-item { padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .trending-item:last-child { border-bottom: none; }
-        .trending-item h4 { margin: 0 0 4px 0; font-size: 1rem; line-height: 1.3; }
-        .trending-item:hover h4 { color: var(--accent); }
-
-        .edu-badge { display: inline-block; background: #2563eb; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-bottom: 8px; }
-
-        .skeleton { background: linear-gradient(90deg, var(--border) 25%, var(--surface) 50%, var(--border) 75%); background-size: 200% 100%; animation: loading 1.5s infinite; border-radius: 4px; }
-        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .skel-img { width: 100%; height: 200px; border-radius: 0; }
-        .skel-text { height: 16px; margin-bottom: 8px; }
-        .skel-title { height: 24px; width: 80%; margin-bottom: 16px; }
-
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg); border-top: 1px solid var(--border); padding: 12px 0; z-index: 1000; justify-content: space-around; box-shadow: 0 -4px 6px rgba(0,0,0,0.05); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.75rem; font-weight: 600; cursor: pointer; }
-        .nav-item.active { color: var(--accent); }
-        .nav-icon { font-size: 1.2rem; margin-bottom: 4px; }
-        @media (max-width: 768px) { .bottom-nav { display: flex; } }
+        
+        .edu-badge { display: inline-block; background: #2563eb; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-bottom: 4px; }
+        .job-badge { background: #059669; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; display: none; }
         .modal-overlay.active { display: block; }
-        .progress-container { position: fixed; top: 0; width: 100%; height: 4px; background: var(--border); z-index: 2001; }
-        .progress-bar { height: 4px; background: var(--accent); width: 0%; }
-
         .modal-header { display: flex; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 2000; }
         .modal-content { max-width: 800px; margin: 40px auto; padding: 0 24px; }
         .modal-content h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 16px; }
-        .modal-body { font-size: 1.1rem; line-height: 1.8; color: var(--text-main); }
         
-        .hidden { display: none !important; }
+        /* 14. VOICE BUTTON */
+        .voice-btn { background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; border: none; }
+        
+        .loader { grid-column: 1/-1; text-align: center; padding: 50px; font-weight: bold; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
-    <div class="ticker-wrap">
-        <div class="ticker-label">BREAKING 🔴</div>
-        <div class="ticker-track" id="tickerTrack">Fetching latest headlines...</div>
+    <div class="utility-bar container">
+        <div class="utility-items">
+            <span>🌦️ Kolkata: 32°C</span>
+            <span>🚆 Local Train: Running Normal</span>
+        </div>
+        <div class="utility-items">
+            <span>🪙 Gold (22K): ₹6,800/g</span>
+        </div>
     </div>
 
     <header>
@@ -139,25 +117,22 @@
             <div class="top-nav">
                 <div class="logo">The Gazette</div>
                 <div class="nav-actions">
-                    <select id="languageSelector" onchange="changeLanguage(event)">
-                        <option value="en">English</option>
-                        <option value="hi">हिन्दी</option>
-                        <option value="bn">বাংলা</option>
+                    <select id="uiLangSelector" onchange="switchUILanguage(event)">
+                        <option value="en">English UI</option>
+                        <option value="bn">বাংলা UI</option>
                     </select>
                     
-                    <input type="text" id="searchInput" placeholder="Search news..." onkeyup="handleSearch(event)">
-                    <button onclick="toggleTheme()" id="themeToggle">🌙</button>
-                    <button class="subscribe-btn" onclick="alert('Login system initializing...')">Log In</button>
+                    <button onclick="toggleSimpleMode()" id="simpleBtn" title="Simple Mode">👁️ <span data-i18n="simple">Simple</span></button>
+                    <button onclick="toggleTheme()" id="themeToggle" title="Dark Mode">🌙</button>
                 </div>
             </div>
+            
             <ul class="category-nav" id="navMenu">
-                <li class="active" onclick="setCategory('global', this)">For You</li>
-                <li onclick="setCategory('west bengal OR kolkata', this)">Regional</li>
-                <li onclick="setCategory('technology', this)">Tech</li>
-                <li onclick="setCategory('business', this)">Business</li>
-                <li onclick="setCategory('education', this)">Education</li>
-                <li onclick="setCategory('sports', this)">Sports</li>
-                <li onclick="setCategory('entertainment', this)">Culture</li>
+                <li class="active" onclick="setCategory('Kolkata OR West Bengal', this)" data-i18n="local">Local Update</li>
+                <li onclick="setCategory('SSC OR UPSC OR Railway Jobs India', this)" data-i18n="jobs">Govt Jobs</li>
+                <li onclick="setCategory('ICSE OR ISC OR WBJEE', this)" data-i18n="student">Student Zone</li>
+                <li onclick="setCategory('India News', this)" data-i18n="national">National</li>
+                <li onclick="setCategory('Technology', this)" data-i18n="tech">Tech</li>
             </ul>
         </div>
     </header>
@@ -165,90 +140,99 @@
     <main class="container main-layout">
         <div>
             <div class="news-grid" id="mainGrid">
-                </div>
+                <div class="loader" data-i18n="loading">Fetching regional updates...</div>
+            </div>
         </div>
 
         <aside class="sidebar">
             <div class="sidebar-section">
-                <h3>📚 Student Corner</h3>
-                <div id="studentCorner">
-                    <div class="trending-item">
-                        <span class="edu-badge">ICSE/ISC Updates</span>
-                        <h4>Council releases new syllabus guidelines for upcoming batches</h4>
-                    </div>
-                    <div class="trending-item">
-                        <span class="edu-badge">Study Tips</span>
-                        <h4>How to utilize the Pomodoro technique for board prep</h4>
-                    </div>
+                <h3 data-i18n="student_hub">🎓 Student Hub</h3>
+                <div style="padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px;">
+                    <span class="edu-badge">Notice</span>
+                    <h4 style="margin: 4px 0; font-size: 0.95rem;">ICSE Specimen Papers 2026 Released</h4>
+                </div>
+                <div>
+                    <span class="edu-badge job-badge">Career</span>
+                    <h4 style="margin: 4px 0; font-size: 0.95rem;">Top 5 internships in Kolkata for Undergrads</h4>
                 </div>
             </div>
 
             <div class="sidebar-section">
-                <h3>🔥 Trending Now</h3>
+                <h3 data-i18n="trending">🔥 Trending in Bengal</h3>
                 <div id="trendingSidebar">
                     </div>
             </div>
         </aside>
     </main>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="setCategory('global', document.querySelector('#navMenu li'))">
-            <span class="nav-icon">🏠</span><span>Home</span>
-        </div>
-        <div class="nav-item" onclick="document.getElementById('searchInput').focus()">
-            <span class="nav-icon">🔍</span><span>Search</span>
-        </div>
-        <div class="nav-item" onclick="showSavedArticles()">
-            <span class="nav-icon">🔖</span><span>Saved</span>
-        </div>
-        <div class="nav-item" onclick="toggleTheme()">
-            <span class="nav-icon">🌙</span><span>Theme</span>
-        </div>
-    </nav>
-
     <div id="articleModal" class="modal-overlay">
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
         <div class="modal-header">
             <div class="logo" style="font-size: 1.5rem;">The Gazette</div>
             <button onclick="closeModal()" style="font-size: 1.5rem; background:none; border:none; color:var(--text-main);">✕</button>
         </div>
         <div class="modal-content">
             <h1 id="modalTitle">Article Title</h1>
-            <div style="margin-bottom: 24px; color: var(--text-muted); font-size: 0.9rem;">
-                <span id="modalMeta">Source | Date • Read Time</span>
-            </div>
-            <div class="card-img" id="modalImg" style="height: 400px; margin-bottom: 30px; border-radius: var(--radius); display:none;"></div>
-            <div class="modal-body" id="modalBody"></div>
+            
+            <button class="voice-btn" onclick="readAloud()" id="voiceBtn">
+                🔊 <span data-i18n="listen">Listen to Article</span>
+            </button>
+
+            <div class="card-img" id="modalImg" style="height: 350px; margin-bottom: 30px; border-radius: var(--radius); display:none;"></div>
+            <div class="modal-body" id="modalBody" style="font-size: 1.15rem; line-height: 1.8;"></div>
         </div>
     </div>
 
 <script>
-    const GUARDIAN_KEY = '99faa72a-bd14-4fea-8d09-5200ff1e3c53';
-    const NEWSAPI_KEY = '88bc6bb21b064798b76b042d38c70dd2';
-    const GNEWS_KEY = '8d2a825a10e2836e5c8a26affa038680';
-    const NEWSDATA_KEY = 'pub_9410f56733d649d0bd05e1204efae7ee';
-    
-    let allFetchedArticles = [];
-    let savedBookmarks = JSON.parse(localStorage.getItem('gazette_saved')) || [];
-    
-    // Default States
-    let currentCategory = 'global';
-    let currentLanguage = 'en';
+    // --- 1. UI DICTIONARY ---
+    const dictionary = {
+        en: {
+            local: "Local Updates", jobs: "Govt Jobs", student: "Student Zone", national: "National",
+            tech: "Tech", simple: "Simple", listen: "Listen to Article", loading: "Fetching regional updates...",
+            student_hub: "🎓 Student Hub", trending: "🔥 Trending in Bengal", read_more: "Read full story →"
+        },
+        bn: {
+            local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", student: "স্টুডেন্ট জোন", national: "জাতীয়",
+            tech: "প্রযুক্তি", simple: "সহজ মোড", listen: "খবরটি শুনুন", loading: "খবর লোড হচ্ছে...",
+            student_hub: "🎓 স্টুডেন্ট হাব", trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন →"
+        }
+    };
 
+    let currentUILang = 'en';
+    let utterance = null; // For Text-to-Speech
+
+    function switchUILanguage(event) {
+        currentUILang = event.target.value;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(dictionary[currentUILang][key]) {
+                el.innerText = dictionary[currentUILang][key];
+            }
+        });
+        // Refetch to get language specific news if possible
+        fetchNews(currentCategory);
+    }
+
+    // --- 15. SIMPLE MODE ---
+    function toggleSimpleMode() {
+        document.body.classList.toggle('simple-mode');
+        const isActive = document.body.classList.contains('simple-mode');
+        localStorage.setItem('gazette_simple', isActive);
+    }
+    if (localStorage.getItem('gazette_simple') === 'true') toggleSimpleMode();
+
+    // --- THEME ---
     function toggleTheme() {
         const body = document.documentElement;
         const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
-        document.getElementById('themeToggle').innerText = newTheme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem('gazette_theme', newTheme);
     }
-    if (localStorage.getItem('gazette_theme') === 'dark') toggleTheme();
+    if (localStorage.getItem('gazette_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
-    // Change Language
-    function changeLanguage(event) {
-        currentLanguage = event.target.value;
-        fetchNews(currentCategory);
-    }
+    // --- FETCH LOGIC ---
+    const GNEWS_KEY = '8d2a825a10e2836e5c8a26affa038680';
+    const NEWSDATA_KEY = 'pub_9410f56733d649d0bd05e1204efae7ee';
+    let currentCategory = 'Kolkata OR West Bengal';
 
     function setCategory(category, el) {
         document.querySelectorAll('#navMenu li').forEach(li => li.classList.remove('active'));
@@ -258,83 +242,30 @@
     }
 
     async function fetchNews(query) {
-        renderSkeletons();
+        document.getElementById('mainGrid').innerHTML = `<div class="loader" data-i18n="loading">${dictionary[currentUILang].loading}</div>`;
         
-        let apiCalls = [];
-
-        // 1. Guardian API (English Only)
-        if (currentLanguage === 'en') {
-            apiCalls.push(fetch(`https://content.guardianapis.com/search?q=${query}&show-fields=body,thumbnail&api-key=${GUARDIAN_KEY}`).then(r=>r.json()).catch(()=>({})));
-        } else {
-            apiCalls.push(Promise.resolve({})); 
-        }
-
-        // 2. GNews API (Supports EN, HI, BN natively)
-        apiCalls.push(fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${currentLanguage}&apikey=${GNEWS_KEY}`).then(r=>r.json()).catch(()=>({})));
-
-        // 3. NewsAPI (English preferred, regional support is poor)
-        if (currentLanguage === 'en') {
-            apiCalls.push(fetch(`https://newsapi.org/v2/everything?q=${query}&language=en&sortBy=publishedAt&apiKey=${NEWSAPI_KEY}`).then(r=>r.json()).catch(()=>({})));
-        } else {
-            apiCalls.push(Promise.resolve({}));
-        }
-
-        // 4. NewsData.io (Excellent regional language support)
-        apiCalls.push(fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${currentLanguage}`).then(r=>r.json()).catch(()=>({})));
-
-        const results = await Promise.allSettled(apiCalls);
-        let articles = [];
-
-        // Parse Guardian
-        if(currentLanguage === 'en' && results[0].status === 'fulfilled' && results[0].value.response) {
-            articles.push(...results[0].value.response.results.map(a => ({
-                id: a.id, title: a.webTitle, source: 'The Guardian', url: a.webUrl, 
-                img: a.fields?.thumbnail, fullText: a.fields?.body, isGuardian: true,
-                time: new Date(a.webPublicationDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            })));
-        }
+        // NewsData API is great for regional Indian content
+        const langCode = currentUILang === 'bn' ? 'bn' : 'en';
         
-        // Parse GNews
-        if(results[1].status === 'fulfilled' && results[1].value.articles) {
-            articles.push(...results[1].value.articles.map(a => ({
-                id: a.url, title: a.title, source: a.source.name, url: a.url, img: a.image,
-                fullText: null, summary: a.description, isGuardian: false,
-                time: new Date(a.publishedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            })));
+        try {
+            const [gnews, newsdata] = await Promise.allSettled([
+                fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`).then(r=>r.json()),
+                fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${langCode}&country=in`).then(r=>r.json())
+            ]);
+
+            let articles = [];
+            if(gnews.status === 'fulfilled' && gnews.value.articles) {
+                articles.push(...gnews.value.articles.map(a => ({ title: a.title, source: a.source.name, url: a.url, img: a.image, content: a.content || a.description })));
+            }
+            if(newsdata.status === 'fulfilled' && newsdata.value.results) {
+                articles.push(...newsdata.value.results.map(a => ({ title: a.title, source: a.source_id, url: a.link, img: a.image_url, content: a.description })));
+            }
+
+            articles = articles.filter(a => a.title);
+            renderArticles(articles);
+        } catch (e) {
+            document.getElementById('mainGrid').innerHTML = '<div class="loader">Failed to load news. API quotas may be exceeded.</div>';
         }
-
-        // Parse NewsAPI
-        if(currentLanguage === 'en' && results[2].status === 'fulfilled' && results[2].value.articles) {
-            articles.push(...results[2].value.articles.map(a => ({
-                id: a.url, title: a.title, source: a.source?.name, url: a.url, img: a.urlToImage,
-                fullText: null, summary: a.description, isGuardian: false,
-                time: new Date(a.publishedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            })));
-        }
-
-        // Parse NewsData.io
-        if(results[3].status === 'fulfilled' && results[3].value.results) {
-            articles.push(...results[3].value.results.map(a => ({
-                id: a.link, title: a.title, source: a.source_id, url: a.link, img: a.image_url,
-                fullText: null, summary: a.description, isGuardian: false,
-                time: new Date(a.pubDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            })));
-        }
-
-        // Filter bad results and Shuffle
-        allFetchedArticles = articles.filter(a => a.title && !a.title.includes('Removed') && !a.title.includes('Error'));
-        allFetchedArticles.sort(() => Math.random() - 0.5); 
-        
-        updateTicker();
-        renderArticles(allFetchedArticles);
-    }
-
-    function renderSkeletons() {
-        document.getElementById('mainGrid').innerHTML = `
-            <div class="card hero skeleton"><div class="skel-img"></div><div class="card-content"><div class="skel-title"></div></div></div>
-            <div class="card skeleton"><div class="skel-img"></div><div class="card-content"><div class="skel-title"></div></div></div>
-            <div class="card skeleton"><div class="skel-img"></div><div class="card-content"><div class="skel-title"></div></div></div>
-        `;
     }
 
     function renderArticles(articles) {
@@ -343,110 +274,71 @@
         grid.innerHTML = ''; sidebar.innerHTML = '';
 
         if(articles.length === 0) {
-            grid.innerHTML = `<p>No stories found for this category in the selected language. Try another section.</p>`; return;
+            grid.innerHTML = `<div class="loader">No stories found.</div>`; return;
         }
 
-        const fallbackImg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlN2U1ZTQiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTZweCIgZmlsbD0iIzk5OSIgZHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5OZXdzIFVwZGF0ZTwvdGV4dD48L3N2Zz4=';
-
-        articles.slice(0, 7).forEach((article, idx) => {
-            const readTime = article.fullText ? Math.ceil(article.fullText.length / 1000) : 2;
-            const isSaved = savedBookmarks.includes(article.id) ? 'saved' : '';
-            const saveIcon = isSaved ? '♥' : '♡';
-
+        articles.slice(0, 8).forEach((article, idx) => {
             const el = document.createElement('div');
             el.className = idx === 0 ? 'card hero' : 'card';
+            const imgHtml = article.img ? `<img src="${article.img}" class="card-img" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
+            
             el.innerHTML = `
-                <img src="${article.img || fallbackImg}" class="card-img" alt="News Image">
+                ${imgHtml}
                 <div class="card-content">
-                    <div class="card-meta"><span>${article.source}</span> <span>⏱ ${readTime} min read</span></div>
+                    <div class="card-meta"><span>${article.source}</span></div>
                     <h3 class="card-title" style="cursor:pointer;" onclick='openArticle(${JSON.stringify(article).replace(/'/g, "&#39;")})'>${article.title}</h3>
-                    ${idx === 0 ? `<p class="card-summary">${article.summary || ''}</p>` : ''}
-                    <div class="card-footer">
-                        <span>${article.time || '1h ago'}</span>
-                        <button class="save-btn ${isSaved}" onclick='toggleSave("${article.id}", this, event)'>${saveIcon}</button>
-                    </div>
+                    <p class="card-summary">${article.content || ''}</p>
+                    <div class="card-footer"><span style="color:var(--accent); cursor:pointer;" onclick='openArticle(${JSON.stringify(article).replace(/'/g, "&#39;")})'>${dictionary[currentUILang].read_more}</span></div>
                 </div>
             `;
             grid.appendChild(el);
         });
 
-        articles.slice(7, 12).forEach(article => {
-            const el = document.createElement('div');
-            el.className = 'trending-item';
-            el.innerHTML = `<span style="font-size:0.75rem; color:var(--accent); font-weight:bold;">${article.source}</span><h4>${article.title}</h4>`;
-            el.addEventListener('click', () => openArticle(article));
-            sidebar.appendChild(el);
+        articles.slice(8, 12).forEach(article => {
+            sidebar.innerHTML += `<div style="padding: 12px 0; border-bottom: 1px solid var(--border); cursor:pointer;" onclick="window.open('${article.url}')">
+                <span style="font-size:0.75rem; color:var(--accent); font-weight:bold;">${article.source}</span>
+                <h4 style="margin: 4px 0; font-size: 0.95rem;">${article.title}</h4>
+            </div>`;
         });
     }
 
-    function updateTicker() {
-        const headlines = allFetchedArticles.slice(0, 5).map(a => a.title).join(' &nbsp; &bull; &nbsp; ');
-        document.getElementById('tickerTrack').innerHTML = headlines || 'Welcome to The Gazette.';
-    }
-
-    function handleSearch(e) {
-        const term = e.target.value.toLowerCase();
-        const filtered = allFetchedArticles.filter(a => a.title.toLowerCase().includes(term));
-        renderArticles(filtered);
-    }
-
-    function toggleSave(id, btn, event) {
-        event.stopPropagation();
-        if(savedBookmarks.includes(id)) {
-            savedBookmarks = savedBookmarks.filter(b => b !== id);
-            btn.classList.remove('saved'); btn.innerText = '♡';
-        } else {
-            savedBookmarks.push(id);
-            btn.classList.add('saved'); btn.innerText = '♥';
+    // --- 14. TEXT TO SPEECH ---
+    function readAloud() {
+        const text = document.getElementById('modalBody').innerText || document.getElementById('modalTitle').innerText;
+        if(window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`;
+            return;
         }
-        localStorage.setItem('gazette_saved', JSON.stringify(savedBookmarks));
-    }
-
-    function showSavedArticles() {
-        const saved = allFetchedArticles.filter(a => savedBookmarks.includes(a.id));
-        document.querySelectorAll('#navMenu li').forEach(li => li.classList.remove('active'));
-        document.getElementById('searchInput').value = '';
-        renderArticles(saved);
-        if(saved.length === 0) document.getElementById('mainGrid').innerHTML = '<div style="grid-column:1/-1; text-align:center; padding: 50px;">No saved articles found in this session.</div>';
+        utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentUILang === 'bn' ? 'bn-IN' : 'en-IN'; // Indian English or Bengali accent
+        window.speechSynthesis.speak(utterance);
+        document.getElementById('voiceBtn').innerHTML = `⏸️ Stop Listening`;
+        
+        utterance.onend = () => {
+             document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`;
+        };
     }
 
     function openArticle(article) {
-        if(!article.isGuardian) {
-            window.open(article.url, '_blank'); return;
-        }
-        
         document.getElementById('modalTitle').innerText = article.title;
-        document.getElementById('modalMeta').innerText = `${article.source} | Read Time: ${Math.ceil((article.fullText||"").length/1000)} min`;
-        
         const imgEl = document.getElementById('modalImg');
-        if (article.img) {
-            imgEl.style.background = `url(${article.img}) center/cover no-repeat`;
-            imgEl.style.display = 'block';
-        } else {
-            imgEl.style.display = 'none';
-        }
+        if (article.img) { imgEl.style.background = `url(${article.img}) center/cover no-repeat`; imgEl.style.display = 'block'; } 
+        else { imgEl.style.display = 'none'; }
         
-        document.getElementById('modalBody').innerHTML = article.fullText || "Content unavailable.";
+        document.getElementById('modalBody').innerHTML = article.content ? article.content + `<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>` : `Please read the full article on the original site.<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>`;
         
-        const overlay = document.getElementById('articleModal');
-        overlay.classList.add('active');
+        document.getElementById('articleModal').classList.add('active');
         document.body.style.overflow = 'hidden';
-
-        overlay.onscroll = () => {
-            const winScroll = overlay.scrollTop;
-            const height = overlay.scrollHeight - overlay.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        };
     }
 
     function closeModal() {
         document.getElementById('articleModal').classList.remove('active');
         document.body.style.overflow = 'auto';
-        document.getElementById("progressBar").style.width = "0%";
+        if(window.speechSynthesis) window.speechSynthesis.cancel(); // Stop audio on close
     }
 
-    window.onload = () => setCategory('global', document.querySelector('#navMenu li.active'));
+    window.onload = () => fetchNews(currentCategory);
 </script>
 
 </body>
