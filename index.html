@@ -3,219 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Gazette | Master Edition</title>
+    <title>Latest Newspaper | India Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
-        
-        body { font-family: 'Source Serif 4', serif; background-color: #fcfaf5; transition: background 0.3s; }
-        body.lang-bn { font-family: 'Hind Siliguri', sans-serif; }
-        body.lang-hi { font-family: 'Noto Sans Devanagari', sans-serif; }
-        
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Source+Serif+4:wght@400;700&display=swap');
+        body { font-family: 'Source Serif 4', serif; }
         .newspaper-title { font-family: 'Playfair Display', serif; }
-        
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; animation: marquee 60s linear infinite; white-space: nowrap; }
-        
-        .category-btn.active { border-bottom: 2px solid #b91c1c; color: #b91c1c; }
-        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
-<body class="text-stone-900 lang-en">
-
-    <div class="bg-red-700 text-white py-2 overflow-hidden border-b border-black">
-        <div id="breaking-ticker" class="animate-marquee uppercase font-bold text-sm tracking-widest">
-            Fetching latest regional and national reporting...
+<body class="bg-[#fcfaf5] text-stone-900">
+    <div class="bg-red-700 text-white py-2 overflow-hidden whitespace-nowrap border-b border-black">
+        <div class="inline-block animate-marquee uppercase font-bold text-sm tracking-widest">
+            Breaking: Live Updates from across Bharat • Digital India Initiative expands • Sensex reaches new highs • 
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="flex justify-center gap-2 mb-6 border-b border-stone-300 pb-4">
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold bg-red-700 text-white" data-lang="en">ENGLISH</button>
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="hi">हिन्दी</button>
-            <button class="lang-btn px-4 py-1 border border-stone-800 text-xs font-bold" data-lang="bn">বাংলা</button>
-        </div>
-
-        <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-4">
-            <h1 id="main-title" class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">THE GAZETTE</h1>
+    <div class="max-w-6xl mx-auto px-4 py-6">
+        <header class="text-center border-b-4 border-double border-stone-800 pb-4 mb-8">
+            <h1 class="newspaper-title text-6xl md:text-8xl font-black uppercase tracking-tighter">LATEST NEWSPAPER</h1>
             <div class="flex justify-between mt-4 font-bold text-xs uppercase border-t border-stone-300 pt-2 italic">
-                <span id="edition-label">National Edition</span>
+                <span>New Delhi // Mumbai // Bengaluru</span>
                 <span id="current-date"></span>
+                <span>Edition: Digital India</span>
             </div>
         </header>
 
-        <nav id="nav-bar" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-6 py-2 border-b border-stone-300 font-bold uppercase text-xs md:text-sm tracking-widest"></nav>
-
-        <div id="state-selector" class="hidden mb-8 p-6 bg-stone-100 border border-stone-300 text-center">
-            <label class="block text-xs font-black uppercase mb-3 tracking-widest">Select Regional Reporting</label>
-            <select id="state-dropdown" class="w-full max-w-xs p-2 border-2 border-stone-800 bg-white text-sm font-bold"></select>
-        </div>
-
-        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]"></div>
-
-        <div class="flex justify-center items-center gap-6 mt-12 mb-20 border-t border-stone-300 pt-8">
-            <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-20">← Previous</button>
-            <span id="page-num" class="font-black text-lg">PAGE 1</span>
-            <button id="next-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition">Next →</button>
+        <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="col-span-full text-center py-20 text-stone-400 italic">Gathering the latest headlines...</div>
+       <div class="flex justify-center gap-4 mt-12 mb-20">
+    <button id="prev-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition disabled:opacity-30" disabled>← Previous</button>
+    <span id="page-num" class="flex items-center font-bold">Page 1</span>
+    <button id="next-btn" class="px-6 py-2 border-2 border-stone-800 font-bold hover:bg-stone-800 hover:text-white transition">Next →</button>
+</div>
         </div>
     </div>
 
-    <div id="news-reader" class="fixed inset-0 bg-black/95 z-50 hidden flex justify-center items-center p-0 md:p-4">
-        <div class="bg-[#fcfaf5] w-full max-w-4xl h-full md:h-[95vh] overflow-y-auto relative shadow-2xl">
-            <button id="close-reader" class="fixed top-4 right-6 text-5xl font-light hover:text-red-700 z-[60]">&times;</button>
-            <div class="p-6 md:p-16">
-                <p id="reader-source" class="text-xs font-bold text-red-700 uppercase tracking-widest mb-4"></p>
-                <h2 id="reader-title" class="newspaper-title text-4xl md:text-6xl font-black leading-tight mb-8"></h2>
-                <img id="reader-img" src="" class="w-full h-auto max-h-96 object-cover mb-10 shadow-lg">
-                <div id="reader-content" class="text-xl md:text-2xl leading-relaxed text-stone-800 space-y-6 first-letter:text-7xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-2"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-        
-        const UI_TEXT = {
-            en: { title: "THE GAZETTE", edition: "National Edition", nav: ["general", "world", "nation", "states", "sports", "technology", "education"] },
-            hi: { title: "द गज़ेट", edition: "राष्ट्रीय संस्करण", nav: ["general", "world", "nation", "states", "sports", "technology", "education"], labels: { general: "मुख्य", world: "विश्व", nation: "देश", states: "राज्य", sports: "खेल", technology: "तकनीक", education: "शिक्षा" } },
-            bn: { title: "দ্য গেজেট", edition: "জাতীয় সংস্করণ", nav: ["general", "world", "nation", "states", "sports", "technology", "education"], labels: { general: "মূল খবর", world: "আন্তর্জাতিক", nation: "দেশ", states: "রাজ্য", sports: "খেলাধুলা", technology: "প্রযুক্তি", education: "শিক্ষা" } }
-        };
-
-        const KEYS = {
-            gnews: '8d2a825a10e2836e5c8a26affa038680',
-            newsdata: 'pub_9410f56733d649d0bd05e1204efae7ee',
-            currents: 'ZSiD8EbjAqlidDAA0wxOu3Dn2i5C9wRazO7i-Xave-kk4s-g'
-        };
-
-        let currentLang = 'en', currentPage = 1, currentCategory = 'general', currentState = "";
-        let nextTokens = { newsdata: null };
-
-        const API_SOURCES = [
-            {
-                name: 'GNews',
-                fetch: async (p, c, l) => {
-                    let q = (c === 'states') ? `q=${currentState || 'India'}` : `category=${c}`;
-                    const res = await fetch(`https://gnews.io/api/v4/top-headlines?${q}&lang=${l}&country=in&max=10&page=${p}&apikey=${KEYS.gnews}`);
-                    const data = await res.json();
-                    if(!res.ok) throw new Error();
-                    return data.articles.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.source.name }));
-                }
-            },
-            {
-                name: 'NewsData_Latest', // Integrated your screenshot/requested filters here
-                fetch: async (p, c, l) => {
-                    let url = `https://newsdata.io/api/1/latest?apikey=${KEYS.newsdata}&country=in&language=en,hi,bn&image=1&video=1&removeduplicate=1`;
-                    const catMap = { general: 'top', nation: 'politics', world: 'world', education: 'education', sports: 'sports', technology: 'technology' };
-                    url += `&category=${catMap[c] || 'top'}`;
-                    if (c === 'states' && currentState) url += `&q=${currentState}`;
-                    if (p > 1 && nextTokens.newsdata) url += `&page=${nextTokens.newsdata}`;
-                    
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(data.status === "error") throw new Error();
-                    nextTokens.newsdata = data.nextPage;
-                    return data.results.map(a => ({ title: a.title, desc: a.content || a.description, img: a.image_url, link: a.link, source: a.source_id }));
-                }
-            },
-            {
-                name: 'CurrentsAPI',
-                fetch: async (p, c, l) => {
-                    let url = `https://api.currentsapi.services/v1/latest-news?language=${l}&apiKey=${KEYS.currents}`;
-                    if (c === 'states') url += `&keywords=${currentState || 'India'}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    if(data.status !== "ok") throw new Error();
-                    return data.news.map(a => ({ title: a.title, desc: a.description, img: a.image, link: a.url, source: a.author }));
-                }
-            }
-        ];
-
-        async function loadNews(page = 1, category = 'general', lang = 'en') {
-            const grid = document.getElementById('news-grid');
-            grid.innerHTML = `<div class="col-span-full text-center py-20 text-stone-400 italic text-xl">Rotating API Sources...</div>`;
-            document.getElementById('state-selector').classList.toggle('hidden', category !== 'states');
-
-            let news = null;
-            for (let source of API_SOURCES) {
-                try {
-                    news = await source.fetch(page, category, lang);
-                    if (news && news.length > 0) break;
-                } catch (e) { console.warn(`${source.name} exhausted.`); continue; }
-            }
-
-            if (news) renderNews(news);
-            else grid.innerHTML = `<div class="col-span-full text-center py-20 text-red-800 font-bold uppercase tracking-widest border-2 border-dashed border-red-200">API Waterfall Exhausted for Today</div>`;
-        }
-
-        function renderNews(articles) {
-            const grid = document.getElementById('news-grid');
-            grid.innerHTML = '';
-            document.getElementById('breaking-ticker').innerText = articles.map(a => a.title).join(' • ');
-
-            articles.forEach((article, index) => {
-                const div = document.createElement('div');
-                div.className = `${index === 0 ? 'md:col-span-2 border-b-2 md:border-r border-stone-300 md:pr-8 mb-6 pb-6' : 'border-b border-stone-200 pb-6'} cursor-pointer group`;
-                div.innerHTML = `
-                    <img src="${article.img || 'https://via.placeholder.com/600x400'}" class="w-full ${index === 0 ? 'h-96' : 'h-48'} object-cover mb-4 group-hover:sepia transition duration-700">
-                    <h2 class="${index === 0 ? 'text-4xl' : 'text-xl'} font-bold mb-2 group-hover:text-red-800">${article.title}</h2>
-                    <p class="text-stone-600 line-clamp-3 text-sm">${article.desc || 'No preview available. Tap to read more.'}</p>
-                    <p class="text-[10px] font-bold mt-4 uppercase text-stone-400">Source: ${article.source}</p>
-                `;
-                div.onclick = () => {
-                    document.getElementById('reader-title').innerText = article.title;
-                    document.getElementById('reader-source').innerText = article.source;
-                    document.getElementById('reader-img').src = article.img || '';
-                    document.getElementById('reader-content').innerHTML = `<p>${article.desc || 'Full coverage pending.'}</p><p>This report is accessed via ${article.source} for The Gazette.</p>`;
-                    document.getElementById('news-reader').classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                    history.pushState({ readerOpen: true }, ""); 
-                };
-                grid.appendChild(div);
-            });
-        }
-
-        window.onpopstate = () => {
-            document.getElementById('news-reader').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        };
-
-        document.getElementById('close-reader').onclick = () => history.back();
-
-        function init() {
-            const ui = UI_TEXT[currentLang];
-            document.getElementById('main-title').innerText = ui.title;
-            document.getElementById('edition-label').innerText = ui.edition;
-            document.getElementById('nav-bar').innerHTML = ui.nav.map(cat => `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="changeCategory('${cat}')">${ui.labels?.[cat] || cat.toUpperCase()}</button>`).join('');
-            
-            const dropdown = document.getElementById('state-dropdown');
-            dropdown.innerHTML = `<option value="">All Indian States</option>` + STATES.map(s => `<option value="${s}">${s}</option>`).join('');
-            dropdown.onchange = (e) => { currentState = e.target.value; currentPage = 1; loadNews(1, 'states', currentLang); };
-            
-            document.getElementById('current-date').innerText = new Date().toDateString();
-        }
-
-        window.changeCategory = (cat) => {
-            currentCategory = cat; currentPage = 1; nextTokens.newsdata = null;
-            loadNews(1, cat, currentLang);
-            init();
-        };
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.onclick = (e) => {
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('bg-red-700', 'text-white'));
-                e.target.classList.add('bg-red-700', 'text-white');
-                currentLang = e.target.dataset.lang;
-                document.body.className = `text-stone-900 lang-${currentLang}`;
-                loadNews(1, currentCategory, currentLang);
-                init();
-            };
-        });
-
-        document.getElementById('next-btn').onclick = () => { currentPage++; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0);};
-        document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) { currentPage--; loadNews(currentPage, currentCategory, currentLang); document.getElementById('page-num').innerText = `PAGE ${currentPage}`; window.scrollTo(0,0);}};
-
-        init();
-        loadNews(1, 'general', 'en');
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>
