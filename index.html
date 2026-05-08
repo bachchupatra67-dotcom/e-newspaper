@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --bg: #ffffff;
@@ -43,7 +43,7 @@
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; padding: 0; margin: 0; }
         button { cursor: pointer; border: none; outline: none; font-family: 'Inter', sans-serif;}
-        
+
         .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
 
         /* 7. DAILY UTILITY BAR (Mockup) */
@@ -51,17 +51,62 @@
         .utility-items { display: flex; gap: 16px; }
         .utility-items span { display: flex; align-items: center; gap: 4px; }
 
-        header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
-        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
-        
-        .nav-actions { display: flex; gap: 8px; align-items: center; }
-        .nav-actions button, .nav-actions select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); font-weight: 600; }
-        
-        /* 17. REGIONAL CATEGORIES */
-        .category-nav { display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; border-top: 1px solid var(--border); scrollbar-width: none; }
-        .category-nav li { font-weight: 600; font-size: 0.9rem; cursor: pointer; color: var(--text-muted); white-space: nowrap; text-transform: uppercase; }
-        .category-nav li:hover, .category-nav li.active { color: var(--accent); }
+        header { 
+    position: sticky; 
+    top: 0; 
+    /* Luxurious Gold Gradient Banner */
+    background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 25%, #AA771C 50%, #F9F295 75%, #D4AF37 100%);
+    border-bottom: 3px solid #8A5A19; 
+    z-index: 100; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.logo { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 2.8rem; 
+    font-weight: 900; 
+    letter-spacing: 2px; 
+    /* Diamond / Crystal Text Effect */
+    background: linear-gradient(180deg, #FFFFFF 0%, #E2F0F9 40%, #B8D8EE 60%, #FFFFFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 
+        0px 2px 2px rgba(0, 0, 0, 0.4),
+        0px 0px 8px rgba(255, 255, 255, 0.9),
+        0px 0px 15px rgba(200, 230, 255, 0.6);
+    filter: drop-shadow(0px 4px 3px rgba(0,0,0,0.3)); /* Adds premium 3D depth */
+}
+
+
+       .nav-actions { display: flex; gap: 8px; align-items: center; }
+.nav-actions button, .nav-actions select { 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    /* Premium frosted glass buttons on gold */
+    border: 1px solid rgba(255,255,255,0.6); 
+    background: rgba(255, 255, 255, 0.85); 
+    color: #111; 
+    font-weight: 700; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.nav-actions button:hover, .nav-actions select:hover { background: #ffffff; }
+
+.category-nav { 
+    display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; 
+    border-top: 1px solid rgba(138, 90, 25, 0.3); /* Subtle gold-brown border */
+    scrollbar-width: none; 
+}
+.category-nav li { 
+    font-weight: 700; font-size: 0.95rem; cursor: pointer; 
+    color: #333333; /* Dark text for legibility on gold */
+    white-space: nowrap; text-transform: uppercase; 
+    text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+}
+.category-nav li:hover, .category-nav li.active { 
+    color: #000000; 
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glowing active state */
+}
+
 
         .main-layout { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 32px 0; }
         @media (min-width: 1024px) { .main-layout { grid-template-columns: 3fr 1fr; } }
@@ -73,18 +118,18 @@
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
         .card-img { width: 100%; height: 200px; object-fit: cover; background: var(--border); }
         .card-content { padding: 16px; display: flex; flex-direction: column; height: calc(100% - 200px); }
-        
+
         .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
         .card-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin: 0 0 8px 0; line-height: 1.3; }
         .card-summary { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .card-footer { margin-top: auto; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); }
-        
+
         .card.hero { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; }
         @media (min-width: 768px) { .card.hero { grid-template-columns: 1.5fr 1fr; } .card.hero .card-img { height: 100%; min-height: 300px; } }
 
         .sidebar-section { background: var(--surface); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); margin-bottom: 24px; }
         .sidebar-section h3 { font-family: 'Playfair Display', serif; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 16px; }
-        
+
         .edu-badge { display: inline-block; background: #2563eb; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-bottom: 4px; }
         .job-badge { background: #059669; }
 
@@ -93,10 +138,10 @@
         .modal-header { display: flex; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 2000; }
         .modal-content { max-width: 800px; margin: 40px auto; padding: 0 24px; }
         .modal-content h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 16px; }
-        
+
         /* 14. VOICE BUTTON */
         .voice-btn { background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; border: none; }
-        
+
         .loader { grid-column: 1/-1; text-align: center; padding: 50px; font-weight: bold; color: var(--text-muted); }
     </style>
 </head>
@@ -121,12 +166,12 @@
                         <option value="en">English UI</option>
                         <option value="bn">বাংলা UI</option>
                     </select>
-                    
+
                     <button onclick="toggleSimpleMode()" id="simpleBtn" title="Simple Mode">👁️ <span data-i18n="simple">Simple</span></button>
                     <button onclick="toggleTheme()" id="themeToggle" title="Dark Mode">🌙</button>
                 </div>
             </div>
-            
+
             <ul class="category-nav" id="navMenu">
                 <li class="active" onclick="setCategory('Kolkata OR West Bengal', this)" data-i18n="local">Local Update</li>
                 <li onclick="setCategory('SSC OR UPSC OR Railway Jobs India', this)" data-i18n="jobs">Govt Jobs</li>
@@ -172,7 +217,7 @@
         </div>
         <div class="modal-content">
             <h1 id="modalTitle">Article Title</h1>
-            
+
             <button class="voice-btn" onclick="readAloud()" id="voiceBtn">
                 🔊 <span data-i18n="listen">Listen to Article</span>
             </button>
@@ -243,10 +288,10 @@
 
     async function fetchNews(query) {
         document.getElementById('mainGrid').innerHTML = `<div class="loader" data-i18n="loading">${dictionary[currentUILang].loading}</div>`;
-        
+
         // NewsData API is great for regional Indian content
         const langCode = currentUILang === 'bn' ? 'bn' : 'en';
-        
+
         try {
             const [gnews, newsdata] = await Promise.allSettled([
                 fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`).then(r=>r.json()),
@@ -281,7 +326,7 @@
             const el = document.createElement('div');
             el.className = idx === 0 ? 'card hero' : 'card';
             const imgHtml = article.img ? `<img src="${article.img}" class="card-img" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
-            
+
             el.innerHTML = `
                 ${imgHtml}
                 <div class="card-content">
@@ -314,7 +359,7 @@
         utterance.lang = currentUILang === 'bn' ? 'bn-IN' : 'en-IN'; // Indian English or Bengali accent
         window.speechSynthesis.speak(utterance);
         document.getElementById('voiceBtn').innerHTML = `⏸️ Stop Listening`;
-        
+
         utterance.onend = () => {
              document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`;
         };
@@ -325,9 +370,9 @@
         const imgEl = document.getElementById('modalImg');
         if (article.img) { imgEl.style.background = `url(${article.img}) center/cover no-repeat`; imgEl.style.display = 'block'; } 
         else { imgEl.style.display = 'none'; }
-        
+
         document.getElementById('modalBody').innerHTML = article.content ? article.content + `<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>` : `Please read the full article on the original site.<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>`;
-        
+
         document.getElementById('articleModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
