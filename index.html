@@ -3,298 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Gazette | Bengal's Own News</title>
+    <title>The Gazette | Premium Digital E-Newspaper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;900&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #ffffff;
-            --surface: #f8f9fa;
+            --bg: #f4f4f5; /* Softer modern background */
+            --surface: #ffffff;
             --text-main: #111827;
             --text-muted: #6b7280;
             --border: #e5e7eb;
             --primary: #000000;
-            --accent: #dc2626; 
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --accent: #dc2626; /* Premium Breaking Red */
+            --radius: 16px;
+            --radius-lg: 24px;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
         }
 
         [data-theme="dark"] {
-            --bg: #111827; --surface: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --primary: #ffffff;
+            --bg: #09090b; --surface: #18181b; --text-main: #f9fafb; --text-muted: #a1a1aa; --border: #27272a; --primary: #ffffff;
         }
 
-        /* 15. SIMPLE MODE */
-        body.simple-mode {
-            font-size: 120%;
-            --radius: 4px;
-        }
+        body.simple-mode { font-size: 120%; --radius: 8px; --radius-lg: 12px; }
         body.simple-mode .news-grid { grid-template-columns: 1fr !important; }
-        body.simple-mode .card { border: 2px solid var(--primary); }
 
         body {
-            font-family: 'Inter', 'Tiro Bangla', sans-serif; /* Fallback to Bengali font */
+            font-family: 'Inter', 'Tiro Bangla', sans-serif;
             background-color: var(--bg); color: var(--text-main);
             margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s;
-            padding-bottom: 70px;
         }
 
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; padding: 0; margin: 0; }
         button { cursor: pointer; border: none; outline: none; font-family: 'Inter', sans-serif;}
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+        /* 1. NEW TOP BREAKING BAR */
+        .breaking-bar {
+            background-color: var(--accent); color: white; font-size: 0.85rem; padding: 8px 0;
+            display: flex; justify-content: space-between; align-items: center; font-weight: 600;
+        }
+        .breaking-bar span { display: flex; gap: 15px; align-items: center; }
 
-        /* 7. DAILY UTILITY BAR (Mockup) */
-        .utility-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 6px 0; font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; font-weight: 600; }
-        .utility-items { display: flex; gap: 16px; }
-        .utility-items span { display: flex; align-items: center; gap: 4px; }
-
+        /* 2. HEADER (Kept your premium gold) */
         header { 
-    position: sticky; 
-    top: 0; 
-    /* Luxurious Gold Gradient Banner */
-    background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 25%, #AA771C 50%, #F9F295 75%, #D4AF37 100%);
-    border-bottom: 3px solid #8A5A19; 
-    z-index: 100; 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
+            position: sticky; top: 0; z-index: 100; 
+            background: linear-gradient(135deg, #D4AF37 0%, #FFDF73 25%, #AA771C 50%, #F9F295 75%, #D4AF37 100%);
+            border-bottom: 3px solid #8A5A19; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
 
-.logo { 
-    font-family: 'Playfair Display', serif; 
-    font-size: 2.8rem; 
-    font-weight: 900; 
-    letter-spacing: 2px; 
-    /* Diamond / Crystal Text Effect */
-    background: linear-gradient(180deg, #FFFFFF 0%, #E2F0F9 40%, #B8D8EE 60%, #FFFFFF 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 
-        0px 2px 2px rgba(0, 0, 0, 0.4),
-        0px 0px 8px rgba(255, 255, 255, 0.9),
-        0px 0px 15px rgba(200, 230, 255, 0.6);
-    filter: drop-shadow(0px 4px 3px rgba(0,0,0,0.3)); /* Adds premium 3D depth */
-}
+        .logo { 
+            font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; letter-spacing: 1px; 
+            background: linear-gradient(180deg, #FFFFFF 0%, #E2F0F9 40%, #B8D8EE 60%, #FFFFFF 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 3px 2px rgba(0,0,0,0.3));
+        }
 
+        .nav-actions { display: flex; gap: 8px; align-items: center; }
+        .nav-actions button, .nav-actions select { 
+            padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6); 
+            background: rgba(255, 255, 255, 0.9); color: #111; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-       .nav-actions { display: flex; gap: 8px; align-items: center; }
-.nav-actions button, .nav-actions select { 
-    padding: 8px 12px; 
-    border-radius: 8px; 
-    /* Premium frosted glass buttons on gold */
-    border: 1px solid rgba(255,255,255,0.6); 
-    background: rgba(255, 255, 255, 0.85); 
-    color: #111; 
-    font-weight: 700; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.nav-actions button:hover, .nav-actions select:hover { background: #ffffff; }
+        .category-nav { 
+            display: flex; gap: 24px; overflow-x: auto; padding: 14px 0; border-top: 1px solid rgba(138, 90, 25, 0.3); scrollbar-width: none; 
+        }
+        .category-nav li { 
+            font-weight: 800; font-size: 0.95rem; cursor: pointer; color: #333333; text-transform: uppercase; 
+        }
+        .category-nav li.active { color: #000000; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); border-bottom: 2px solid #000; padding-bottom: 4px;}
 
-.category-nav { 
-    display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; 
-    border-top: 1px solid rgba(138, 90, 25, 0.3); /* Subtle gold-brown border */
-    scrollbar-width: none; 
-}
-.category-nav li { 
-    font-weight: 700; font-size: 0.95rem; cursor: pointer; 
-    color: #333333; /* Dark text for legibility on gold */
-    white-space: nowrap; text-transform: uppercase; 
-    text-shadow: 0 1px 1px rgba(255,255,255,0.4);
-}
-.category-nav li:hover, .category-nav li.active { 
-    color: #000000; 
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glowing active state */
-}
-
-
-        .main-layout { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 32px 0; }
-        @media (min-width: 1024px) { .main-layout { grid-template-columns: 3fr 1fr; } }
+        /* 3. MAIN LAYOUT & GRID */
+        .main-layout { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 40px 20px; max-width: 1280px; margin: 0 auto; }
+        @media (min-width: 1024px) { .main-layout { grid-template-columns: 2.5fr 1fr; } }
 
         .news-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
         @media (min-width: 768px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        .card { background: var(--surface); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-        .card-img { width: 100%; height: 200px; object-fit: cover; background: var(--border); }
-        .card-content { padding: 16px; display: flex; flex-direction: column; height: calc(100% - 200px); }
+        /* 4. MODERN CARDS */
+        .card { 
+            background: var(--surface); border-radius: var(--radius); overflow: hidden; 
+            border: 1px solid var(--border); transition: all 0.3s ease; position: relative;
+        }
+        .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+        .card-img { width: 100%; height: 220px; object-fit: cover; background: var(--border); }
+        .card-tag { position: absolute; top: 16px; left: 16px; background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; z-index: 10; }
+        
+        .card-content { padding: 20px; display: flex; flex-direction: column; height: calc(100% - 220px); box-sizing: border-box; }
+        .card-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0 0 12px 0; line-height: 1.3; font-weight: 900;}
+        .card-summary { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6;}
+        .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+        .read-btn { background: var(--primary); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.85rem;}
 
-        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
-        .card-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin: 0 0 8px 0; line-height: 1.3; }
-        .card-summary { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .card-footer { margin-top: auto; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); }
+        /* 5. HERO CARD (From the React UI) */
+        .card.hero { grid-column: 1 / -1; display: block; border: none; box-shadow: var(--shadow); border-radius: var(--radius-lg); height: 450px; }
+        .card.hero .card-img { height: 100%; width: 100%; position: absolute; top: 0; left: 0; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); z-index: 1; }
+        .hero-content { position: absolute; bottom: 0; left: 0; padding: 40px; z-index: 2; color: white; width: 100%; box-sizing: border-box;}
+        .hero-content .card-title { color: white; font-size: 2.5rem; max-width: 800px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .hero-content .card-summary { color: #e5e7eb; max-width: 600px; font-size: 1.1rem; }
 
-        .card.hero { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; }
-        @media (min-width: 768px) { .card.hero { grid-template-columns: 1.5fr 1fr; } .card.hero .card-img { height: 100%; min-height: 300px; } }
+        /* 6. SIDEBAR & LIVE NEWS BOX */
+        .sidebar-section { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--border); margin-bottom: 24px; box-shadow: var(--shadow); }
+        .sidebar-section h3 { font-family: 'Playfair Display', serif; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 20px; font-size: 1.5rem; font-weight: 900;}
+        
+        .live-box { background: #000000; color: white; border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow); }
+        [data-theme="dark"] .live-box { background: #111; border: 1px solid #333; }
+        .live-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .live-pulse { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); } }
+        .live-item { border-bottom: 1px solid #333; padding-bottom: 12px; margin-bottom: 12px; font-size: 0.95rem; font-weight: 500; }
+        .live-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-        .sidebar-section { background: var(--surface); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border); margin-bottom: 24px; }
-        .sidebar-section h3 { font-family: 'Playfair Display', serif; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 16px; }
+        /* 7. PREMIUM FOOTER */
+        footer { background: #000000; color: white; padding: 60px 20px 30px; margin-top: 40px; }
+        [data-theme="dark"] footer { background: #050505; border-top: 1px solid #222; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 1280px; margin: 0 auto; }
+        @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(3, 1fr); } }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 16px; }
+        .footer-col h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; color: var(--accent); }
+        .footer-col p, .footer-col li { color: #a1a1aa; font-size: 0.95rem; margin-bottom: 12px; }
+        .footer-bottom { text-align: center; color: #52525b; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #27272a; }
 
-        .edu-badge { display: inline-block; background: #2563eb; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-bottom: 4px; }
-        .job-badge { background: #059669; }
-
+        /* Modals and Loaders */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; overflow-y: auto; display: none; }
         .modal-overlay.active { display: block; }
         .modal-header { display: flex; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 2000; }
         .modal-content { max-width: 800px; margin: 40px auto; padding: 0 24px; }
-        .modal-content h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 16px; }
-
-        /* 14. VOICE BUTTON */
-        .voice-btn { background: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; border: none; }
-
-        .loader { grid-column: 1/-1; text-align: center; padding: 50px; font-weight: bold; color: var(--text-muted); }
+        .modal-content h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 16px; font-weight: 900;}
+        .voice-btn { background: var(--accent); color: white; padding: 12px 24px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; box-shadow: var(--shadow); }
+        .loader { grid-column: 1/-1; text-align: center; padding: 50px; font-weight: bold; color: var(--text-muted); font-size: 1.2rem;}
+        
+        .ad-container { text-align: center; padding: 20px 0; width: 100%; }
+        .ad-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;}
     </style>
 </head>
 <body>
 
-        <div class="utility-bar container">
-        <div class="utility-items">
+    <div class="breaking-bar container">
+        <span>
+            <strong style="background: white; color: var(--accent); padding: 2px 8px; border-radius: 4px;">BREAKING</strong>
             <span id="liveDateTime">📅 Loading time...</span>
-            <span>🌦️ Kolkata: 32°C</span>
-        </div>
-        <div class="utility-items">
-            <span>🪙 Gold (22K): ₹6,800/g</span>
-        </div>
+        </span>
+        <span class="hidden-mobile">
+            🌦️ Kolkata: 32°C &nbsp;|&nbsp; 🪙 Gold (22K): ₹6,800/g
+        </span>
     </div>
 
     <header>
-        <div class="container">
-            <div class="top-nav">
-                <div class="logo">The Gazette</div>
+        <div class="container" style="padding-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div class="logo">The Gazette</div>
+                    <div style="color: #333; font-size: 0.85rem; font-weight: 700; margin-top:-5px; letter-spacing: 1px;">Trusted Digital E-Newspaper</div>
+                </div>
                 <div class="nav-actions">
                     <select id="uiLangSelector" onchange="switchUILanguage(event)">
                         <option value="en">English UI</option>
                         <option value="bn">বাংলা UI</option>
                     </select>
-
                     <button onclick="toggleSimpleMode()" id="simpleBtn" title="Simple Mode">👁️ <span data-i18n="simple">Simple</span></button>
                     <button onclick="toggleTheme()" id="themeToggle" title="Dark Mode">🌙</button>
                 </div>
             </div>
 
-                        <ul class="category-nav" id="navMenu">
+            <ul class="category-nav" id="navMenu">
                 <li class="active" onclick="setCategory('top headlines India', this)" data-i18n="highlights">Today's Highlights</li>
                 <li onclick="setCategory('Kolkata OR West Bengal', this)" data-i18n="local">Local Update</li>
                 <li onclick="setCategory('Politics India', this)" data-i18n="politics">Politics</li>
                 <li onclick="setCategory('Sports India OR Cricket', this)" data-i18n="sports">Sports</li>
+                <li onclick="setCategory('Technology India', this)" data-i18n="tech">Technology</li>
                 <li onclick="setCategory('SSC OR UPSC OR Railway Jobs India', this)" data-i18n="jobs">Govt Jobs</li>
             </ul>
-
         </div>
     </header>
 
-  <!-- BEGIN AADS AD UNIT 2436991 -->
-
-<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2436991' src='//acceptable.a-ads.com/2436991/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+    <div class="ad-container container">
+        <span class="ad-label">Advertisement</span>
+        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+            <iframe data-aa='2436991' src='//acceptable.a-ads.com/2436991/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
         </div>
-
-<!-- END AADS AD UNIT 2436991 -->
-
     </div>
 
-
-    <main class="container main-layout">
-
+    <main class="main-layout">
+        
         <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin:0;">Top Stories</h2>
+            </div>
             <div class="news-grid" id="mainGrid">
                 <div class="loader" data-i18n="loading">Fetching regional updates...</div>
             </div>
         </div>
+
         <aside class="sidebar">
             
-            <div class="sidebar-section" style="text-align: center; padding: 15px;">
-                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Advertisement</span><br>
-                
-<!-- BEGIN AADS AD UNIT 2436977 -->
+            <div class="live-box">
+                <div class="live-header">
+                    <h3 style="margin:0; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 1.2rem; letter-spacing: 1px;">LIVE NEWS</h3>
+                    <div class="live-pulse"></div>
+                </div>
+                <div class="live-item">IMD issues sudden weather alert for Kolkata & Howrah districts.</div>
+                <div class="live-item">State Assembly begins discussion on new digital education reforms.</div>
+                <div class="live-item">Traffic diversions announced near Park Street for weekend events.</div>
+            </div>
 
-<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2436977' src='//acceptable.a-ads.com/2436977/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
-
-<!-- END AADS AD UNIT 2436977 -->
-
+            <div class="sidebar-section ad-container" style="padding: 15px;">
+                <span class="ad-label">Advertisement</span>
+                <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+                    <iframe data-aa='2436977' src='//acceptable.a-ads.com/2436977/?size=Adaptive' style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+                </div>
             </div>
 
             <div class="sidebar-section">
                 <h3 data-i18n="trending">🔥 Trending in Bengal</h3>
-
                 <div id="trendingSidebar">
                     </div>
             </div>
         </aside>
     </main>
 
-    <div class="container" style="text-align: center; padding: 20px 0; margin-bottom: 20px;">
-        <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Advertisement</span><br>
-        
+    <div class="ad-container container">
+        <span class="ad-label">Advertisement</span>
         <div id="aads-2436973" style="width: 100%; margin: 0 auto; position: relative; z-index: 99999;">
-            <iframe data-aa="2436973" src="//acceptable.a-ads.com/2436973?size=Adaptive" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>
+            <iframe data-aa="2436973" src="//acceptable.a-ads.com/2436973?size=Adaptive" style="border:0px; padding:0; width:100%; height:90px; overflow:hidden; background-color: transparent;"></iframe>
         </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">The Gazette</div>
+                <p>Professional digital newspaper platform focused on West Bengal, India, and global breaking news. Delivering truth with speed.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Sections</h4>
+                <ul>
+                    <li>Today's Highlights</li>
+                    <li>Local Bengal Updates</li>
+                    <li>Politics & Policy</li>
+                    <li>Government Jobs</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Digital Services</h4>
+                <ul>
+                    <li>Live News Alerts</li>
+                    <li>ePaper Accessibility</li>
+                    <li>Audio News (Text-to-Speech)</li>
+                    <li>Dark Mode Interface</li>
+                </ul>
+            </div>
         </div>
+        <div class="footer-bottom">
+            © 2026 The Gazette • Designed for a premium digital news experience in Bengal.
+        </div>
+    </footer>
 
     <div id="articleModal" class="modal-overlay">
-
         <div class="modal-header">
-            <div class="logo" style="font-size: 1.5rem;">The Gazette</div>
+            <div class="logo" style="font-size: 1.5rem; background: var(--primary); -webkit-text-fill-color: var(--bg);">The Gazette</div>
             <button onclick="closeModal()" style="font-size: 1.5rem; background:none; border:none; color:var(--text-main);">✕</button>
         </div>
         <div class="modal-content">
             <h1 id="modalTitle">Article Title</h1>
-
             <button class="voice-btn" onclick="readAloud()" id="voiceBtn">
                 🔊 <span data-i18n="listen">Listen to Article</span>
             </button>
-
-            <div class="card-img" id="modalImg" style="height: 350px; margin-bottom: 30px; border-radius: var(--radius); display:none;"></div>
+            <div class="card-img" id="modalImg" style="height: 400px; margin-bottom: 30px; border-radius: var(--radius-lg); display:none;"></div>
             <div class="modal-body" id="modalBody" style="font-size: 1.15rem; line-height: 1.8;"></div>
         </div>
     </div>
 
 <script>
-       // --- 1. UI DICTIONARY ---
+    // --- 1. UI DICTIONARY ---
     const dictionary = {
         en: {
             highlights: "Today's Highlights", politics: "Politics", sports: "Sports",
-            local: "Local Updates", jobs: "Govt Jobs",  national: "National",
-            tech: "Tech", simple: "Simple", listen: "Listen to Article", loading: "Fetching regional updates...",
-            trending: "🔥 Trending in Bengal", read_more: "Read full story →"
+            local: "Local Updates", jobs: "Govt Jobs", tech: "Tech", simple: "Simple", 
+            listen: "Listen to Article", loading: "Fetching live updates...",
+            trending: "🔥 Trending in Bengal", read_more: "Read full story"
         },
         bn: {
             highlights: "আজকের হাইলাইটস", politics: "রাজনীতি", sports: "খেলাধুলা",
-            local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", national: "জাতীয়",
-            tech: "প্রযুক্তি", simple: "সহজ মোড", listen: "খবরটি শুনুন", loading: "খবর লোড হচ্ছে...",
-             trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন →"
+            local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", tech: "প্রযুক্তি", simple: "সহজ মোড", 
+            listen: "খবরটি শুনুন", loading: "খবর লোড হচ্ছে...",
+            trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন"
         }
     };
 
-
     let currentUILang = 'en';
-    let utterance = null; // For Text-to-Speech
+    let utterance = null;
 
     function switchUILanguage(event) {
         currentUILang = event.target.value;
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if(dictionary[currentUILang][key]) {
-                el.innerText = dictionary[currentUILang][key];
-            }
+            if(dictionary[currentUILang][key]) el.innerText = dictionary[currentUILang][key];
         });
-        // Refetch to get language specific news if possible
         fetchNews(currentCategory);
     }
 
-    // --- 15. SIMPLE MODE ---
     function toggleSimpleMode() {
         document.body.classList.toggle('simple-mode');
-        const isActive = document.body.classList.contains('simple-mode');
-        localStorage.setItem('gazette_simple', isActive);
+        localStorage.setItem('gazette_simple', document.body.classList.contains('simple-mode'));
     }
     if (localStorage.getItem('gazette_simple') === 'true') toggleSimpleMode();
 
-    // --- THEME ---
     function toggleTheme() {
         const body = document.documentElement;
         const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -315,15 +332,12 @@
         fetchNews(category);
     }
 
-        async function fetchNews(query) {
+    async function fetchNews(query) {
         document.getElementById('mainGrid').innerHTML = `<div class="loader" data-i18n="loading">${dictionary[currentUILang].loading}</div>`;
-
-        // NewsData API is great for regional Indian content
         const langCode = currentUILang === 'bn' ? 'bn' : 'en';
 
         try {
             const [gnews, newsdata] = await Promise.allSettled([
-                // ADDED { cache: 'no-store' } right here to force fresh updates
                 fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`, { cache: 'no-store' }).then(r=>r.json()),
                 fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${langCode}&country=in`, { cache: 'no-store' }).then(r=>r.json())
             ]);
@@ -343,7 +357,7 @@
         }
     }
 
-
+    // --- NEW COMBINED RENDER FUNCTION ---
     function renderArticles(articles) {
         const grid = document.getElementById('mainGrid');
         const sidebar = document.getElementById('trendingSidebar');
@@ -355,30 +369,58 @@
 
         articles.slice(0, 8).forEach((article, idx) => {
             const el = document.createElement('div');
-            el.className = idx === 0 ? 'card hero' : 'card';
-            const imgHtml = article.img ? `<img src="${article.img}" class="card-img" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
+            const safeArticle = JSON.stringify(article).replace(/'/g, "&#39;");
+            
+            // If it is the first article, render it as the massive Hero block
+            if (idx === 0) {
+                el.className = 'card hero';
+                const imgStyle = article.img ? `background: url(${article.img}) center/cover;` : `background: #333;`;
+                
+                el.innerHTML = `
+                    <div class="card-img" style="${imgStyle}"></div>
+                    <div class="hero-overlay"></div>
+                    <div class="card-tag">Top Story</div>
+                    <div class="hero-content" style="cursor:pointer;" onclick='openArticle(${safeArticle})'>
+                        <span style="color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">${article.source}</span>
+                        <h2 class="card-title">${article.title}</h2>
+                        <p class="card-summary">${article.content || ''}</p>
+                    </div>
+                `;
+            } 
+            // Render the rest as modern sleek cards
+            else {
+                el.className = 'card';
+                const imgHtml = article.img ? `<img src="${article.img}" class="card-img" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
 
-            el.innerHTML = `
-                ${imgHtml}
-                <div class="card-content">
-                    <div class="card-meta"><span>${article.source}</span></div>
-                    <h3 class="card-title" style="cursor:pointer;" onclick='openArticle(${JSON.stringify(article).replace(/'/g, "&#39;")})'>${article.title}</h3>
-                    <p class="card-summary">${article.content || ''}</p>
-                    <div class="card-footer"><span style="color:var(--accent); cursor:pointer;" onclick='openArticle(${JSON.stringify(article).replace(/'/g, "&#39;")})'>${dictionary[currentUILang].read_more}</span></div>
-                </div>
-            `;
+                el.innerHTML = `
+                    <div style="position:relative; cursor:pointer;" onclick='openArticle(${safeArticle})'>
+                        <span class="card-tag">${article.source}</span>
+                        ${imgHtml}
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title" style="cursor:pointer; font-size:1.2rem;" onclick='openArticle(${safeArticle})'>${article.title}</h3>
+                        <p class="card-summary">${article.content || ''}</p>
+                        <div class="card-footer">
+                            <span class="read-btn" style="cursor:pointer;" onclick='openArticle(${safeArticle})'>${dictionary[currentUILang].read_more} →</span>
+                        </div>
+                    </div>
+                `;
+            }
             grid.appendChild(el);
         });
 
-        articles.slice(8, 12).forEach(article => {
-            sidebar.innerHTML += `<div style="padding: 12px 0; border-bottom: 1px solid var(--border); cursor:pointer;" onclick="window.open('${article.url}')">
-                <span style="font-size:0.75rem; color:var(--accent); font-weight:bold;">${article.source}</span>
-                <h4 style="margin: 4px 0; font-size: 0.95rem;">${article.title}</h4>
+        articles.slice(8, 13).forEach((article, i) => {
+            sidebar.innerHTML += `
+            <div style="display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); cursor:pointer; align-items: center;" onclick="window.open('${article.url}')">
+                <span style="font-size: 1.5rem; font-weight: 900; color: var(--border);">0${i + 1}</span>
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 0.95rem; line-height: 1.4;">${article.title}</h4>
+                    <span style="font-size:0.75rem; color:var(--accent); font-weight:bold;">${article.source}</span>
+                </div>
             </div>`;
         });
     }
 
-    // --- 14. TEXT TO SPEECH ---
     function readAloud() {
         const text = document.getElementById('modalBody').innerText || document.getElementById('modalTitle').innerText;
         if(window.speechSynthesis.speaking) {
@@ -387,13 +429,10 @@
             return;
         }
         utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = currentUILang === 'bn' ? 'bn-IN' : 'en-IN'; // Indian English or Bengali accent
+        utterance.lang = currentUILang === 'bn' ? 'bn-IN' : 'en-IN';
         window.speechSynthesis.speak(utterance);
         document.getElementById('voiceBtn').innerHTML = `⏸️ Stop Listening`;
-
-        utterance.onend = () => {
-             document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`;
-        };
+        utterance.onend = () => { document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`; };
     }
 
     function openArticle(article) {
@@ -401,9 +440,7 @@
         const imgEl = document.getElementById('modalImg');
         if (article.img) { imgEl.style.background = `url(${article.img}) center/cover no-repeat`; imgEl.style.display = 'block'; } 
         else { imgEl.style.display = 'none'; }
-
-        document.getElementById('modalBody').innerHTML = article.content ? article.content + `<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>` : `Please read the full article on the original site.<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more}</a>`;
-
+        document.getElementById('modalBody').innerHTML = article.content ? article.content + `<br><br><a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more} on Original Site →</a>` : `<a href="${article.url}" target="_blank" style="color:var(--accent); font-weight:bold;">${dictionary[currentUILang].read_more} on Original Site →</a>`;
         document.getElementById('articleModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -411,20 +448,15 @@
     function closeModal() {
         document.getElementById('articleModal').classList.remove('active');
         document.body.style.overflow = 'auto';
-        if(window.speechSynthesis) window.speechSynthesis.cancel(); // Stop audio on close
+        if(window.speechSynthesis) window.speechSynthesis.cancel();
     }
-    // --- LIVE CLOCK ---
+
     function updateClock() {
         const now = new Date();
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        // If current language is Bengali, we can format it in bn-IN, otherwise en-IN
-        const locale = currentUILang === 'bn' ? 'bn-IN' : 'en-IN';
-        document.getElementById('liveDateTime').innerText = '📅 ' + now.toLocaleString(locale, options);
+        document.getElementById('liveDateTime').innerText = now.toLocaleString(currentUILang === 'bn' ? 'bn-IN' : 'en-IN', options);
     }
-    setInterval(updateClock, 1000); // Update every second
-    updateClock(); // Call immediately on load
-
-
+    setInterval(updateClock, 1000); updateClock();
     window.onload = () => fetchNews(currentCategory);
 </script>
 
