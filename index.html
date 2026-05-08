@@ -192,7 +192,6 @@
 
         <aside class="sidebar">
                         <div class="sidebar-section">
-                <h3 data-i18n="student_hub">🎓 Student Hub</h3>
                 <div style="padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px;">
                     <span class="edu-badge">Notice</span>
                     <h4 style="margin: 4px 0; font-size: 0.95rem;">ICSE Specimen Papers 2026 Released</h4>
@@ -234,15 +233,15 @@
     const dictionary = {
         en: {
             highlights: "Today's Highlights", politics: "Politics", sports: "Sports",
-            local: "Local Updates", jobs: "Govt Jobs", student: "Student Zone", national: "National",
+            local: "Local Updates", jobs: "Govt Jobs",  national: "National",
             tech: "Tech", simple: "Simple", listen: "Listen to Article", loading: "Fetching regional updates...",
-            student_hub: "🎓 Student Hub", trending: "🔥 Trending in Bengal", read_more: "Read full story →"
+            trending: "🔥 Trending in Bengal", read_more: "Read full story →"
         },
         bn: {
             highlights: "আজকের হাইলাইটস", politics: "রাজনীতি", sports: "খেলাধুলা",
-            local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", student: "স্টুডেন্ট জোন", national: "জাতীয়",
+            local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", national: "জাতীয়",
             tech: "প্রযুক্তি", simple: "সহজ মোড", listen: "খবরটি শুনুন", loading: "খবর লোড হচ্ছে...",
-            student_hub: "🎓 স্টুডেন্ট হাব", trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন →"
+             trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন →"
         }
     };
 
@@ -291,7 +290,7 @@
         fetchNews(category);
     }
 
-    async function fetchNews(query) {
+        async function fetchNews(query) {
         document.getElementById('mainGrid').innerHTML = `<div class="loader" data-i18n="loading">${dictionary[currentUILang].loading}</div>`;
 
         // NewsData API is great for regional Indian content
@@ -299,8 +298,9 @@
 
         try {
             const [gnews, newsdata] = await Promise.allSettled([
-                fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`).then(r=>r.json()),
-                fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${langCode}&country=in`).then(r=>r.json())
+                // ADDED { cache: 'no-store' } right here to force fresh updates
+                fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`, { cache: 'no-store' }).then(r=>r.json()),
+                fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${langCode}&country=in`, { cache: 'no-store' }).then(r=>r.json())
             ]);
 
             let articles = [];
@@ -317,6 +317,7 @@
             document.getElementById('mainGrid').innerHTML = '<div class="loader">Failed to load news. API quotas may be exceeded.</div>';
         }
     }
+
 
     function renderArticles(articles) {
         const grid = document.getElementById('mainGrid');
