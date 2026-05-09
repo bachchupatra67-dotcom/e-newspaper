@@ -288,7 +288,7 @@
     </div>
 
 <script>
-    // --- 1. UI DICTIONARY ---
+  // --- 1. UI DICTIONARY ---
     const dictionary = {
         en: {
             highlights: "Today's Highlights", politics: "Politics", sports: "Sports",
@@ -301,18 +301,30 @@
             local: "স্থানীয় খবর", jobs: "সরকারি চাকরি", tech: "প্রযুক্তি", simple: "সহজ মোড", 
             listen: "খবরটি শুনুন", loading: "খবর লোড হচ্ছে...",
             trending: "🔥 ট্রেন্ডিং", read_more: "বিস্তারিত পড়ুন"
+        },
+        hi: {
+            highlights: "आज की मुख्य खबरें", politics: "राजनीति", sports: "खेल",
+            local: "स्थानीय खबरें", jobs: "सरकारी नौकरी", tech: "प्रौद्योगिकी", simple: "सरल मोड", 
+            listen: "खबर सुनें", loading: "लाइव अपडेट प्राप्त कर रहे हैं...",
+            trending: "🔥 बंगाल में ट्रेंडिंग", read_more: "पूरी कहानी पढ़ें"
         }
     };
 
-    let currentUILang = 'en';
+    // Check Chrome Storage for saved language, default to English
+    let currentUILang = localStorage.getItem('gazette_lang') || 'en';
     let utterance = null;
 
-    function switchUILanguage(event) {
-        currentUILang = event.target.value;
+    function applyTranslations() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if(dictionary[currentUILang][key]) el.innerText = dictionary[currentUILang][key];
         });
+    }
+
+    function switchUILanguage(event) {
+        currentUILang = event.target.value;
+        localStorage.setItem('gazette_lang', currentUILang); // Save to browser
+        applyTranslations();
         fetchNews(currentCategory);
     }
 
@@ -333,7 +345,7 @@
     // --- FETCH LOGIC ---
     const GNEWS_KEY = '8d2a825a10e2836e5c8a26affa038680';
     const NEWSDATA_KEY = 'pub_9410f56733d649d0bd05e1204efae7ee';
-    let currentCategory = 'Kolkata OR West Bengal';
+    let currentCategory = 'India news';
 
     function setCategory(category, el) {
         document.querySelectorAll('#navMenu li').forEach(li => li.classList.remove('active'));
@@ -344,12 +356,15 @@
 
     async function fetchNews(query) {
         document.getElementById('mainGrid').innerHTML = `<div class="loader" data-i18n="loading">${dictionary[currentUILang].loading}</div>`;
-        const langCode = currentUILang === 'bn' ? 'bn' : 'en';
+        
+        // Both APIs directly support 'en', 'bn', and 'hi'
+        const langCode = currentUILang; 
+        const safeQuery = encodeURIComponent(query); // Encodes spaces safely for the API
 
         try {
             const [gnews, newsdata] = await Promise.allSettled([
-                fetch(`https://gnews.io/api/v4/search?q=${query}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`, { cache: 'no-store' }).then(r=>r.json()),
-                fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${query}&language=${langCode}&country=in`, { cache: 'no-store' }).then(r=>r.json())
+                fetch(`https://gnews.io/api/v4/search?q=${safeQuery}&lang=${langCode}&country=in&apikey=${GNEWS_KEY}`, { cache: 'no-store' }).then(r=>r.json()),
+                fetch(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_KEY}&q=${safeQuery}&language=${langCode}&country=in`, { cache: 'no-store' }).then(r=>r.json())
             ]);
 
             let articles = [];
@@ -367,25 +382,23 @@
         }
     }
 
-    // --- NEW COMBINED RENDER FUNCTION ---
+    // --- RENDER COMBINED ---
     function renderArticles(articles) {
         const grid = document.getElementById('mainGrid');
         const sidebar = document.getElementById('trendingSidebar');
         grid.innerHTML = ''; sidebar.innerHTML = '';
 
         if(articles.length === 0) {
-            grid.innerHTML = `<div class="loader">No stories found.</div>`; return;
+            grid.innerHTML = `<div class="loader">No stories found. Try a different category.</div>`; return;
         }
 
         articles.slice(0, 8).forEach((article, idx) => {
             const el = document.createElement('div');
             const safeArticle = JSON.stringify(article).replace(/'/g, "&#39;");
             
-            // If it is the first article, render it as the massive Hero block
             if (idx === 0) {
                 el.className = 'card hero';
                 const imgStyle = article.img ? `background: url(${article.img}) center/cover;` : `background: #333;`;
-                
                 el.innerHTML = `
                     <div class="card-img" style="${imgStyle}"></div>
                     <div class="hero-overlay"></div>
@@ -396,12 +409,9 @@
                         <p class="card-summary">${article.content || ''}</p>
                     </div>
                 `;
-            } 
-            // Render the rest as modern sleek cards
-            else {
+            } else {
                 el.className = 'card';
                 const imgHtml = article.img ? `<img src="${article.img}" class="card-img" loading="lazy">` : `<div class="card-img" style="display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
-
                 el.innerHTML = `
                     <div style="position:relative; cursor:pointer;" onclick='openArticle(${safeArticle})'>
                         <span class="card-tag">${article.source}</span>
@@ -439,7 +449,13 @@
             return;
         }
         utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = currentUILang === 'bn' ? 'bn-IN' : 'en-IN';
+        
+        // Dynamic Voice Language Support
+        let locale = 'en-IN';
+        if(currentUILang === 'bn') locale = 'bn-IN';
+        if(currentUILang === 'hi') locale = 'hi-IN';
+        utterance.lang = locale; 
+        
         window.speechSynthesis.speak(utterance);
         document.getElementById('voiceBtn').innerHTML = `⏸️ Stop Listening`;
         utterance.onend = () => { document.getElementById('voiceBtn').innerHTML = `🔊 <span data-i18n="listen">${dictionary[currentUILang].listen}</span>`; };
@@ -464,11 +480,21 @@
     function updateClock() {
         const now = new Date();
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        document.getElementById('liveDateTime').innerText = now.toLocaleString(currentUILang === 'bn' ? 'bn-IN' : 'en-IN', options);
+        let locale = 'en-IN';
+        if(currentUILang === 'bn') locale = 'bn-IN';
+        if(currentUILang === 'hi') locale = 'hi-IN';
+        document.getElementById('liveDateTime').innerText = now.toLocaleString(locale, options);
     }
+    
     setInterval(updateClock, 1000); updateClock();
-    window.onload = () => fetchNews(currentCategory);
-</script>
+    
+    // Boot up the page with saved settings
+    window.onload = () => {
+        document.getElementById('uiLangSelector').value = currentUILang;
+        applyTranslations();
+        fetchNews(currentCategory);
+    };
+    </script>
 
 </body>
 </html>
