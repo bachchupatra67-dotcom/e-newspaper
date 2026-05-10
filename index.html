@@ -148,6 +148,15 @@
         .ad-container { text-align: center; padding: 20px 0; width: 100%; }
         .ad-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;}
     </style>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "1aeb177b-0a74-4d6c-85bf-d0d365ae7881",
+    });
+  });
+</script>
 </head>
 <body>
 
