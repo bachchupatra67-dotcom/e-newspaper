@@ -2,10 +2,10 @@
   {
     "name": "Press Information Bureau",
     "feed_url": "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=1",
-    "enabled": true,
+    "enabled": false,
     "education_only": false,
     "summary_allowed": false,
-    "permission_note": "Official government press-release feed. The site currently stores headline, date and source link only; verify reuse terms before adding excerpts, images or full text."
+    "permission_note": "Official government press-release RSS feed. Disabled until commercial display/reuse terms are confirmed for this publication. The collector stores only headline, date and source link; link-first display is not itself a licence."
   },
   {
     "name": "The Times of India",
