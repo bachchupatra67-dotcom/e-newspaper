@@ -1,0 +1,34 @@
+name: Hourly news collection
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: hourly-news-collection
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Collect permitted RSS headlines
+        run: python scripts/fetch_news.py
+      - name: Publish updated edition
+        run: |
+          git config user.name "latest-newspaper-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/news.json
+          if git diff --cached --quiet; then
+            echo "No news changes to publish."
+          else
+            git commit -m "chore: update hourly news edition"
+            git push
+          fi
