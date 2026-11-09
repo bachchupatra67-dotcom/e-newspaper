@@ -46,5 +46,13 @@
     "education_only": false,
     "summary_allowed": false,
     "permission_note": "Disabled pending written commercial permission. NDTV RSS terms specify personal, non-commercial use."
+  },
+  {
+    "name": "Reuters",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": false,
+    "summary_allowed": false,
+    "permission_note": "No public Reuters RSS feed is currently available. Do not scrape around the discontinued public feeds; use a formal licensing or syndication arrangement."
   }
 ]
