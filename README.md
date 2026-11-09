@@ -23,12 +23,12 @@ The six requested publishers are listed in `config/sources.json`, but their feed
 - NDTV RSS terms specify personal, non-commercial use.
 - Reuters no longer provides its former public RSS feeds; do not scrape around that restriction.
 
-Do not enable a publisher feed until its commercial licence/permission is secured. The collector intentionally does not evade 403/429 responses or access controls.
+Do not enable any feed until its commercial licence/permission is secured or its terms clearly permit the planned commercial use. The collector intentionally does not evade 403/429 responses or access controls.
 
 ## Editorial and content policy
 - This first edition is link-first: headline, date, source and link to the original institution/publisher.
 - No full articles, publisher images, copied article text or generated rewrites of publisher content are stored.
-- The enabled source is the Press Information Bureau official RSS feed. Verify reuse terms before adding excerpts, images or full text.
+- All feeds, including the Press Information Bureau feed, are disabled until commercial display/reuse terms are confirmed. Link-first display is not itself a licence.
 - Add original explainers, exam guides, scholarship explainers and study resources as separately authored editorial content.
 - Do not imply endorsement or affiliation by any source.
 
