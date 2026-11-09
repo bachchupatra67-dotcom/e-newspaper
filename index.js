@@ -5,7 +5,7 @@ const dateLabel=value=>{if(!value)return"Recent";const d=new Date(value);return 
 function safeUrl(value){try{const u=new URL(value);return ["https:","http:"].includes(u.protocol)?u.href:"#"}catch{return"#"}}
 function render(){
  const q=state.query.trim().toLowerCase();
- const filtered=state.all.filter(item=>(state.category==="All"||item.category===state.category)&&(!q||[item.title,item.summary,item.source,item.category].join(" ").toLowerCase().includes(q)));
+ const filtered=state.all.filter(item=>(state.category==="All"||item.category===state.category)&&(!q||[item.title,item.summary,item.source,item.category].join(" ").toLowerCase().includes(q)));\n if(state.category==="All"){const priority={Education:0,Examinations:1,Scholarships:2,Science:3,Technology:4};filtered.sort((a,b)=>(priority[a.category]??5)-(priority[b.category]??5)||String(b.published||"").localeCompare(String(a.published||"")));}
  $("newsGrid").innerHTML=filtered.map((item,i)=>`<article class="news-card ${i===0&&state.category==="All"&&!q?"featured":""}"><div class="card-meta"><span class="tag">${esc(item.category||"News")}</span><time class="date">${esc(dateLabel(item.published))}</time></div><h3>${esc(item.title)}</h3>${item.summary?`<p class="summary">${esc(item.summary)}</p>`:""}<div class="card-bottom"><span class="source">${esc(item.source||"Source")}</span><a class="read-link" href="${esc(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">Read at source ↗</a></div></article>`).join("");
  $("storyCount").textContent=`${filtered.length} ${filtered.length===1?"story":"stories"}`;
  $("emptyState").hidden=filtered.length!==0;
