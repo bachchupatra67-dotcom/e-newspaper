@@ -3,7 +3,7 @@
     "name": "Press Information Bureau",
     "feed_url": "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=1",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Official government press-release RSS feed. Disabled until commercial display/reuse terms are confirmed for this publication. The collector stores only headline, date and source link; link-first display is not itself a licence."
   },
@@ -11,7 +11,7 @@
     "name": "The Times of India",
     "feed_url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Disabled pending written commercial syndication permission. TOI RSS terms prohibit commercial aggregation/advertising use."
   },
@@ -19,7 +19,7 @@
     "name": "The Hindu",
     "feed_url": "https://www.thehindu.com/feeder/default.rss",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Disabled pending written commercial permission. Publisher terms restrict automated collection and commercial reuse."
   },
@@ -27,7 +27,7 @@
     "name": "The Indian Express",
     "feed_url": "https://indianexpress.com/section/india/feed/",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Disabled pending written commercial syndication permission. Published RSS terms specify personal, non-commercial use."
   },
@@ -35,7 +35,7 @@
     "name": "BBC News",
     "feed_url": "https://feeds.bbci.co.uk/news/rss.xml",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Disabled pending a business RSS/metadata licence from BBC."
   },
@@ -43,7 +43,7 @@
     "name": "NDTV",
     "feed_url": "https://feeds.feedburner.com/ndtvnews-top-stories",
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "Disabled pending written commercial permission. NDTV RSS terms specify personal, non-commercial use."
   },
@@ -51,7 +51,7 @@
     "name": "Reuters",
     "feed_url": null,
     "enabled": false,
-    "education_only": false,
+    "education_only": true,
     "summary_allowed": false,
     "permission_note": "No public Reuters RSS feed is currently available. Do not scrape around the discontinued public feeds; use a formal licensing or syndication arrangement."
   }
