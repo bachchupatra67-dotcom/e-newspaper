@@ -4,57 +4,66 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#10233f">
-  <meta name="description" content="Latest Newspaper — student-first education, examinations, science and current affairs.">
-  <title>Latest Newspaper | Knowledge Beyond Headlines</title>
+  <meta name="description" content="Latest Newspaper — independent coverage of education, examinations, admissions, scholarships, science and student opportunities.">
+  <title>Latest Newspaper | Education & Student News</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <div class="topline"><div class="wrap topline-inner"><span>THE STUDENT-FIRST NEWSROOM</span><span id="today"></span></div></div>
+  <div class="topline"><div class="wrap topline-inner"><span>INDEPENDENT EDUCATION NEWSROOM</span><span id="today"></span></div></div>
   <header class="masthead">
     <div class="wrap masthead-inner">
       <a class="brand" href="./" aria-label="Latest Newspaper home">
         <span class="brand-mark">LN</span>
-        <span><strong>Latest Newspaper</strong><small>KNOWLEDGE BEYOND HEADLINES</small></span>
+        <span><strong>Latest Newspaper</strong><small>EDUCATION · KNOWLEDGE · OPPORTUNITY</small></span>
       </a>
-      <div class="masthead-note"><span class="live-dot"></span> Updated hourly <span class="divider">|</span> Education first</div>
+      <div class="masthead-note"><span class="live-dot"></span> Hourly edition <span class="divider">|</span> Student focused</div>
     </div>
   </header>
   <nav class="nav">
     <div class="wrap nav-inner" id="categoryNav">
-      <button class="nav-link active" data-category="All">Top Stories</button>
+      <button class="nav-link active" data-category="All">Latest</button>
       <button class="nav-link" data-category="Education">Education</button>
       <button class="nav-link" data-category="Examinations">Examinations</button>
+      <button class="nav-link" data-category="Admissions">Admissions</button>
+      <button class="nav-link" data-category="Results">Results</button>
       <button class="nav-link" data-category="Scholarships">Scholarships</button>
       <button class="nav-link" data-category="Science">Science</button>
-      <button class="nav-link" data-category="Technology">Technology</button>
-      <button class="nav-link" data-category="National">India</button>
-      <button class="nav-link" data-category="International">World</button>
-      <button class="nav-link" data-category="Business">Business</button>
-      <button class="nav-link" data-category="Sports">Sports</button>
+      <button class="nav-link" data-category="Technology">EdTech</button>
+      <button class="nav-link" data-category="Student Opportunities">Opportunities</button>
     </div>
   </nav>
   <main class="wrap page">
     <section class="intro">
-      <div><p class="eyebrow">THE DAILY BRIEFING</p><h1>Stay informed.<br><em>Stay ahead.</em></h1><p class="intro-copy">A clearer view of education, opportunities, science and the events shaping tomorrow.</p></div>
-      <div class="intro-side"><span class="issue-label">YOUR DAILY KNOWLEDGE DESK</span><strong>News that helps<br>you move forward.</strong><span class="issue-date" id="editionDate"></span></div>
+      <div><p class="eyebrow">THE EDUCATION NEWS DESK</p><h1>Know more.<br><em>Go further.</em></h1><p class="intro-copy">Clear, concise updates on schools, examinations, admissions, scholarships, research and the ideas shaping the future of learning.</p></div>
+      <div class="intro-side"><span class="issue-label">YOUR STUDENT NEWS BRIEFING</span><strong>What matters in<br>education today.</strong><span class="issue-date" id="editionDate"></span></div>
     </section>
+
+    <aside class="ad-banner ad-leaderboard" aria-label="Advertisement">
+      <span class="ad-label">ADVERTISEMENT</span>
+      <span class="ad-placeholder">Commercial banner placement</span>
+      <span class="ad-dimensions">Leaderboard · 970 × 90</span>
+    </aside>
+
     <section class="tools">
-      <div class="section-heading"><div><p class="eyebrow">LATEST UPDATES</p><h2 id="sectionTitle">Top Stories</h2></div><span class="story-count" id="storyCount">Loading stories…</span></div>
-      <div class="search-row"><label class="searchbox"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search headlines, exams, scholarships…" autocomplete="off"></label><button id="refreshBtn" class="refresh-btn" type="button">↻ Refresh</button></div>
+      <div class="section-heading"><div><p class="eyebrow">LATEST UPDATES</p><h2 id="sectionTitle">Latest Education News</h2></div><span class="story-count" id="storyCount">Loading stories…</span></div>
+      <div class="search-row"><label class="searchbox"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search education, exams, admissions…" autocomplete="off"></label><button id="refreshBtn" class="refresh-btn" type="button">↻ Refresh</button></div>
     </section>
     <section id="status" class="status" aria-live="polite">Loading the latest edition…</section>
     <section id="newsGrid" class="news-grid" aria-live="polite"></section>
     <section id="emptyState" class="empty-state" hidden><strong>No stories found.</strong><span>Try another category or search term.</span></section>
-    <section class="study-promo">
-      <div class="promo-copy"><p class="eyebrow">FOR THE CLASSROOM AND THE EXAM HALL</p><h2>Make every study session count.</h2><p>Explore focused ICSE and ISC learning resources, revision support and subject-wise study material.</p><a href="https://studiessupport.in" target="_blank" rel="noopener noreferrer" class="promo-link">Explore StudiesSupport <span>↗</span></a></div>
-      <div class="promo-stamp"><span>STUDENT</span><strong>FIRST</strong><span>ALWAYS</span></div>
-    </section>
-    <section class="about-strip"><div><p class="eyebrow">OUR EDITORIAL PROMISE</p><h2>Useful information, clearly presented.</h2></div><p>Latest Newspaper prioritises education and student opportunities. Each sourced update links to its original publisher or official institution. We do not claim affiliation with the organisations we reference.</p></section>
+
+    <section class="about-strip"><div><p class="eyebrow">OUR EDITORIAL PROMISE</p><h2>Education news, without the noise.</h2></div><p>We prioritise useful updates for students, families and educators. Reports should be independently written, checked against reliable sources and linked to original announcements or reporting. Latest Newspaper is an independent publication and is not affiliated with the institutions it covers.</p></section>
+
+    <aside class="ad-banner ad-footer" aria-label="Advertisement">
+      <span class="ad-label">ADVERTISEMENT</span>
+      <span class="ad-placeholder">Promote your education-related product or service</span>
+      <span class="ad-dimensions">Responsive banner placement</span>
+    </aside>
   </main>
-  <footer><div class="wrap footer-inner"><a class="footer-brand" href="./">Latest Newspaper</a><span>Independent student-first news project</span><span>© <span id="year"></span> Latest Newspaper</span></div><div class="wrap footer-note">Publisher names and article links belong to their respective owners. Headlines are displayed for discovery; follow the source link for the original report.</div></footer>
+  <footer><div class="wrap footer-inner"><a class="footer-brand" href="./">Latest Newspaper</a><span>Independent education news publication</span><span>© <span id="year"></span> Latest Newspaper</span></div><div class="wrap footer-note">News links direct readers to original publishers or official institutions. Advertising is clearly separated from editorial content. Publisher names and third-party materials remain the property of their respective owners.</div></footer>
   <script src="./index.js" defer></script>
 </body>
 </html>
