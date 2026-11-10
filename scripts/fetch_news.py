@@ -79,7 +79,7 @@ def parse_feed(xml_bytes, source):
         if not source.get("summary_allowed", False):
             summary = ""
         category = classify(title, summary)
-        if source.get("education_only") and category not in ("Education", "Examinations", "Scholarships", "Science", "Technology"):
+        if source.get("education_only") and category not in ("Education", "Examinations", "Admissions", "Results", "Scholarships", "Student Opportunities", "Science", "Technology"):
             continue
         key = hashlib.sha256(url.split("#")[0].encode()).hexdigest()[:18]
         found.append({"id": key, "title": title[:240], "summary": summary[:260], "url": url, "source": source["name"], "category": category, "published": normalise_date(published_raw)})
