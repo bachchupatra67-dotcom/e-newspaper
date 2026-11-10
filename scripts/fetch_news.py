@@ -51,14 +51,14 @@ def normalise_date(value):
 def classify(title, summary):
     text = title + " " + summary
     if SCHOLAR_WORDS.search(text): return "Scholarships"
+    if ADMISSION_WORDS.search(text): return "Admissions"
+    if RESULT_WORDS.search(text): return "Results"
     if EXAM_WORDS.search(text): return "Examinations"
+    if OPPORTUNITY_WORDS.search(text): return "Student Opportunities"
     if EDU_WORDS.search(text): return "Education"
     if SCI_WORDS.search(text): return "Science"
     if TECH_WORDS.search(text): return "Technology"
-    if SPORT_WORDS.search(text): return "Sports"
-    if BIZ_WORDS.search(text): return "Business"
-    if WORLD_WORDS.search(text): return "International"
-    return "National"
+    return "Other"
 
 def parse_feed(xml_bytes, source):
     root = ET.fromstring(xml_bytes)
