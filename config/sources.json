@@ -5,7 +5,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Official government press-release RSS feed. Disabled until commercial display/reuse terms are confirmed for this publication. The collector stores only headline, date and source link; link-first display is not itself a licence."
+    "permission_note": "Official government press-release RSS feed. Disabled until commercial display/reuse terms are confirmed for this publication. The collector stores only headline, date and source link; link-first display is not itself a licence.",
+    "commercial_use_permitted": false
   },
   {
     "name": "The Times of India",
@@ -13,7 +14,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Disabled pending written commercial syndication permission. TOI RSS terms prohibit commercial aggregation/advertising use."
+    "permission_note": "Disabled pending written commercial syndication permission. TOI RSS terms prohibit commercial aggregation/advertising use.",
+    "commercial_use_permitted": false
   },
   {
     "name": "The Hindu",
@@ -21,7 +23,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Disabled pending written commercial permission. Publisher terms restrict automated collection and commercial reuse."
+    "permission_note": "Disabled pending written commercial permission. Publisher terms restrict automated collection and commercial reuse.",
+    "commercial_use_permitted": false
   },
   {
     "name": "The Indian Express",
@@ -29,7 +32,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Disabled pending written commercial syndication permission. Published RSS terms specify personal, non-commercial use."
+    "permission_note": "Disabled pending written commercial syndication permission. Published RSS terms specify personal, non-commercial use.",
+    "commercial_use_permitted": false
   },
   {
     "name": "BBC News",
@@ -37,7 +41,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Disabled pending a business RSS/metadata licence from BBC."
+    "permission_note": "Disabled pending a business RSS/metadata licence from BBC.",
+    "commercial_use_permitted": false
   },
   {
     "name": "NDTV",
@@ -45,7 +50,8 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "Disabled pending written commercial permission. NDTV RSS terms specify personal, non-commercial use."
+    "permission_note": "Disabled pending written commercial permission. NDTV RSS terms specify personal, non-commercial use.",
+    "commercial_use_permitted": false
   },
   {
     "name": "Reuters",
@@ -53,6 +59,7 @@
     "enabled": false,
     "education_only": true,
     "summary_allowed": false,
-    "permission_note": "No public Reuters RSS feed is currently available. Do not scrape around the discontinued public feeds; use a formal licensing or syndication arrangement."
+    "permission_note": "No public Reuters RSS feed is currently available. Do not scrape around the discontinued public feeds; use a formal licensing or syndication arrangement.",
+    "commercial_use_permitted": false
   }
 ]
