@@ -14,7 +14,10 @@ MAX_TOTAL = 180
 USER_AGENT = "LatestNewspaperBot/1.0 (+https://github.com/bachchupatra67-dotcom/e-newspaper; contact: repository owner)"
 
 SCHOLAR_WORDS = re.compile(r"\b(scholarship|fellowship|financial assistance|stipend|grant)\b", re.I)
-EXAM_WORDS = re.compile(r"\b(exam|examination|board|cbse|icse|isc|ncert|neet|jee|cuet|admission|entrance test|result|syllabus|assessment)\b", re.I)
+ADMISSION_WORDS = re.compile(r"\b(admission|admissions|enrolment|enrollment|application window|entrance registration)\b", re.I)
+RESULT_WORDS = re.compile(r"\b(result|results|scorecard|merit list|answer key)\b", re.I)
+OPPORTUNITY_WORDS = re.compile(r"\b(internship|olympiad|competition|student exchange|youth programme|youth program|student opportunity)\b", re.I)
+EXAM_WORDS = re.compile(r"\b(exam|examination|board|cbse|icse|isc|ncert|neet|jee|cuet|entrance test|syllabus|assessment)\b", re.I)
 EDU_WORDS = re.compile(r"\b(education|school|student|students|university|universities|college|classroom|teacher|learning|curriculum|academic|skill development|literacy)\b", re.I)
 SCI_WORDS = re.compile(r"\b(science|research|space|isro|biology|physics|chemistry|climate|environment)\b", re.I)
 TECH_WORDS = re.compile(r"\b(technology|artificial intelligence|\bAI\b|cyber|digital|innovation|robotics|software)\b", re.I)
