@@ -8,7 +8,7 @@ function render(){
  const q=state.query.trim().toLowerCase();
  const filtered=state.all.filter(item=>(state.category==="All"||item.category===state.category)&&(!q||[item.title,item.summary,item.source,item.category].join(" ").toLowerCase().includes(q)));
  if(state.category==="All"){const priority={Education:0,Examinations:1,Admissions:2,Results:3,Scholarships:4,"Student Opportunities":5,Science:6,Technology:7};filtered.sort((a,b)=>(priority[a.category]??8)-(priority[b.category]??8)||String(b.published||"").localeCompare(String(a.published||"")));}
- const cards=filtered.map((item,i)=>`<article class="news-card ${i===0&&state.category==="All"&&!q?"featured":""}"><div class="card-meta"><span class="tag">${esc(item.category||"Education")}</span><time class="date">${esc(dateLabel(item.published))}</time></div><h3>${esc(item.title)}</h3>${item.summary?`<p class="summary">${esc(item.summary)}</p>`:""}<div class="card-bottom"><span class="source">${esc(item.source||"Source")}</span><a class="read-link" href="${esc(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">Read at source ↗</a></div></article>`);
+ const cards=filtered.map((item,i)=>`<article class="news-card ${i===0&&state.category==="All"&&!q?"featured":""}"><div class="card-meta"><span class="tag">${esc(item.category||"Education")}</span><time class="date">${esc(dateLabel(item.published))}</time></div><h3>${esc(item.title)}</h3>${item.summary?`<p class="summary">${esc(item.summary)}</p>`:""}<div class="card-bottom"><span class="source">${esc(item.source||"Source")}</span><a class="read-link" href="./article.html?id=${encodeURIComponent(item.id)}">Read full report →</a></div></article>`);
  if(cards.length>3)cards.splice(3,0,adMarkup());
  $("newsGrid").innerHTML=cards.join("");
  $("storyCount").textContent=`${filtered.length} ${filtered.length===1?"story":"stories"}`;
@@ -24,7 +24,7 @@ async function loadNews(){
   const data=await response.json();
   state.all=Array.isArray(data.articles)?data.articles:[];
   const updated=data.updated_at?new Date(data.updated_at):null;
-  $("status").textContent=state.all.length?`Edition updated ${updated&&!Number.isNaN(updated.getTime())?updated.toLocaleString("en-IN"):"recently"}. Read the linked source for the full report.`:"The first education-focused edition is being prepared. Check back after the scheduled feed collection.";
+  $("status").textContent=state.all.length?`Edition updated ${updated&&!Number.isNaN(updated.getTime())?updated.toLocaleString("en-IN"):"recently"}. Open any headline to read its full report here.`:"The first education-focused edition is being prepared. Check back after the scheduled feed collection.";
   render();
  }catch(error){$("status").textContent="The news feed could not be loaded. Please try again shortly.";state.all=[];render()}
 }
