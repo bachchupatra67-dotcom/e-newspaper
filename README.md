@@ -16,7 +16,7 @@ GitHub Actions runs the collector at minute 17 of every hour (UTC), and can also
 1. Reads only RSS/Atom feeds explicitly enabled in `config/sources.json`.
 2. Requires each source to be explicitly cleared for commercial use (`commercial_use_permitted: true)); disabled or uncleared sources are skipped.
 3. Uses the permitted feed metadata only. It does not scrape arbitrary webpages, bypass access controls, or copy publisher articles.
-4. Calls Gemini to produce a fresh headline, short homepage summary and longer internal report. The prompt restricts the model to facts present in the permitted feed metadata and tells it not to invent missing details.
+4. Calls Gemini to produce a fresh headline, short homepage summary and concise internal report using only permitted feed metadata. The bot skips previously published IDs, ignores items older than 30 days, and limits each run to eight new reports.
 5. Deduplicates stories and commits the updated edition to `data/news.json`.
 
 ### Required setup
@@ -25,7 +25,7 @@ GitHub Actions runs the collector at minute 17 of every hour (UTC), and can also
 - In `config/sources.json`, enable only feeds whose current terms and permissions have been checked for automated collection and the intended commercial publication. Set both `enabled: true` and `commercial_use_permitted: true` only after that review. The current source entries are intentionally disabled; therefore hourly collection will not publish new stories until permitted feeds are configured.
 - Enable GitHub Actions and allow the workflow to write repository contents.
 
-The bot does not guarantee a new story every hour: it publishes only when a permitted feed has a new education-related item and Gemini successfully creates a report. If no qualifying story is found, the previous edition is retained.
+The currently enabled source is the PIB RSS feed. The bot does not guarantee a new story every hour: it publishes only when a permitted feed has a new education-related item and Gemini successfully creates a report. If no qualifying story is found, the previous edition is retained.
 
 ## Editorial and copyright policy
 - Do not scrape "any website" indiscriminately. Follow each source's terms, robots/access restrictions, rate limits and licence.
