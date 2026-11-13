@@ -22,7 +22,7 @@ GitHub Actions runs the collector at minute 17 of every hour (UTC), and can also
 ### Required setup
 - Add a GitHub Actions repository secret named `GEMINI_API_KEY` containing a valid Gemini API key. Never put the key in frontend JavaScript, source files or commits.
 - Optionally set the `GEMINI_MODEL` environment variable in the workflow to a model available to your API key.
-- In `config/sources.json`, enable only feeds whose current terms and permissions have been checked for automated collection and the intended commercial publication. Set both `enabled: true` and `commercial_use_permitted: true` only after that review. The current source entries are intentionally disabled; therefore hourly collection will not publish new stories until permitted feeds are configured.
+- The Press Information Bureau feed is enabled for PIB-originated text/feed metadata only. PIB's published copyright policy permits free reproduction without prior approval, subject to accurate presentation, prominent attribution and exclusion of third-party material. Other publisher feeds remain disabled pending permission. The collector does not download images or attachments.
 - Enable GitHub Actions and allow the workflow to write repository contents.
 
 The currently enabled source is the PIB RSS feed. The bot does not guarantee a new story every hour: it publishes only when a permitted feed has a new education-related item and Gemini successfully creates a report. If no qualifying story is found, the previous edition is retained.
