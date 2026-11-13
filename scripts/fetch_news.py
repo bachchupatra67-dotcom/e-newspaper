@@ -22,14 +22,14 @@ MAX_AGE_DAYS = 30
 USER_AGENT = "LatestNewspaperBot/3.0 (+https://github.com/bachchupatra67-dotcom/e-newspaper)"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-SCHOLAR_WORDS = re.compile(r"\\b(scholarship|fellowship|financial assistance|stipend|grant)\\b", re.I)
-ADMISSION_WORDS = re.compile(r"\\b(admission|admissions|enrolment|enrollment|application window|entrance registration)\\b", re.I)
-RESULT_WORDS = re.compile(r"\\b(result|results|scorecard|merit list|answer key)\\b", re.I)
-OPPORTUNITY_WORDS = re.compile(r"\\b(internship|olympiad|competition|student exchange|youth programme|youth program|student opportunity)\\b", re.I)
-EXAM_WORDS = re.compile(r"\\b(exam|examination|board|cbse|icse|isc|ncert|neet|jee|cuet|entrance test|syllabus|assessment)\\b", re.I)
-EDU_WORDS = re.compile(r"\\b(education|school|student|students|university|universities|college|classroom|teacher|learning|curriculum|academic|skill development|literacy)\\b", re.I)
-SCI_WORDS = re.compile(r"\\b(science|research|space|isro|biology|physics|chemistry|climate|environment)\\b", re.I)
-TECH_WORDS = re.compile(r"\\b(technology|artificial intelligence|\\bAI\\b|cyber|digital|innovation|robotics|software)\\b", re.I)
+SCHOLAR_WORDS = re.compile(r"\b(scholarship|fellowship|financial assistance|stipend|grant)\b", re.I)
+ADMISSION_WORDS = re.compile(r"\b(admission|admissions|enrolment|enrollment|application window|entrance registration)\b", re.I)
+RESULT_WORDS = re.compile(r"\b(result|results|scorecard|merit list|answer key)\b", re.I)
+OPPORTUNITY_WORDS = re.compile(r"\b(internship|olympiad|competition|student exchange|youth programme|youth program|student opportunity)\b", re.I)
+EXAM_WORDS = re.compile(r"\b(exam|examination|board|cbse|icse|isc|ncert|neet|jee|cuet|entrance test|syllabus|assessment)\b", re.I)
+EDU_WORDS = re.compile(r"\b(education|school|student|students|university|universities|college|classroom|teacher|learning|curriculum|academic|skill development|literacy)\b", re.I)
+SCI_WORDS = re.compile(r"\b(science|research|space|isro|biology|physics|chemistry|climate|environment)\b", re.I)
+TECH_WORDS = re.compile(r"\b(technology|artificial intelligence|\bAI\b|cyber|digital|innovation|robotics|software)\b", re.I)
 
 def text_of(node, names):
     for name in names:
@@ -40,7 +40,7 @@ def text_of(node, names):
 
 def clean_text(value):
     value = re.sub(r"<[^>]+>", " ", value or "")
-    return re.sub(r"\\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", value).strip()
 
 def parse_date(value):
     if not value:
@@ -224,7 +224,7 @@ def main():
         "articles": articles
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("EDITION UPDATED:", len(fetched), "new stories;", len(articles), "total.")
 
 if __name__ == "__main__":
