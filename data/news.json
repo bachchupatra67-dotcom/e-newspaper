@@ -1,7 +1,63 @@
 {
-  "updated_at": "2026-11-10T08:14:00Z",
-  "count": 7,
+  "updated_at": "2026-11-14T00:00:00.000Z",
+  "count": 11,
   "articles": [
+    {
+      "id": "iit-madras-pravartak-free-training-nov-2026",
+      "title": "IIT Madras Pravartak opens free online training for Classes 7–12",
+      "summary": "IIT Madras Pravartak is offering free live online programmes for school students and educators during its November 2026–January 2027 cycle. Student topics include AI fundamentals, electric vehicles and future mobility, entrepreneurship, design thinking and innovation.",
+      "url": "https://indianexpress.com/article/education/iit-madras-pravartak-launches-free-online-training-for-school-students-educators-10958617/",
+      "source": "The Indian Express",
+      "category": "Student Opportunities",
+      "published": "2026-11-13T10:39:00Z",
+      "body": [
+        "IIT Madras Pravartak, the institute's technology innovation hub, has announced free live online training programmes for school students and educators. The programmes are being offered in collaboration with BodhBridge Education.",
+        "For students in Classes 7 to 12, the announced learning areas include artificial intelligence fundamentals, electric vehicles and future mobility, entrepreneurship fundamentals, design thinking and innovation. The programme cycle covers November 2026 to January 2027.",
+        "The organisers say the sessions will be delivered by people from the institute's alumni network, start-up community and industry. An optional certificate is available. Interested students and educators should check the official registration portal for current course availability and conditions."
+      ]
+    },
+    {
+      "id": "kerala-sslc-plus-two-exam-schedule-2027",
+      "title": "Kerala announces 2027 SSLC and Plus Two examination schedule",
+      "summary": "Kerala's 2027 public examination schedule places SSLC exams from 1 March and Higher Secondary first- and second-year exams from 2 to 30 March. The state expects more than 13 lakh candidates across its public examinations.",
+      "url": "https://indianexpress.com/article/education/kbpe-kerala-public-exams-sslc-higher-secondary-board-exam-schedule-2027-timetable-important-dates-10961254/",
+      "source": "The Indian Express",
+      "category": "Examinations",
+      "published": "2026-11-13T05:20:00Z",
+      "body": [
+        "Kerala has announced the schedule for its 2027 public examinations. The Secondary School Leaving Certificate (SSLC) examinations are scheduled to begin on 1 March 2027, while Higher Secondary first- and second-year examinations are scheduled from 2 to 30 March.",
+        "The announced timetable also places SSLC information technology practical examinations in February, followed by model examinations later that month. Evaluation of SSLC answer scripts is scheduled to begin in April, with results expected in May.",
+        "The state expects more than 13 lakh students to appear across SSLC, Higher Secondary and other public examinations. Students should confirm their individual subject dates and any later changes through the relevant Kerala examination authority."
+      ]
+    },
+    {
+      "id": "cat-2026-ai-facial-recognition-check",
+      "title": "CAT 2026 to introduce AI facial-recognition checks at exam centres",
+      "summary": "IIM Indore says candidates taking CAT 2026 will undergo an AI-based facial match as part of identity verification. Physical admit-card checks will continue, and the institute says the system will not store a student database.",
+      "url": "https://indianexpress.com/article/education/cat-2026-candidates-will-undergo-an-ai-based-facial-recognition-check-10961184/",
+      "source": "The Indian Express",
+      "category": "Examinations",
+      "published": "2026-11-13T03:56:00Z",
+      "body": [
+        "Candidates appearing for the Common Admission Test (CAT) 2026 are expected to undergo an AI-based facial-recognition check at examination centres. IIM Indore, which is conducting this year's test, says the technology is being introduced to help match candidates with the photographs submitted during registration.",
+        "The institute has said that the existing physical verification of admit cards will continue alongside the technology. The system is being tested for accuracy, and the institute's director has stated that a database of students will not be stored.",
+        "CAT 2026 is scheduled for 29 November. Candidates should follow the instructions on their admit cards and official CAT communications, including the existing identity-verification requirements."
+      ]
+    },
+    {
+      "id": "iit-kharagpur-pg-medical-education",
+      "title": "IIT Kharagpur plans postgraduate medical education programmes",
+      "summary": "IIT Kharagpur is set to offer NMC-accredited postgraduate medical degrees, with 12 seats across six specialisations through NEET-PG counselling, according to the published report.",
+      "url": "https://indianexpress.com/article/education/iit-kharagpur-to-offer-pg-degree-in-medical-education-heres-what-will-change/",
+      "source": "The Indian Express",
+      "category": "Admissions",
+      "published": "2026-11-13T03:51:00Z",
+      "body": [
+        "IIT Kharagpur is preparing to offer postgraduate medical education programmes, according to a report published on 13 November 2026. The development would add a medical-education pathway at an institution more widely known for its engineering and technology programmes.",
+        "The report says the proposed offering includes 12 seats across six specialisations and that admissions are to take place through NEET-PG counselling. It also describes the degrees as accredited by the National Medical Commission.",
+        "Prospective applicants should wait for the institute's official admission notice and the relevant counselling information to confirm the specialisations, eligibility conditions, seat matrix and admission schedule."
+      ]
+    },
     {
       "id": "india-junior-astronomy-olympiad-medals-2026",
       "title": "Indian students win five medals at Junior Astronomy and Astrophysics Olympiad",
