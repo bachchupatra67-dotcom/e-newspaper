@@ -7,7 +7,7 @@ function adMarkup(){return '<aside class="ad-banner ad-infeed" aria-label="Adver
 function render(){
  const q=state.query.trim().toLowerCase();
  const filtered=state.all.filter(item=>(state.category==="All"||item.category===state.category)&&(!q||[item.title,item.summary,item.source,item.category].join(" ").toLowerCase().includes(q)));
- if(state.category==="All"){const priority={Education:0,Examinations:1,Admissions:2,Results:3,Scholarships:4,"Student Opportunities":5,Science:6,Technology:7};filtered.sort((a,b)=>(priority[a.category]??8)-(priority[b.category]??8)||String(b.published||"").localeCompare(String(a.published||"")));}
+ filtered.sort((a,b)=>{const da=Date.parse(a.published||"")||0;const db=Date.parse(b.published||"")||0;return db-da;});
  const cards=filtered.map((item,i)=>`<article class="news-card ${i===0&&state.category==="All"&&!q?"featured":""}"><div class="card-meta"><span class="tag">${esc(item.category||"Education")}</span><time class="date">${esc(dateLabel(item.published))}</time></div><h3>${esc(item.title)}</h3>${item.summary?`<p class="summary">${esc(item.summary)}</p>`:""}<div class="card-bottom"><span class="source">${esc(item.source||"Source")}</span><a class="read-link" href="./article.html?id=${encodeURIComponent(item.id)}">Read full report →</a></div></article>`);
  if(cards.length>3)cards.splice(3,0,adMarkup());
  $("newsGrid").innerHTML=cards.join("");
