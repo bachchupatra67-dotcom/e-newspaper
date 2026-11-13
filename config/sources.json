@@ -2,11 +2,12 @@
   {
     "name": "Press Information Bureau",
     "feed_url": "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=1",
-    "enabled": false,
+    "enabled": true,
     "education_only": true,
-    "summary_allowed": false,
-    "permission_note": "Official government press-release RSS feed. Disabled until commercial display/reuse terms are confirmed for this publication. The collector stores only headline, date and source link; link-first display is not itself a licence.",
-    "commercial_use_permitted": false
+    "summary_allowed": true,
+    "permission_note": "Enabled only for PIB-originated text/feed metadata. PIB's published copyright policy permits free reproduction without prior approval, with accurate presentation and prominent attribution; it excludes third-party material. The collector does not download images or attachments. Review individual items and exclude any marked third-party.",
+    "commercial_use_permitted": true,
+    "copyright_policy_url": "https://www.pib.gov.in/content/3604_2_CopyrightPolicy.aspx?lang=1&reg=6"
   },
   {
     "name": "The Times of India",
