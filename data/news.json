@@ -3,17 +3,59 @@
   "count": 7,
   "articles": [
     {
-      "id": "nmmss-deadline-2026-11",
-      "title": "NMMSS scholarship applications now close on 15 November",
-      "summary": "The Ministry of Education has extended the 2026–27 application deadline to 15 November. Key points: eligible students must complete One-Time Registration on the National Scholarship Portal; institute verification is due by 30 November and district verification by 15 December. The scheme offers ₹12,000 per year to selected eligible students.",
-      "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2330936&lang=1&reg=3",
-      "source": "Press Information Bureau",
-      "category": "Scholarships",
-      "published": "2026-10-31T12:27:00Z",
+      "id": "india-junior-astronomy-olympiad-medals-2026",
+      "title": "Indian students win five medals at Junior Astronomy and Astrophysics Olympiad",
+      "summary": "India's five-member team won two gold, two silver and one bronze medal at the 2026 international junior Olympiad in Thailand. Students from Puducherry, Gujarat, Rajasthan and Maharashtra were among the medal winners.",
+      "url": "https://indianexpress.com/article/education/india-wins-five-medals-international-astronomy-astrophysics-olympiad-junior-2026-jee-main-advanced-10957213/",
+      "source": "The Indian Express",
+      "category": "Science",
+      "published": "2026-11-10T05:18:00Z",
       "body": [
-        "The Ministry of Education has extended the application deadline for the 2026–27 National Means-cum-Merit Scholarship Scheme (NMMSS) to 15 November 2026. The extension gives eligible applicants additional time to complete the required application process.",
-        "Applicants must complete One-Time Registration on the National Scholarship Portal. The published schedule also sets 30 November as the institute-verification deadline and 15 December as the district-verification deadline.",
-        "The scheme provides ₹12,000 per year to students selected under its eligibility and selection rules. Applicants should check the official scholarship portal and scheme instructions for the applicable conditions and required documents."
+        "India's team secured five medals at the 2026 Junior Astronomy and Astrophysics Olympiad held in Thailand. The reported medal tally comprises two gold medals, two silver medals and one bronze medal.",
+        "The result highlights the performance of Indian school-level participants in an international academic competition focused on astronomy and astrophysics. The reported medal winners came from Puducherry, Gujarat, Rajasthan and Maharashtra.",
+        "The achievement is a notable result for India's junior science-competition contingent. This report records the medal tally and locations reported by the cited news source; further participant details should be confirmed against the organisers' official results."
+      ]
+    },
+    {
+      "id": "iit-roorkee-ai-winter-training-2026",
+      "title": "IIT Roorkee opens registration for winter AI training programmes",
+      "summary": "IIT Roorkee's EICT Academy is offering six-week online winter programmes covering areas such as generative AI, machine learning, data science, full-stack development and edge AI. The reported application deadline is 30 November, with batches starting on 14 December and 4 January. Check programme details and fees directly with the academy before making a decision.",
+      "url": "https://indianexpress.com/article/education/iit-roorkee-offers-winter-training-internship-ai-courses-eligibility-structure-fees-direct-link-eict-iitr-ac-in-10947115/",
+      "source": "The Indian Express",
+      "category": "Technology",
+      "published": "2026-11-10T03:48:00Z",
+      "body": [
+        "IIT Roorkee's EICT Academy has announced six-week online winter training programmes in technology-related subjects. The reported areas include generative artificial intelligence, machine learning, data science, full-stack development and edge AI.",
+        "The published programme information gives 30 November 2026 as the application deadline and lists batches beginning on 14 December and 4 January. The available report describes the courses as online programmes with a six-week duration.",
+        "Prospective applicants should verify the exact course syllabus, eligibility, fees, certificate conditions and schedule with the academy before applying. These details can vary between individual programmes, and the news summary should not be treated as a substitute for the academy's current terms."
+      ]
+    },
+    {
+      "id": "wbchse-hs-semester-3-final-answer-key",
+      "title": "WBCHSE publishes final HS Semester 3 answer keys",
+      "summary": "The West Bengal Council of Higher Secondary Education has released subject-wise final answer keys for the 2027 HS Semester 3 examination. The published keys reportedly identify three questions—one each in English, Chemistry and Biology—with no correct option. Students should check the council website for the official PDFs and the forthcoming result announcement.",
+      "url": "https://indianexpress.com/article/education/west-bengal-board-council-class-12th-wbchse-hs-semester-3-final-answer-key-2027-released-wbchse-wb-gov-in-download-10956089/",
+      "source": "The Indian Express",
+      "category": "Results",
+      "published": "2026-11-10T03:43:00Z",
+      "body": [
+        "The West Bengal Council of Higher Secondary Education has published final answer keys for the 2027 Higher Secondary Semester 3 examinations. The keys provide the council's final responses for the relevant objective questions.",
+        "Reporting on the release states that three questions—one each in English, Chemistry and Biology—were identified as having no correct option. Students should refer to the council's subject-wise final documents for the official treatment of those questions.",
+        "The answer-key publication is separate from the declaration of results. Students should rely on announcements from WBCHSE for the confirmed result date and any further examination-related notice."
+      ]
+    },
+    {
+      "id": "jk-private-universities-rules-2026",
+      "title": "Jammu and Kashmir sets 25% domicile reservation in private university admissions",
+      "summary": "The newly notified J&K Private Universities Rules 2026 require private universities to reserve at least 25% of student seats for Union Territory domiciles. The same minimum applies to teaching and non-teaching posts; the rules also establish an approval and regulatory framework for private institutions.",
+      "url": "https://indianexpress.com/article/education/jammu-kashmir-jk-notifies-private-universities-rules-omar-abdullah-25-percent-reservation-admission-seats-jobs-10956298/",
+      "source": "The Indian Express",
+      "category": "Admissions",
+      "published": "2026-11-10T03:40:00Z",
+      "body": [
+        "Jammu and Kashmir has notified the Private Universities Rules 2026, introducing a regulatory framework for private universities in the Union Territory. The rules include provisions concerning admissions and staffing.",
+        "According to the reported provisions, private universities must reserve at least 25 per cent of student seats for eligible Union Territory domiciles. A similar minimum reservation requirement is reported for teaching and non-teaching positions.",
+        "The rules also set out an approval and regulatory framework for private institutions. Universities and applicants should consult the notified rules for the precise scope, definitions, procedures and any conditions attached to these requirements."
       ]
     },
     {
@@ -45,59 +87,17 @@
       ]
     },
     {
-      "id": "wbchse-hs-semester-3-final-answer-key",
-      "title": "WBCHSE publishes final HS Semester 3 answer keys",
-      "summary": "The West Bengal Council of Higher Secondary Education has released subject-wise final answer keys for the 2027 HS Semester 3 examination. The published keys reportedly identify three questions—one each in English, Chemistry and Biology—with no correct option. Students should check the council website for the official PDFs and the forthcoming result announcement.",
-      "url": "https://indianexpress.com/article/education/west-bengal-board-council-class-12th-wbchse-hs-semester-3-final-answer-key-2027-released-wbchse-wb-gov-in-download-10956089/",
-      "source": "The Indian Express",
-      "category": "Results",
-      "published": "2026-11-10T03:43:00Z",
+      "id": "nmmss-deadline-2026-11",
+      "title": "NMMSS scholarship applications now close on 15 November",
+      "summary": "The Ministry of Education has extended the 2026–27 application deadline to 15 November. Key points: eligible students must complete One-Time Registration on the National Scholarship Portal; institute verification is due by 30 November and district verification by 15 December. The scheme offers ₹12,000 per year to selected eligible students.",
+      "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2330936&lang=1&reg=3",
+      "source": "Press Information Bureau",
+      "category": "Scholarships",
+      "published": "2026-10-31T12:27:00Z",
       "body": [
-        "The West Bengal Council of Higher Secondary Education has published final answer keys for the 2027 Higher Secondary Semester 3 examinations. The keys provide the council's final responses for the relevant objective questions.",
-        "Reporting on the release states that three questions—one each in English, Chemistry and Biology—were identified as having no correct option. Students should refer to the council's subject-wise final documents for the official treatment of those questions.",
-        "The answer-key publication is separate from the declaration of results. Students should rely on announcements from WBCHSE for the confirmed result date and any further examination-related notice."
-      ]
-    },
-    {
-      "id": "india-junior-astronomy-olympiad-medals-2026",
-      "title": "Indian students win five medals at Junior Astronomy and Astrophysics Olympiad",
-      "summary": "India's five-member team won two gold, two silver and one bronze medal at the 2026 international junior Olympiad in Thailand. Students from Puducherry, Gujarat, Rajasthan and Maharashtra were among the medal winners.",
-      "url": "https://indianexpress.com/article/education/india-wins-five-medals-international-astronomy-astrophysics-olympiad-junior-2026-jee-main-advanced-10957213/",
-      "source": "The Indian Express",
-      "category": "Science",
-      "published": "2026-11-10T05:18:00Z",
-      "body": [
-        "India's team secured five medals at the 2026 Junior Astronomy and Astrophysics Olympiad held in Thailand. The reported medal tally comprises two gold medals, two silver medals and one bronze medal.",
-        "The result highlights the performance of Indian school-level participants in an international academic competition focused on astronomy and astrophysics. The reported medal winners came from Puducherry, Gujarat, Rajasthan and Maharashtra.",
-        "The achievement is a notable result for India's junior science-competition contingent. This report records the medal tally and locations reported by the cited news source; further participant details should be confirmed against the organisers' official results."
-      ]
-    },
-    {
-      "id": "iit-roorkee-ai-winter-training-2026",
-      "title": "IIT Roorkee opens registration for winter AI training programmes",
-      "summary": "IIT Roorkee's EICT Academy is offering six-week online winter programmes covering areas such as generative AI, machine learning, data science, full-stack development and edge AI. The reported application deadline is 30 November, with batches starting on 14 December and 4 January. Check programme details and fees directly with the academy before making a decision.",
-      "url": "https://indianexpress.com/article/education/iit-roorkee-offers-winter-training-internship-ai-courses-eligibility-structure-fees-direct-link-eict-iitr-ac-in-10947115/",
-      "source": "The Indian Express",
-      "category": "Technology",
-      "published": "2026-11-10T03:48:00Z",
-      "body": [
-        "IIT Roorkee's EICT Academy has announced six-week online winter training programmes in technology-related subjects. The reported areas include generative artificial intelligence, machine learning, data science, full-stack development and edge AI.",
-        "The published programme information gives 30 November 2026 as the application deadline and lists batches beginning on 14 December and 4 January. The available report describes the courses as online programmes with a six-week duration.",
-        "Prospective applicants should verify the exact course syllabus, eligibility, fees, certificate conditions and schedule with the academy before applying. These details can vary between individual programmes, and the news summary should not be treated as a substitute for the academy's current terms."
-      ]
-    },
-    {
-      "id": "jk-private-universities-rules-2026",
-      "title": "Jammu and Kashmir sets 25% domicile reservation in private university admissions",
-      "summary": "The newly notified J&K Private Universities Rules 2026 require private universities to reserve at least 25% of student seats for Union Territory domiciles. The same minimum applies to teaching and non-teaching posts; the rules also establish an approval and regulatory framework for private institutions.",
-      "url": "https://indianexpress.com/article/education/jammu-kashmir-jk-notifies-private-universities-rules-omar-abdullah-25-percent-reservation-admission-seats-jobs-10956298/",
-      "source": "The Indian Express",
-      "category": "Admissions",
-      "published": "2026-11-10T03:40:00Z",
-      "body": [
-        "Jammu and Kashmir has notified the Private Universities Rules 2026, introducing a regulatory framework for private universities in the Union Territory. The rules include provisions concerning admissions and staffing.",
-        "According to the reported provisions, private universities must reserve at least 25 per cent of student seats for eligible Union Territory domiciles. A similar minimum reservation requirement is reported for teaching and non-teaching positions.",
-        "The rules also set out an approval and regulatory framework for private institutions. Universities and applicants should consult the notified rules for the precise scope, definitions, procedures and any conditions attached to these requirements."
+        "The Ministry of Education has extended the application deadline for the 2026–27 National Means-cum-Merit Scholarship Scheme (NMMSS) to 15 November 2026. The extension gives eligible applicants additional time to complete the required application process.",
+        "Applicants must complete One-Time Registration on the National Scholarship Portal. The published schedule also sets 30 November as the institute-verification deadline and 15 December as the district-verification deadline.",
+        "The scheme provides ₹12,000 per year to students selected under its eligibility and selection rules. Applicants should check the official scholarship portal and scheme instructions for the applicable conditions and required documents."
       ]
     }
   ]
