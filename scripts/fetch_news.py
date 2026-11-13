@@ -188,7 +188,7 @@ def main():
             for item in parse_feed(payload, source):
                 if item["id"] in known_ids or item["id"] in attempted_ids:
                     continue
-                if len(fetched) >= MAX_NEW_PER_RUN:
+                if len(attempted_ids) >= MAX_NEW_PER_RUN:
                     break
                 attempted_ids.add(item["id"])
                 try:
@@ -202,7 +202,7 @@ def main():
             print("FEED HTTP ERROR:", source["name"], error.code, "- skipped")
         except Exception as error:
             print("FEED ERROR:", source["name"], type(error).__name__, "- skipped")
-        if len(fetched) >= MAX_NEW_PER_RUN:
+        if len(attempted_ids) >= MAX_NEW_PER_RUN:
             break
         time.sleep(1.0)
 
