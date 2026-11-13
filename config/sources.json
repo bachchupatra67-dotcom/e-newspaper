@@ -62,5 +62,125 @@
     "summary_allowed": false,
     "permission_note": "No public Reuters RSS feed is currently available. Do not scrape around the discontinued public feeds; use a formal licensing or syndication arrangement.",
     "commercial_use_permitted": false
+  },
+  {
+    "name": "Ministry of Education, Government of India",
+    "source_url": "https://www.education.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "CBSE",
+    "source_url": "https://www.cbse.gov.in/cbsenew/cbse.html",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "NCERT",
+    "source_url": "https://www.ncert.nic.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "University Grants Commission (UGC)",
+    "source_url": "https://www.ugc.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "National Testing Agency (NTA)",
+    "source_url": "https://nta.ac.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "National Institute of Open Schooling (NIOS)",
+    "source_url": "https://www.nios.ac.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "All India Council for Technical Education (AICTE)",
+    "source_url": "https://www.aicte-india.org/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "Kendriya Vidyalaya Sangathan (KVS)",
+    "source_url": "https://kvsangathan.nic.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "Navodaya Vidyalaya Samiti (NVS)",
+    "source_url": "https://navodaya.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "Indian Space Research Organisation (ISRO)",
+    "source_url": "https://www.isro.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "Department of Science and Technology (DST)",
+    "source_url": "https://dst.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
+  },
+  {
+    "name": "National Scholarship Portal",
+    "source_url": "https://scholarships.gov.in/",
+    "feed_url": null,
+    "enabled": false,
+    "education_only": true,
+    "summary_allowed": false,
+    "commercial_use_permitted": false,
+    "permission_note": "Official information portal added for source discovery and manual verification. No verified RSS/Atom feed and no blanket commercial reuse permission confirmed. Keep automated collection disabled until an official feed and applicable reuse terms are verified."
   }
 ]
